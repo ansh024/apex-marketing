@@ -1,0 +1,6 @@
+.DS_Store
+**/.DS_Store
+.vercel
+node_modules
+.claude/scheduled_tasks.lock
+.claude/settings.local.json

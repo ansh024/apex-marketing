@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "apex-lp",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "build", "-l", "4174"],
+      "port": 4174
+    }
+  ]
+}
