@@ -71,6 +71,7 @@
 
 <!-- ============ HERO ============ -->
 <section class="hero" id="hero">
+  <canvas id="heroGradient" class="hero__gradient" aria-hidden="true"></canvas>
   <div class="hero__grid">
     <div class="hero__copy">
       <div class="hero__eyebrow reveal">For Plastic Surgeons &amp; Med Spa</div>
@@ -409,5 +410,48 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
 <script src="js/motion.js"></script>
+<script type="module">
+  import { NeatGradient } from "https://esm.sh/@firecms/neat";
+  const canvas = document.getElementById("heroGradient");
+  if (canvas) {
+    const gradient = new NeatGradient({
+      ref: canvas,
+      colors: [
+        { color: "#2255FA", enabled: true },
+        { color: "#3D6BFF", enabled: true },
+        { color: "#0C37B7", enabled: true },
+        { color: "#071C42", enabled: true },
+        { color: "#02102A", enabled: true },
+        { color: "#B8D4E6", enabled: false },
+      ],
+      speed: 2,
+      horizontalPressure: 3,
+      verticalPressure: 5,
+      waveFrequencyX: 1,
+      waveFrequencyY: 3,
+      waveAmplitude: 8,
+      shadows: 0,
+      highlights: 2,
+      colorBrightness: 1,
+      colorSaturation: 6,
+      wireframe: false,
+      colorBlending: 7,
+      backgroundColor: "#0C37B7",
+      backgroundAlpha: 1,
+      grainScale: 2,
+      grainSparsity: 0,
+      grainIntensity: 0.175,
+      grainSpeed: 1,
+      resolution: 1,
+      yOffset: 0,
+      yOffsetWaveMultiplier: 1.8,
+      yOffsetColorMultiplier: 2,
+      yOffsetFlowMultiplier: 2.2,
+      flowEnabled: false,
+      shapeType: "plane",
+      cameraLock: true,
+    });
+  }
+</script>
 </body>
 </html>
