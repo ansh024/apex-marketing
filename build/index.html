@@ -55,7 +55,7 @@
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn--signal nav__cta" href="#book">Book A Free Strategy Call</a>
+    <a class="btn btn--signal nav__cta cta-book" href="#book">Book A Free Strategy Call</a>
     <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span></button>
   </div>
 </header>
@@ -64,7 +64,7 @@
   <a href="#how">How It Works</a>
   <a href="#pricing">Pricing</a>
   <a href="#faq">FAQ</a>
-  <a class="btn btn--signal" href="#book">Book A Free Strategy Call</a>
+  <a class="btn btn--signal cta-book" href="#book">Book A Free Strategy Call</a>
 </div>
 
 <main id="top">
@@ -84,7 +84,7 @@
         <li>No Contract Lock-in</li>
         <li>60-Day Money-back Guarantee</li>
       </ul>
-      <a class="btn btn--signal btn--lg hero__primary reveal" href="#book">Book A Free Strategy Call</a>
+      <a class="btn btn--signal btn--lg hero__primary reveal cta-book" href="#book">Book A Free Strategy Call</a>
     </div>
 
     <div class="hero__visual">
@@ -123,6 +123,7 @@
         <rect id="certBorder" x="6" y="6" width="988" height="628" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
       </svg>
       <div class="cert__inner">
+        <img class="cert__seal" id="certSeal" src="assets/seal/guarantee-seal.png" alt="Money-back guarantee seal" width="487" height="413" loading="lazy">
         <h2 class="cert__h2"><strong class="cert__lead">60-Day Money-Back Guarantee.</strong> No new consults? <span class="cert__type" id="certType"></span><span class="cert__caret" id="certCaret"></span></h2>
         <p class="cert__body">In writing. No fine print — because we only take on practices we're confident we can grow.</p>
         <div class="cert__signrow">
@@ -134,7 +135,7 @@
             <span class="cert__sigline"></span>
             <span class="cert__signame">Nathan Park — Founder, Apex Marketing</span>
           </div>
-          <a class="btn btn--dark" href="#book">Claim My Free Strategy Call</a>
+          <a class="btn btn--dark cta-book" href="#book">Claim My Free Strategy Call</a>
         </div>
       </div>
     </div>
@@ -151,31 +152,26 @@
       <article class="pain-card">
         <span class="pain-card__idx">01 / 05</span>
         <h3>"The leads were garbage."</h3>
-        <p>Form-fills who never answer, can't qualify for financing, and no-show your coordinator's follow-ups.</p>
         <div class="pain-card__fix"><span>The Apex fix</span><p>We qualify before your staff ever dials. Campaigns built around surgical candidates, tracked all the way to consults — not inquiries.</p></div>
       </article>
       <article class="pain-card">
         <span class="pain-card__idx">02 / 05</span>
         <h3>"My front desk became the agency's follow-up team."</h3>
-        <p>Your coordinator chasing tire-kickers instead of caring for the patients already in your practice.</p>
         <div class="pain-card__fix"><span>The Apex fix</span><p>CRM and follow-up automation included. Leads are nurtured and booked before they ever touch your front desk.</p></div>
       </article>
       <article class="pain-card">
         <span class="pain-card__idx">03 / 05</span>
         <h3>"I paid for clicks while one angry review sat on top of my profile."</h3>
-        <p>Ad spend is wasted when the profile patients actually judge is working against you.</p>
         <div class="pain-card__fix"><span>The Apex fix</span><p>We fix the profile before we scale the spend. GBP management and review strategy are part of the system — not an upsell.</p></div>
       </article>
       <article class="pain-card">
         <span class="pain-card__idx">04 / 05</span>
         <h3>"Twelve-month contract. Results stalled at month three."</h3>
-        <p>Stuck paying for nothing, waiting for a renewal date to escape.</p>
         <div class="pain-card__fix"><span>The Apex fix</span><p>Month-to-month only. If results stall, you walk — no penalty. Our retention has to be earned monthly.</p></div>
       </article>
       <article class="pain-card">
         <span class="pain-card__idx">05 / 05</span>
         <h3>"The agency owned my ad account, my site — even my reviews."</h3>
-        <p>Vendor lock-in dressed up as an all-in-one platform.</p>
         <div class="pain-card__fix"><span>The Apex fix</span><p>You own everything from day one. Ad accounts, website, profile, data. Fire us anytime and keep it all.</p></div>
       </article>
     </div>
@@ -223,6 +219,7 @@
 
 <!-- ============ FOUNDER ============ -->
 <section class="founder" id="founder">
+  <canvas id="founderGradient" class="founder__gradient" aria-hidden="true"></canvas>
   <div class="container founder__grid">
     <figure class="founder__photo reveal">
       <img src="https://apex-marketing.ai/wp-content/uploads/2026/06/AM77lrI.jpg" alt="Nathan Park, Founder of Apex Marketing" loading="lazy" width="800" height="1000">
@@ -230,13 +227,17 @@
     </figure>
     <div class="founder__copy">
       <h2 class="h2 h2--light founder__quote reveal">"I built Apex because good doctors keep getting burned by <em>generic agencies.</em>"</h2>
-      <p class="founder__body reveal">I spent over a decade in marketing and audited hundreds of ad accounts for practices across the country. The story is almost always the same: a recycled playbook, vanity-metric reports, and a contract you can't escape. At Apex the rule is simple — we report in the number that matters: <b>consults booked.</b> Not impressions. Not clicks. Patients in your consult room.</p>
+      <div class="founder__body reveal">
+        <p>I spent over a decade in marketing and audited hundreds of ad accounts for practices across the country.</p>
+        <p>The story is almost always the same: a recycled playbook, vanity-metric reports, and a contract you can't escape.</p>
+        <p>At Apex the rule is simple — we report in the number that matters: <b>consults booked.</b> Not impressions. Not clicks. Patients in your consult room.</p>
+      </div>
       <div class="founder__stats">
         <div><span class="stat" data-count="10" data-suffix="+">0</span><small>Years marketing experience</small></div>
         <div><span class="stat" data-count="200" data-suffix="+">0</span><small>Ad accounts audited</small></div>
         <div><span class="stat" data-prefix="$" data-count="0">$0</span><small>Upfront to start</small></div>
       </div>
-      <a class="btn btn--gold reveal" href="#book">Book a Call Directly with Nathan</a>
+      <a class="btn btn--gold reveal cta-book" href="#book">Book a Call Directly with Nathan</a>
     </div>
   </div>
 </section>
@@ -247,7 +248,7 @@
     <div class="proof__head">
       <div>
         <h2 class="h2 reveal">Reporting that reads like your practice,<br><em>not like an agency.</em></h2>
-        <p class="section-sub reveal">Every month, a real person walks you through consults booked, what patients called about, and what we're adjusting next. Not a PDF nobody reads. Not a dashboard you have to decode.</p>
+        <p class="section-sub reveal">Simple Numbers Reported — How many leads? At what cost? How many booked? What are plans to scale &amp; optimise? No Fluff.</p>
       </div>
       <figure class="proof__report reveal">
         <img src="assets/report.jpg" alt="A printed Apex monthly performance report on a desk" loading="lazy" width="1400" height="1045">
@@ -271,7 +272,14 @@
 <section class="pricing" id="pricing">
   <div class="container">
     <h2 class="h2 reveal">Pick the package that fits <em>your practice.</em></h2>
-    <p class="section-sub reveal">No hidden fees. No long-term contracts. Every package is backed by the 60-day money-back guarantee.</p>
+    <ul class="pricing__chips reveal">
+      <li>No Hidden Fees</li>
+      <li>No Long-Term Contracts</li>
+      <li>60-Day Money-back Guarantee</li>
+      <li>CRM</li>
+      <li>Call Tracking</li>
+      <li>Follow-Up Automation</li>
+    </ul>
     <div class="pricing__grid">
 
       <article class="plan reveal">
@@ -287,7 +295,7 @@
           <li class="plan__once"><span>Landing page build <em>one-time</em></span><i>$1,000</i></li>
         </ul>
         <p class="plan__value">Itemized management value <b>$4,500/mo</b></p>
-        <a class="btn btn--dark btn--block" href="#book">Get Started</a>
+        <a class="btn btn--dark btn--block cta-book" href="#book">Get Started</a>
       </article>
 
       <article class="plan plan--popular reveal">
@@ -305,7 +313,7 @@
           <li class="plan__once"><span>Landing page build <em>one-time</em></span><i>$1,000</i></li>
         </ul>
         <p class="plan__value">Itemized management value <b>$7,500/mo</b></p>
-        <a class="btn btn--signal btn--block" href="#book">Get Started</a>
+        <a class="btn btn--signal btn--block cta-book" href="#book">Get Started</a>
       </article>
 
       <article class="plan reveal">
@@ -323,7 +331,7 @@
           <li class="plan__once"><span>Landing page build <em>one-time</em></span><i>$1,000</i></li>
         </ul>
         <p class="plan__value">Itemized management value <b>$8,000/mo</b></p>
-        <a class="btn btn--dark btn--block" href="#book">Get Started</a>
+        <a class="btn btn--dark btn--block cta-book" href="#book">Get Started</a>
       </article>
     </div>
     <p class="pricing__foot reveal">All plans — month-to-month terms · you own your accounts · dedicated contact · 60-day money-back guarantee · ad spend billed separately to your accounts</p>
@@ -372,24 +380,12 @@
         <li>Backed by the 60-day money-back guarantee</li>
       </ul>
     </div>
-    <form class="form reveal" id="leadForm" action="#" method="post">
+    <div class="form form--teaser reveal">
       <h3>Get your free strategy call</h3>
-      <p class="form__note">We'll respond within one business day.</p>
-      <label>Full name<input type="text" name="name" autocomplete="name"></label>
-      <label>Practice name *<input type="text" name="practice" required></label>
-      <div class="form__row">
-        <label>Phone *<input type="tel" name="phone" required autocomplete="tel"></label>
-        <label>Email *<input type="email" name="email" required autocomplete="email"></label>
-      </div>
-      <div class="form__row">
-        <label>Practice state<input type="text" name="state"></label>
-        <label>Interested package
-          <select name="package"><option value="">Optional</option><option>Starter</option><option>Growth</option><option>Dominate</option><option>Not sure yet</option></select>
-        </label>
-      </div>
-      <button class="btn btn--signal btn--block btn--lg" type="submit">Book My Free Strategy Call →</button>
+      <p class="form__note">We'll respond within one business day. Takes less than a minute.</p>
+      <button class="btn btn--signal btn--block btn--lg cta-book" type="button">Book My Free Strategy Call →</button>
       <p class="form__legal">By submitting, you agree to be contacted by Apex Marketing about your inquiry.</p>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -399,12 +395,56 @@
   <div class="container footer__inner">
     <a class="nav__logo nav__logo--footer" href="#top">Apex<span>Marketing</span></a>
     <p>If your first 60 days don't deliver new consults, you get every dollar back. In writing.</p>
-    <nav><a href="#services">Services</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#book">Book a Call</a></nav>
+    <nav><a href="#services">Services</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a class="cta-book" href="#book">Book a Call</a></nav>
     <small>© 2026 Apex Marketing. All rights reserved.</small>
   </div>
 </footer>
 
-<a class="mobile-cta btn btn--signal" id="mobileCta" href="#book">Book a Free Strategy Call</a>
+<a class="mobile-cta btn btn--signal cta-book" id="mobileCta" href="#book">Book a Free Strategy Call</a>
+
+<div class="modal-overlay" id="bookModalOverlay" aria-hidden="true">
+  <div class="modal" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="bookModalTitle">
+    <button class="modal__close" id="bookModalClose" type="button" aria-label="Close">&times;</button>
+    <form class="form modal__form" id="leadForm" action="#" method="post" novalidate>
+      <div class="modal__steps">
+        <span class="modal__step-dot is-active" data-dot="1"></span>
+        <span class="modal__step-dot" data-dot="2"></span>
+      </div>
+      <p class="modal__eyebrow" id="modalStepLabel">Step 1 of 2</p>
+
+      <div class="modal__panel" data-panel="1">
+        <h3 id="bookModalTitle">Get your free strategy call</h3>
+        <p class="form__note">We'll respond within one business day.</p>
+        <ul class="modal__trust">
+          <li>No long-term contract</li>
+          <li>60-day money-back guarantee</li>
+          <li>15-minute call, no pressure</li>
+        </ul>
+        <label>Full name<input type="text" name="name" autocomplete="name"></label>
+        <label>Practice name *<input type="text" name="practice" required></label>
+        <div class="form__row">
+          <label>Phone *<input type="tel" name="phone" required autocomplete="tel"></label>
+          <label>Email *<input type="email" name="email" required autocomplete="email"></label>
+        </div>
+        <button class="btn btn--signal btn--block btn--lg" type="button" id="modalNextBtn">Continue →</button>
+      </div>
+
+      <div class="modal__panel" data-panel="2" hidden>
+        <h3>Almost there</h3>
+        <p class="form__note">A couple quick details so Nathan can prep ideas for your market.</p>
+        <div class="form__row">
+          <label>Which state do you practice in?<input type="text" name="state"></label>
+          <label>Interested package
+            <select name="package"><option value="">Optional</option><option>Starter</option><option>Growth</option><option>Dominate</option><option>Not sure yet</option></select>
+          </label>
+        </div>
+        <button class="btn btn--signal btn--block btn--lg" type="submit">Book My Free Strategy Call →</button>
+        <button class="modal__back" type="button" id="modalBackBtn">← Back</button>
+        <p class="form__legal">By submitting, you agree to be contacted by Apex Marketing about your inquiry.</p>
+      </div>
+    </form>
+  </div>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -412,46 +452,46 @@
 <script src="js/motion.js"></script>
 <script type="module">
   import { NeatGradient } from "https://esm.sh/@firecms/neat";
-  const canvas = document.getElementById("heroGradient");
-  if (canvas) {
-    const gradient = new NeatGradient({
-      ref: canvas,
-      colors: [
-        { color: "#2255FA", enabled: true },
-        { color: "#3D6BFF", enabled: true },
-        { color: "#0C37B7", enabled: true },
-        { color: "#071C42", enabled: true },
-        { color: "#02102A", enabled: true },
-        { color: "#B8D4E6", enabled: false },
-      ],
-      speed: 2,
-      horizontalPressure: 3,
-      verticalPressure: 5,
-      waveFrequencyX: 1,
-      waveFrequencyY: 3,
-      waveAmplitude: 8,
-      shadows: 0,
-      highlights: 2,
-      colorBrightness: 1,
-      colorSaturation: 6,
-      wireframe: false,
-      colorBlending: 7,
-      backgroundColor: "#0C37B7",
-      backgroundAlpha: 1,
-      grainScale: 2,
-      grainSparsity: 0,
-      grainIntensity: 0.175,
-      grainSpeed: 1,
-      resolution: 1,
-      yOffset: 0,
-      yOffsetWaveMultiplier: 1.8,
-      yOffsetColorMultiplier: 2,
-      yOffsetFlowMultiplier: 2.2,
-      flowEnabled: false,
-      shapeType: "plane",
-      cameraLock: true,
-    });
-  }
+  const gradientConfig = {
+    colors: [
+      { color: "#2255FA", enabled: true },
+      { color: "#3D6BFF", enabled: true },
+      { color: "#0C37B7", enabled: true },
+      { color: "#071C42", enabled: true },
+      { color: "#02102A", enabled: true },
+      { color: "#B8D4E6", enabled: false },
+    ],
+    speed: 2,
+    horizontalPressure: 3,
+    verticalPressure: 5,
+    waveFrequencyX: 1,
+    waveFrequencyY: 3,
+    waveAmplitude: 8,
+    shadows: 0,
+    highlights: 2,
+    colorBrightness: 1,
+    colorSaturation: 6,
+    wireframe: false,
+    colorBlending: 7,
+    backgroundColor: "#0C37B7",
+    backgroundAlpha: 1,
+    grainScale: 2,
+    grainSparsity: 0,
+    grainIntensity: 0.175,
+    grainSpeed: 1,
+    resolution: 1,
+    yOffset: 0,
+    yOffsetWaveMultiplier: 1.8,
+    yOffsetColorMultiplier: 2,
+    yOffsetFlowMultiplier: 2.2,
+    flowEnabled: false,
+    shapeType: "plane",
+    cameraLock: true,
+  };
+  ["heroGradient", "founderGradient"].forEach((id) => {
+    const canvas = document.getElementById(id);
+    if (canvas) new NeatGradient({ ref: canvas, ...gradientConfig });
+  });
 </script>
 </body>
 </html>

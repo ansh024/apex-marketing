@@ -125,6 +125,11 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
+  // Pinned sections + browser scroll restoration race on refresh and can
+  // leave once-only triggers unfired (invisible sections). Take scroll
+  // restoration over manually — GSAP's documented fix.
+  ScrollTrigger.clearScrollMemory("manual");
+
   // UI bindings first — must never depend on animation code succeeding
   wireUi();
 
@@ -218,11 +223,14 @@
   var caret = document.getElementById("certCaret");
   var TYPE_TEXT = "You get every dollar back.";
 
+  var certSeal = document.getElementById("certSeal");
+
   if (certBorder && sigPath && typeTarget) {
     var borderLen = certBorder.getTotalLength();
     var sigLen = sigPath.getTotalLength();
     gsap.set(certBorder, { strokeDasharray: borderLen, strokeDashoffset: borderLen });
     gsap.set(sigPath, { strokeDasharray: sigLen, strokeDashoffset: sigLen });
+    if (certSeal) gsap.set(certSeal, { opacity: 0, scale: 0.4, rotate: -28, transformOrigin: "50% 50%" });
 
     var certTl = gsap.timeline({
       scrollTrigger: { trigger: "#cert", start: "top 72%", once: true }
@@ -231,6 +239,14 @@
     certTl
       .to(certBorder, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" })
       .from(".cert__h2", { opacity: 0, y: 18, duration: 0.6 }, 0.6);
+
+    // seal "stamp" — slams in with an elastic overshoot, then a tiny recoil
+    if (certSeal) {
+      certTl.to(certSeal, {
+        opacity: 1, scale: 1, rotate: -6, duration: 0.7, ease: "back.out(2.2)"
+      }, 0.05)
+      .to(certSeal, { rotate: 0, duration: 0.4, ease: "power2.out" }, 0.75);
+    }
 
     // typewriter
     certTl.call(function () {
@@ -308,6 +324,50 @@
   });
 
   /* ============================================================
+     RELIABILITY: recalc trigger positions once assets settle, and
+     force-reveal anything ScrollTrigger missed (refresh mid-page,
+     layout shifts from images/fonts/pin, CDN hiccups).
+     ============================================================ */
+  window.addEventListener("load", function () { ScrollTrigger.refresh(); });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+  }
+
+  if ("IntersectionObserver" in window) {
+    var failsafe = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        failsafe.unobserve(el);
+        // Give the normal ScrollTrigger animation a beat to run first;
+        // only force-reveal if the element is still hidden after it.
+        setTimeout(function () {
+          if (parseFloat(getComputedStyle(el).opacity) < 0.9) {
+            gsap.to(el, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
+          }
+        }, 800);
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll(".reveal").forEach(function (el) { failsafe.observe(el); });
+
+    // Certificate heading is typed in by its own once-only timeline — kick
+    // it if the section is on screen but the timeline never started.
+    var certEl = document.getElementById("cert");
+    if (certEl && typeof certTl !== "undefined") {
+      var certFailsafe = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          certFailsafe.unobserve(entry.target);
+          setTimeout(function () {
+            if (certTl.progress() === 0 && !certTl.isActive()) certTl.play(0);
+          }, 1000);
+        });
+      }, { threshold: 0.25 });
+      certFailsafe.observe(certEl);
+    }
+  }
+
+  /* ============================================================
      UI wiring (nav, menu, mobile cta, form)
      ============================================================ */
   function wireUi() {
@@ -344,16 +404,88 @@
       });
     }
 
+    /* ---- Book modal: open/close + 2-step form ---- */
+    var overlay = document.getElementById("bookModalOverlay");
+    var modal = document.getElementById("bookModal");
+    var closeBtn = document.getElementById("bookModalClose");
     var form = document.getElementById("leadForm");
+    var nextBtn = document.getElementById("modalNextBtn");
+    var backBtn = document.getElementById("modalBackBtn");
+    var stepLabel = document.getElementById("modalStepLabel");
+    var panels = modal ? modal.querySelectorAll(".modal__panel") : [];
+    var dots = modal ? modal.querySelectorAll(".modal__step-dot") : [];
+    var lastFocused = null;
+
+    function goToStep(step) {
+      panels.forEach(function (panel) {
+        panel.hidden = panel.getAttribute("data-panel") !== String(step);
+      });
+      dots.forEach(function (dot) {
+        dot.classList.toggle("is-active", dot.getAttribute("data-dot") === String(step));
+      });
+      if (stepLabel) stepLabel.textContent = "Step " + step + " of 2";
+    }
+
+    function openModal() {
+      if (!overlay) return;
+      lastFocused = document.activeElement;
+      goToStep(1);
+      overlay.classList.add("is-open");
+      overlay.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+      var firstInput = modal.querySelector('input[name="name"]');
+      if (firstInput) setTimeout(function () { firstInput.focus(); }, 300);
+    }
+
+    function closeModal() {
+      if (!overlay) return;
+      overlay.classList.remove("is-open");
+      overlay.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    document.querySelectorAll(".cta-book").forEach(function (cta) {
+      cta.addEventListener("click", function (e) {
+        e.preventDefault();
+        openModal();
+      });
+    });
+
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
+    if (overlay) {
+      overlay.addEventListener("click", function (e) {
+        if (e.target === overlay) closeModal();
+      });
+    }
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && overlay && overlay.classList.contains("is-open")) closeModal();
+    });
+
+    if (nextBtn && form) {
+      nextBtn.addEventListener("click", function () {
+        var step1 = form.querySelector('[data-panel="1"]');
+        var invalid = step1.querySelector(":invalid");
+        if (invalid) {
+          invalid.reportValidity();
+          return;
+        }
+        goToStep(2);
+      });
+    }
+    if (backBtn) {
+      backBtn.addEventListener("click", function () { goToStep(1); });
+    }
+
     if (form) {
       form.addEventListener("submit", function (e) {
         e.preventDefault(); // [CLIENT CRM/GHL WEBHOOK] — wire real endpoint here
-        var btn = form.querySelector("button[type=submit]");
-        if (btn) {
-          btn.textContent = "Request received — we'll be in touch ✓";
-          btn.disabled = true;
-          btn.style.background = "var(--surgical)";
+        if (!form.checkValidity()) {
+          var invalid = form.querySelector(":invalid");
+          if (invalid) invalid.reportValidity();
+          return;
         }
+        window.location.href = "thank-you.html";
       });
     }
   }
