@@ -148,7 +148,9 @@
     .to(".hero__sub", { opacity: 1, y: 0, duration: 0.6 }, 0.7)
     .to(".hero__trust", { opacity: 1, y: 0, duration: 0.6 }, 0.85)
     .to(".hero__primary", { opacity: 1, y: 0, duration: 0.6 }, 1.0)
-    .from(".calendar", { y: 28, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.45);
+    .from(".hero__portrait", { y: 20, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.3)
+    .from(".calendar", { y: 28, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.45)
+    .from(".hero__stat", { y: 16, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.75);
 
   /* calendar fills — loops: empty -> fill -> hold -> snap back -> repeat */
   if (bookedChecks.length) {
