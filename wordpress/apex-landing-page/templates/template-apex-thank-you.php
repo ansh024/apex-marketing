@@ -1,7 +1,7 @@
 <?php
 /**
- * Apex Marketing — Thank You page template.
- * Selected via Page Attributes → Template → "Apex – Thank You".
+ * Apex Marketing - Thank You page template.
+ * Selected via Page Attributes → Template → "Apex - Thank You".
  */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -11,7 +11,7 @@ $apex_img = APEX_LP_URL . 'assets/images/';
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?php echo esc_html( get_the_title() ? get_the_title() . ' | Apex Marketing' : "Thanks — We've Got Your Request | Apex Marketing" ); ?></title>
+<title><?php echo esc_html( get_the_title() ? get_the_title() . ' | Apex Marketing' : "Thanks - We've Got Your Request | Apex Marketing" ); ?></title>
 <meta name="description" content="Thanks for booking your free strategy call with Apex Marketing. Nathan will reach out within one business day.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#2255FA">
@@ -64,12 +64,12 @@ $apex_img = APEX_LP_URL . 'assets/images/';
     <div class="thanks__icon" aria-hidden="true">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12.5L9.5 18L20 6" stroke="#00F81D" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-    <h1>You're booked in — thank you.</h1>
+    <h1>You're booked in - thank you.</h1>
     <p>We've got your request. Nathan will personally reach out within one business day to schedule your free strategy call and come prepared with real ideas for your market.</p>
     <ul class="thanks__next">
       <li>Check your inbox for a confirmation email</li>
       <li>Nathan reviews your practice &amp; market before the call</li>
-      <li>No pitch, no pressure — just a real plan</li>
+      <li>No pitch, no pressure - just a real plan</li>
     </ul>
     <div>
       <a class="btn btn--signal btn--lg" href="<?php echo esc_url( apex_lp_landing_url() ); ?>">Back to Homepage</a>

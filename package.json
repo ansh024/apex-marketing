@@ -1,0 +1,18 @@
+{
+  "name": "apex-marketing-local-wordpress",
+  "private": true,
+  "description": "Isolated local WordPress test environment for the Apex Marketing plugin.",
+  "scripts": {
+    "wp:start": "bash scripts/wp-local-start.sh",
+    "wp:stop": "wp-env stop",
+    "wp:status": "wp-env status",
+    "wp:cli": "wp-env run cli wp",
+    "wp:test": "bash scripts/wp-local-smoke.sh && playwright test",
+    "wp:test:smoke": "bash scripts/wp-local-smoke.sh",
+    "wp:test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.61.1",
+    "@wordpress/env": "11.11.0"
+  }
+}

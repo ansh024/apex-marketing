@@ -1,5 +1,5 @@
 /* ============================================================
-   APEX — motion.js
+   APEX - motion.js
    Set piece 1: The Calendar Fills (hero)
    Set piece 2: The Signed Guarantee (certificate)
    Plus: strike-cycle H1, pinned pains rail, journey line,
@@ -13,6 +13,20 @@
   window.addEventListener("error", function (e) {
     window.__motionErrors.push((e.message || "?") + " @ " + (e.filename || "") + ":" + (e.lineno || 0));
   });
+
+  // Keep the services overview directly beneath the hero.
+  var heroSection = document.getElementById("hero");
+  var servicesSection = document.getElementById("services");
+  if (heroSection && servicesSection) heroSection.insertAdjacentElement("afterend", servicesSection);
+  var painsSection = document.getElementById("pains");
+  var guaranteeSection = document.getElementById("guarantee");
+  if (painsSection && guaranteeSection) guaranteeSection.insertAdjacentElement("beforebegin", painsSection);
+  var proofSection = document.getElementById("proof");
+  if (painsSection && proofSection) painsSection.insertAdjacentElement("afterend", proofSection);
+  var pricingSection = document.getElementById("pricing");
+  var founderSection = document.getElementById("founder");
+  if (pricingSection && founderSection) pricingSection.insertAdjacentElement("afterend", founderSection);
+  if (pricingSection && guaranteeSection) pricingSection.insertAdjacentElement("afterend", guaranteeSection);
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var hasGsap = typeof gsap !== "undefined";
@@ -127,10 +141,10 @@
 
   // Pinned sections + browser scroll restoration race on refresh and can
   // leave once-only triggers unfired (invisible sections). Take scroll
-  // restoration over manually — GSAP's documented fix.
+  // restoration over manually - GSAP's documented fix.
   ScrollTrigger.clearScrollMemory("manual");
 
-  // UI bindings first — must never depend on animation code succeeding
+  // UI bindings first - must never depend on animation code succeeding
   wireUi();
 
   /* ---------- Lenis smooth scroll ---------- */
@@ -157,7 +171,7 @@
     .from(".calendar", { y: 28, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.45)
     .from(".hero__stat", { y: 16, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.75);
 
-  /* calendar fills — loops: empty -> fill -> hold -> snap back -> repeat */
+  /* calendar fills - loops: empty -> fill -> hold -> snap back -> repeat */
   if (bookedChecks.length) {
     var bookedEase = cubicBezier(0.15, 0.85, 0.3, 1);
     var bookedStagger = 0.095479;
@@ -167,7 +181,7 @@
     var calTl = gsap.timeline({ delay: 1.05, repeat: -1, repeatDelay: holdTime });
     var count = { v: START_COUNT };
 
-    // reset to empty state — runs at t=0 on first play AND at the top of every repeat
+    // reset to empty state - runs at t=0 on first play AND at the top of every repeat
     calTl.call(function () {
       bookedChecks.forEach(function (check) {
         if (check.parentNode) check.parentNode.classList.remove("is-booked");
@@ -240,7 +254,7 @@
       .to(certBorder, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" })
       .from(".cert__h2", { opacity: 0, y: 18, duration: 0.6 }, 0.6);
 
-    // seal "stamp" — slams in with an elastic overshoot, then a tiny recoil
+    // seal "stamp" - slams in with an elastic overshoot, then a tiny recoil
     if (certSeal) {
       certTl.to(certSeal, {
         opacity: 1, scale: 1, rotate: -6, duration: 0.7, ease: "back.out(2.2)"
@@ -269,7 +283,7 @@
   }
 
   /* ============================================================
-     PAINS — pinned horizontal rail (desktop only)
+     PAINS - pinned horizontal rail (desktop only)
      ============================================================ */
   var painsTrack = document.getElementById("painsTrack");
   var painsPin = document.getElementById("painsPin");
@@ -350,7 +364,7 @@
     }, { threshold: 0.1 });
     document.querySelectorAll(".reveal").forEach(function (el) { failsafe.observe(el); });
 
-    // Certificate heading is typed in by its own once-only timeline — kick
+    // Certificate heading is typed in by its own once-only timeline - kick
     // it if the section is on screen but the timeline never started.
     var certEl = document.getElementById("cert");
     if (certEl && typeof certTl !== "undefined") {
@@ -404,37 +418,18 @@
       });
     }
 
-    /* ---- Book modal: open/close + 2-step form ---- */
+    /* ---- Book modal: open/close GHL form ---- */
     var overlay = document.getElementById("bookModalOverlay");
-    var modal = document.getElementById("bookModal");
     var closeBtn = document.getElementById("bookModalClose");
-    var form = document.getElementById("leadForm");
-    var nextBtn = document.getElementById("modalNextBtn");
-    var backBtn = document.getElementById("modalBackBtn");
-    var stepLabel = document.getElementById("modalStepLabel");
-    var panels = modal ? modal.querySelectorAll(".modal__panel") : [];
-    var dots = modal ? modal.querySelectorAll(".modal__step-dot") : [];
     var lastFocused = null;
-
-    function goToStep(step) {
-      panels.forEach(function (panel) {
-        panel.hidden = panel.getAttribute("data-panel") !== String(step);
-      });
-      dots.forEach(function (dot) {
-        dot.classList.toggle("is-active", dot.getAttribute("data-dot") === String(step));
-      });
-      if (stepLabel) stepLabel.textContent = "Step " + step + " of 2";
-    }
 
     function openModal() {
       if (!overlay) return;
       lastFocused = document.activeElement;
-      goToStep(1);
       overlay.classList.add("is-open");
       overlay.setAttribute("aria-hidden", "false");
       document.body.classList.add("modal-open");
-      var firstInput = modal.querySelector('input[name="name"]');
-      if (firstInput) setTimeout(function () { firstInput.focus(); }, 300);
+      if (closeBtn) setTimeout(function () { closeBtn.focus(); }, 300);
     }
 
     function closeModal() {
@@ -462,56 +457,5 @@
       if (e.key === "Escape" && overlay && overlay.classList.contains("is-open")) closeModal();
     });
 
-    if (nextBtn && form) {
-      nextBtn.addEventListener("click", function () {
-        var step1 = form.querySelector('[data-panel="1"]');
-        var invalid = step1.querySelector(":invalid");
-        if (invalid) {
-          invalid.reportValidity();
-          return;
-        }
-        goToStep(2);
-      });
-    }
-    if (backBtn) {
-      backBtn.addEventListener("click", function () { goToStep(1); });
-    }
-
-    if (form) {
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        if (!form.checkValidity()) {
-          var invalid = form.querySelector(":invalid");
-          if (invalid) invalid.reportValidity();
-          return;
-        }
-
-        var submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn) submitBtn.disabled = true;
-
-        // Running inside the Apex WordPress plugin: send the lead via
-        // admin-ajax (wp_mail, or a webhook hooked to apex_lp_lead_submitted)
-        // then redirect to the WP-managed Thank You page.
-        if (window.ApexLP && window.ApexLP.ajaxUrl) {
-          var data = new FormData(form);
-          data.append("action", "apex_lp_submit_lead");
-          data.append("nonce", window.ApexLP.nonce);
-
-          fetch(window.ApexLP.ajaxUrl, { method: "POST", credentials: "same-origin", body: data })
-            .then(function (res) { return res.json(); })
-            .then(function (json) {
-              window.location.href = (json && json.data && json.data.redirect) || window.ApexLP.thankYouUrl;
-            })
-            .catch(function () {
-              if (submitBtn) submitBtn.disabled = false;
-              window.location.href = window.ApexLP.thankYouUrl;
-            });
-          return;
-        }
-
-        // Static build (no backend): [CLIENT CRM/GHL WEBHOOK] — wire real endpoint here
-        window.location.href = "thank-you.html";
-      });
-    }
   }
 })();

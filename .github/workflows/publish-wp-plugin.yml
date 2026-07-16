@@ -1,0 +1,82 @@
+# Verifies the Apex plugin in an isolated WordPress site, then publishes only
+# wordpress/apex-landing-page/ to the force-replaced `plugin-deploy` branch.
+# Production publishing is deliberately manual and never deploys the database,
+# uploads, local backups, environment files, or credentials.
+name: Publish WordPress plugin
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apex-wordpress-publish
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run wp:start
+      - run: npm run wp:test
+      - if: always()
+        run: npm run wp:stop || true
+
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stamp version
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="1.${{ github.run_number }}.0"
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          cd wordpress/apex-landing-page
+          sed -i "s/^ \* Version: .*/ * Version: $VERSION/" apex-landing-page.php
+          sed -i "s/define( 'APEX_LP_VERSION', '[^']*' )/define( 'APEX_LP_VERSION', '$VERSION' )/" apex-landing-page.php
+          grep -E "Version: |APEX_LP_VERSION" apex-landing-page.php | head -2
+
+      - name: Lint every PHP file
+        shell: bash
+        run: |
+          set -euo pipefail
+          find wordpress/apex-landing-page -type f -name '*.php' -print0 \
+            | xargs -0 -n1 php -l
+
+      - name: Push plugin folder to plugin-deploy branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd wordpress/apex-landing-page
+          git init -b plugin-deploy
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy $VERSION from ${GITHUB_SHA::7}"
+          git push --force \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" \
+            plugin-deploy
+
+      - name: Trigger WordPress site update
+        shell: bash
+        env:
+          GITUPDATER_WEBHOOK_URL: ${{ secrets.GITUPDATER_WEBHOOK_URL }}
+        run: |
+          set -euo pipefail
+          if [[ -n "$GITUPDATER_WEBHOOK_URL" ]]; then
+            curl --fail --silent --show-error --max-time 120 "$GITUPDATER_WEBHOOK_URL"
+            echo "WordPress update triggered through Git Updater."
+          else
+            echo "GITUPDATER_WEBHOOK_URL is not set; plugin-deploy was published, but the site must be updated manually."
+          fi

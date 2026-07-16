@@ -1,15 +1,17 @@
 <?php
 /**
  * Plugin Name: Apex Marketing — Landing Page
- * Description: Adds the Apex Marketing landing page + thank-you page as selectable Page Templates for any active theme, with built-in lead capture (wp_mail). Assign templates via Page Attributes on any Page.
- * Version: 1.0.0
+ * Description: Adds the Apex Marketing landing page + thank-you page as selectable Page Templates for any active theme, with an embedded GoHighLevel lead form.
+ * Version: 1.0.9
  * Author: Apex Marketing
+ * GitHub Plugin URI: ansh024/apex-marketing
+ * Primary Branch: plugin-deploy
  * Text Domain: apex-lp
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'APEX_LP_VERSION', '1.0.0' );
+define( 'APEX_LP_VERSION', '1.0.9' );
 define( 'APEX_LP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'APEX_LP_URL', plugin_dir_url( __FILE__ ) );
 
@@ -87,60 +89,6 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'apex-lp-gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true );
 	wp_enqueue_script( 'apex-lp-scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', array( 'apex-lp-gsap' ), '3.12.5', true );
 	wp_enqueue_script( 'apex-lp-lenis', 'https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js', array(), '1.0.42', true );
+	wp_enqueue_script( 'apex-lp-ghl-form', 'https://link.msgsndr.com/js/form_embed.js', array(), null, true );
 	wp_enqueue_script( 'apex-lp-motion', APEX_LP_URL . 'assets/js/motion.js', array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis' ), APEX_LP_VERSION, true );
-
-	wp_localize_script( 'apex-lp-motion', 'ApexLP', array(
-		'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
-		'nonce'       => wp_create_nonce( 'apex_lp_lead' ),
-		'thankYouUrl' => apex_lp_thank_you_url(),
-	) );
 } );
-
-/**
- * Lead capture: AJAX handler for both logged-in and logged-out visitors.
- * Emails the site admin. Swap/extend this to POST to a CRM webhook instead.
- */
-function apex_lp_handle_lead() {
-	check_ajax_referer( 'apex_lp_lead', 'nonce' );
-
-	// Honeypot — a real visitor never fills this hidden field in.
-	if ( ! empty( $_POST['website'] ) ) {
-		wp_send_json_success(); // pretend success, drop silently
-	}
-
-	$name     = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
-	$practice = isset( $_POST['practice'] ) ? sanitize_text_field( wp_unslash( $_POST['practice'] ) ) : '';
-	$phone    = isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '';
-	$email    = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
-	$state    = isset( $_POST['state'] ) ? sanitize_text_field( wp_unslash( $_POST['state'] ) ) : '';
-	$package  = isset( $_POST['package'] ) ? sanitize_text_field( wp_unslash( $_POST['package'] ) ) : '';
-
-	if ( empty( $practice ) || empty( $phone ) || empty( $email ) || ! is_email( $email ) ) {
-		wp_send_json_error( array( 'message' => 'Missing required fields.' ), 400 );
-	}
-
-	$to      = get_option( 'admin_email' );
-	$subject = sprintf( '[Apex Marketing] New strategy call request — %s', $practice );
-	$body    = "New strategy call request:\n\n"
-		. "Name: {$name}\n"
-		. "Practice: {$practice}\n"
-		. "Phone: {$phone}\n"
-		. "Email: {$email}\n"
-		. "State: {$state}\n"
-		. "Interested package: {$package}\n";
-	$headers = array( 'Content-Type: text/plain; charset=UTF-8' );
-	if ( $email ) $headers[] = 'Reply-To: ' . $email;
-
-	wp_mail( $to, $subject, $body, $headers );
-
-	/**
-	 * Hook for wiring a real CRM/webhook (GoHighLevel, HubSpot, etc.) without
-	 * touching this file — attach to this action from a custom plugin or
-	 * your theme's functions.php.
-	 */
-	do_action( 'apex_lp_lead_submitted', compact( 'name', 'practice', 'phone', 'email', 'state', 'package' ) );
-
-	wp_send_json_success( array( 'redirect' => apex_lp_thank_you_url() ) );
-}
-add_action( 'wp_ajax_apex_lp_submit_lead', 'apex_lp_handle_lead' );
-add_action( 'wp_ajax_nopriv_apex_lp_submit_lead', 'apex_lp_handle_lead' );

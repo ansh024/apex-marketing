@@ -2,6 +2,10 @@
 **/.DS_Store
 .vercel
 node_modules
+playwright-report
+test-results
+.wp-env
 .claude/scheduled_tasks.lock
 .claude/settings.local.json
 wordpress/*.zip
+/*.zip

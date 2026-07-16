@@ -9,13 +9,13 @@ nothing about your existing site changes except the two pages you assign these t
 
 ```
 apex-landing-page/
-├── apex-landing-page.php              ← plugin bootstrap (templates, asset loading, lead capture)
+├── apex-landing-page.php              ← plugin bootstrap, templates, and asset loading
 ├── templates/
 │   ├── template-apex-landing.php      ← the full landing page ("Apex – Landing Page")
 │   └── template-apex-thank-you.php    ← the post-submit page ("Apex – Thank You")
 └── assets/
     ├── css/main.css
-    ├── js/motion.js                   ← GSAP animations + the booking modal
+    ├── js/motion.js                   ← GSAP animations + the GHL booking modal
     └── images/                        ← logo, hero video/poster, bento tiles, seal, report, OG image
 ```
 
@@ -46,29 +46,50 @@ Page **content you type into the WordPress editor is ignored** on these template
 design is fully coded, not block-editor-driven. The Page just exists to hold the template
 assignment, permalink, and (for the landing page) an SEO-friendly title if you set one.
 
-## Lead capture — this is the one real functional change
+## Lead capture
 
-The original static build's booking form didn't send data anywhere (`e.preventDefault()`
-then a redirect — that was it). In WordPress, submitting the modal form now:
+Every booking CTA opens the embedded GoHighLevel form. GHL owns validation, lead storage,
+notifications, and follow-up workflows. Configure the form's successful-submit action in
+GHL to redirect to the published WordPress page using the "Apex – Thank You" template.
 
-1. POSTs to `admin-ajax.php` (nonce-protected, with a honeypot field for basic spam filtering)
-2. Emails the lead to your WordPress admin email (`wp_mail`, using whatever mail
-   plugin/SMTP setup your host already has — WP Mail SMTP, etc.)
-3. Fires a `do_action( 'apex_lp_lead_submitted', $fields )` hook
-4. Redirects to your "Apex – Thank You" page
+WordPress does not store a duplicate lead or send a duplicate email.
 
-**To wire a real CRM (GoHighLevel, HubSpot, etc.)** instead of/in addition to email, hook
-`apex_lp_lead_submitted` from your own small plugin or your theme's `functions.php` —
-don't edit `apex-landing-page.php` directly, so plugin updates won't clobber it:
+## Continuous deployment
 
-```php
-add_action( 'apex_lp_lead_submitted', function ( $lead ) {
-    wp_remote_post( 'https://your-crm.example.com/webhook', array(
-        'body' => wp_json_encode( $lead ),
-        'headers' => array( 'Content-Type' => 'application/json' ),
-    ) );
-} );
-```
+Production publishing is manual. Pushing `main` never updates the live site by itself.
+
+1. Develop in `wordpress/apex-landing-page/`.
+2. Run `npm ci`, `npm run wp:start`, and `npm run wp:test` locally.
+3. Commit and push the approved source to `main`.
+4. In GitHub, run **Actions → Publish WordPress plugin → Run workflow**.
+5. The workflow verifies the plugin in a disposable WordPress environment, stamps both
+   version declarations as `1.<github-run-number>.0`, PHP-lints the plugin, and
+   force-publishes only the plugin folder to `plugin-deploy`.
+6. If `GITUPDATER_WEBHOOK_URL` is configured, Git Updater installs the release on the
+   WordPress site immediately. Otherwise, update it manually from WordPress admin.
+
+### One-time Git Updater setup
+
+1. Install and activate Git Updater on staging, then production.
+2. Confirm Git Updater recognizes `ansh024/apex-marketing` and tracks the
+   `plugin-deploy` branch from the plugin headers.
+3. Public repositories need no GitHub token. Configure Git Updater authentication if the
+   repository is private.
+4. In Git Updater Remote Management, copy the site's complete update URL.
+5. Save that URL as the GitHub Actions secret `GITUPDATER_WEBHOOK_URL`. Never commit it;
+   the URL contains the site's remote-management key.
+6. Run the workflow once against staging and confirm the installed version changes, both
+   templates render, the GHL form opens, and WordPress content/media remain unchanged.
+
+The release branch is intentionally force-replaced because it is a generated installable
+artifact. `main` remains the source of truth. The workflow never publishes the database,
+`wp-content/uploads`, `.env` files, local backups, or credentials.
+
+### Rollback
+
+Re-run a known-good source revision through the workflow so it receives a new, higher
+version number, or restore a known-good plugin ZIP. Do not only rewind `plugin-deploy` to a
+lower version because WordPress may not recognize it as an available update.
 
 ## Notes / things to sanity-check before going live
 
