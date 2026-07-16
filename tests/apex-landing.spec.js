@@ -14,6 +14,7 @@ test.beforeEach(async ({ page }) => {
 
 test('renders the production landing-page structure', async ({ page }) => {
   await expect(page.locator('main#top h1')).toHaveCount(1);
+  await expect(page.locator('main#top h1 > .hero__line, main#top h1 > br')).toHaveCount(0);
   await expect(page.locator('#services')).toBeVisible();
   await expect(page.locator('#pains')).toBeVisible();
   await expect(page.locator('#proof')).toBeVisible();

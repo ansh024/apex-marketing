@@ -88,8 +88,7 @@ $apex_url    = get_permalink();
     <div class="hero__copy">
       <div class="hero__eyebrow reveal">For Plastic Surgeons &amp; Med Spa</div>
       <h1 class="hero__h1">
-        <span class="hero__line">Your Last Agency Reported Reach -</span>
-        <span class="hero__line">Our Metric is <span class="hero__em">Consults Booked</span></span>
+        Your Last Agency Reported Reach - Our Metric is <span class="hero__em">Consults Booked</span>
       </h1>
       <p class="hero__sub reveal">Google, Meta and local search campaigns built exclusively for plastic &amp; cosmetic surgeons.</p>
       <ul class="hero__trust reveal">

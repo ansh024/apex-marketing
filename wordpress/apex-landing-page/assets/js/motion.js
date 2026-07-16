@@ -160,7 +160,7 @@
 
   heroTl
     .to(".hero__eyebrow", { opacity: 1, y: 0, duration: 0.6 }, 0.1)
-    .from(".hero__line", { y: 28, opacity: 0, stagger: 0.1, duration: 0.75, ease: "power3.out" }, 0.15)
+    .from(".hero__h1", { y: 28, opacity: 0, duration: 0.75, ease: "power3.out" }, 0.15)
     .to(".hero__sub", { opacity: 1, y: 0, duration: 0.6 }, 0.7)
     .to(".hero__trust", { opacity: 1, y: 0, duration: 0.6 }, 0.85)
     .to(".hero__primary", { opacity: 1, y: 0, duration: 0.6 }, 1.0)
