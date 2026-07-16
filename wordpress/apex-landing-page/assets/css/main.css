@@ -213,6 +213,7 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
   font-size: 14px;
 }
 .nav__burger { display: none; }
+.nav__phone { display: none; }
 
 .mobile-menu { display: none; }
 
@@ -337,6 +338,15 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
   font-size: 18px;
   font-weight: 600;
 }
+.hero__actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.btn--call {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-family: "Poppins", var(--sans);
+  font-weight: 600;
+}
+.btn--call:hover { background: #fff; color: var(--surgical-deep); }
 
 /* --- Set piece 1: the calendar --- */
 .hero__visual {
@@ -629,8 +639,7 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
   text-align: left;
 }
 .cert__sig { display: flex; flex-direction: column; }
-.cert__sig svg { width: 220px; height: 68px; }
-.cert__sigline { width: 240px; height: 1px; background: rgba(16, 20, 24, 0.35); margin-top: -8px; }
+.cert__sigline { width: 240px; height: 1px; background: rgba(16, 20, 24, 0.35); }
 .cert__signame { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin-top: 8px; }
 
 /* ---------- Pains (pinned horizontal) ---------- */
@@ -963,7 +972,7 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
 }
 .pricing__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   align-items: stretch;
 }
@@ -1341,7 +1350,8 @@ html.no-js .reveal, html.reduced .reveal { opacity: 1; transform: none; }
   .pricing__grid { grid-template-columns: 1fr; max-width: 520px; margin: 0 auto; }
   .plan--popular { transform: none; }
   .plan--popular:hover { transform: translateY(-6px); }
-  .steps__list { grid-template-columns: 1fr; gap: 34px; }
+  .steps__list { grid-template-columns: repeat(2, 1fr); gap: 34px; }
+  .steps__list::before { display: none; }
   .book__grid { grid-template-columns: 1fr; }
   .founder__grid { grid-template-columns: 1fr; }
   .founder__photo { max-width: 380px; }
@@ -1368,6 +1378,16 @@ html.no-js .reveal, html.reduced .reveal { opacity: 1; transform: none; }
     display: flex; flex-direction: column; gap: 5px;
     margin-left: auto; background: none; border: none; cursor: pointer; padding: 8px;
   }
+  .nav__phone {
+    display: inline-flex;
+    margin-left: auto;
+    color: #fff;
+    font-family: "Poppins", var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .nav__burger { margin-left: 4px; }
   .nav__burger span { width: 22px; height: 2px; background: var(--ink); transition: transform 0.3s, opacity 0.3s; }
   .nav__burger.open span:first-child { transform: translateY(7px) rotate(45deg); }
   .nav__burger.open span:last-child { transform: translateY(-7px) rotate(-45deg); }
@@ -1444,6 +1464,9 @@ html.no-js .reveal, html.reduced .reveal { opacity: 1; transform: none; }
   .hero__primary {
     width: 100%;
   }
+  .hero__actions { width: 100%; flex-direction: column; }
+  .hero__phone { width: 100%; }
+  .steps__list { grid-template-columns: 1fr; }
   .hero__visual {
     order: -1;
     position: relative;

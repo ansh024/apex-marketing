@@ -163,7 +163,7 @@
     .from(".hero__h1", { y: 28, opacity: 0, duration: 0.75, ease: "power3.out" }, 0.15)
     .to(".hero__sub", { opacity: 1, y: 0, duration: 0.6 }, 0.7)
     .to(".hero__trust", { opacity: 1, y: 0, duration: 0.6 }, 0.85)
-    .to(".hero__primary", { opacity: 1, y: 0, duration: 0.6 }, 1.0)
+    .to(".hero__actions", { opacity: 1, y: 0, duration: 0.6 }, 1.0)
     .from(".hero__portrait", { y: 20, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.3)
     .from(".calendar", { y: 28, opacity: 0, duration: 0.8, ease: "power3.out" }, 0.45)
     .from(".hero__stat", { y: 16, opacity: 0, duration: 0.6, ease: "power3.out" }, 0.75);
@@ -229,18 +229,15 @@
      SET PIECE 2: THE SIGNED GUARANTEE
      ============================================================ */
   var certBorder = document.getElementById("certBorder");
-  var sigPath = document.getElementById("sigPath");
   var typeTarget = document.getElementById("certType");
   var caret = document.getElementById("certCaret");
   var TYPE_TEXT = "You get every dollar back.";
 
   var certSeal = document.getElementById("certSeal");
 
-  if (certBorder && sigPath && typeTarget) {
+  if (certBorder && typeTarget) {
     var borderLen = certBorder.getTotalLength();
-    var sigLen = sigPath.getTotalLength();
     gsap.set(certBorder, { strokeDasharray: borderLen, strokeDashoffset: borderLen });
-    gsap.set(sigPath, { strokeDasharray: sigLen, strokeDashoffset: sigLen });
     if (certSeal) gsap.set(certSeal, { opacity: 0, scale: 0.4, rotate: -28, transformOrigin: "50% 50%" });
 
     var certTl = gsap.timeline({
@@ -266,9 +263,7 @@
         typeTarget.textContent = TYPE_TEXT.slice(0, ++i);
         if (i >= TYPE_TEXT.length) {
           clearInterval(iv);
-          // sign it
-          gsap.to(sigPath, { strokeDashoffset: 0, duration: 1.7, ease: "power1.inOut", delay: 0.35 });
-          gsap.from(".cert__sigline, .cert__signame", { opacity: 0, duration: 0.6, delay: 1.6 });
+          gsap.from(".cert__sigline, .cert__signame", { opacity: 0, duration: 0.6, delay: 0.25 });
           if (caret) gsap.to(caret, { opacity: 0, duration: 0.3, delay: 0.8 });
         }
       }, 34);

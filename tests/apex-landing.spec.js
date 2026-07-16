@@ -98,6 +98,27 @@ test('renders pricing guarantees and filled benefit icons', async ({ page }) => 
   expect(background).not.toBe('rgba(0, 0, 0, 0)');
 });
 
+test('renders the approved revenue-driven content edits', async ({ page }) => {
+  await expect(page.locator('.hero__eyebrow')).toHaveText('Revenue Driven Marketing');
+  await expect(page.locator('.hero__h1')).toContainText('Engineered To Deliver Results');
+  await expect(page.locator('.hero__sub')).toContainText('Omni-Channel Marketing Campaigns Exclusively For Plastic Surgeons & Med Spas');
+  await expect(page.locator('.hero__trust')).toContainText('No Long-Term Contracts');
+  await expect(page.locator('.steps__list .step')).toHaveCount(4);
+  await expect(page.locator('.steps__list')).toContainText('Transparent reporting & communications');
+  await expect(page.locator('#faq')).not.toContainText('Who owns the ad accounts, the website, and the data?');
+  await expect(page.locator('#faq')).not.toContainText('[PLACEHOLDER');
+  await expect(page.locator('#faq')).toContainText('How fast until we see results?');
+  await expect(page.locator('body')).not.toContainText(/consults booked/i);
+  await expect(page.locator('#sigPath')).toHaveCount(0);
+});
+
+test('phone CTAs use the approved number', async ({ page }) => {
+  const phoneLinks = page.locator('a[href="tel:+18557409608"]');
+  await expect(phoneLinks).toHaveCount(2);
+  await expect(phoneLinks.first()).toContainText('(855) 740-9608');
+  await expect(phoneLinks.last()).toContainText('(855) 740-9608');
+});
+
 test('contains no long dashes', async ({ page }) => {
   await expect(page.locator('body')).not.toContainText(/[—–]/);
 });

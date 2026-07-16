@@ -9,8 +9,8 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 $apex_img    = APEX_LP_URL . 'assets/images/';
-$apex_title  = get_the_title() ? get_the_title() . ' | Apex Marketing' : 'Apex Marketing - Consults, Not Clicks | Marketing for Plastic & Cosmetic Surgeons';
-$apex_desc   = 'Google, Meta and local search campaigns built exclusively for aesthetic practices. Reported in booked consults - backed by a 60-day money-back guarantee.';
+$apex_title  = get_the_title() ? get_the_title() . ' | Apex Marketing' : 'Apex Marketing - Appointments, Not Clicks | Marketing for Plastic & Cosmetic Surgeons';
+$apex_desc   = 'Omni-channel marketing campaigns built exclusively for plastic surgeons and med spas. Reported in booked appointments and backed by a 60-day money-back guarantee.';
 $apex_url    = get_permalink();
 ?><!DOCTYPE html>
 <html class="no-js" <?php language_attributes(); ?>>
@@ -28,19 +28,19 @@ $apex_url    = get_permalink();
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Apex Marketing">
 <meta property="og:url" content="<?php echo esc_url( $apex_url ); ?>">
-<meta property="og:title" content="Apex Marketing - Consults, Not Clicks">
-<meta property="og:description" content="Marketing for plastic & cosmetic surgeons, judged the only way that matters: qualified consults on your calendar.">
+<meta property="og:title" content="Apex Marketing - Appointments, Not Clicks">
+<meta property="og:description" content="Revenue-driven marketing for plastic surgeons and med spas, reported in appointments booked.">
 <meta property="og:image" content="<?php echo esc_url( $apex_img . 'og.jpg' ); ?>">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Apex Marketing - Consults, Not Clicks">
-<meta name="twitter:description" content="Marketing for plastic & cosmetic surgeons, judged the only way that matters: qualified consults on your calendar.">
+<meta name="twitter:title" content="Apex Marketing - Appointments, Not Clicks">
+<meta name="twitter:description" content="Revenue-driven marketing for plastic surgeons and med spas, reported in appointments booked.">
 <meta name="twitter:image" content="<?php echo esc_url( $apex_img . 'og.jpg' ); ?>">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "Apex Marketing",
-  "description": "Google, Meta and local search campaigns built exclusively for plastic and cosmetic surgeons, reported in booked consults.",
+  "description": "Omni-channel marketing campaigns built exclusively for plastic surgeons and med spas, reported in booked appointments.",
   "url": "<?php echo esc_url( $apex_url ); ?>",
   "image": "<?php echo esc_url( $apex_img . 'og.jpg' ); ?>",
   "priceRange": "$2,500-$5,000",
@@ -71,6 +71,7 @@ $apex_url    = get_permalink();
       <a href="#faq">FAQ</a>
     </nav>
     <a class="btn btn--signal nav__cta cta-book" href="#book">Book A Free Strategy Call</a>
+    <a class="nav__phone" href="tel:+18557409608" aria-label="Call Apex Marketing at 855-740-9608">Call (855) 740-9608</a>
     <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span></button>
   </div>
 </header>
@@ -89,16 +90,19 @@ $apex_url    = get_permalink();
   <canvas id="heroGradient" class="hero__gradient" aria-hidden="true"></canvas>
   <div class="hero__grid">
     <div class="hero__copy">
-      <div class="hero__eyebrow reveal">For Plastic Surgeons &amp; Med Spa</div>
+      <div class="hero__eyebrow reveal">Revenue Driven Marketing</div>
       <h1 class="hero__h1">
-        Your Last Agency Reported Reach - Our Metric is <span class="hero__em">Consults Booked</span>
+        <span class="hero__em">Engineered</span> To Deliver Results
       </h1>
-      <p class="hero__sub reveal">Google, Meta and local search campaigns built exclusively for plastic &amp; cosmetic surgeons.</p>
+      <p class="hero__sub reveal">Omni-Channel Marketing Campaigns Exclusively For Plastic Surgeons &amp; Med Spas</p>
       <ul class="hero__trust reveal">
-        <li>No Contract Lock-in</li>
+        <li>No Long-Term Contracts</li>
         <li>60-Day Money-back Guarantee</li>
       </ul>
-      <a class="btn btn--signal btn--lg hero__primary reveal cta-book" href="#book">Book A Free Strategy Call</a>
+      <div class="hero__actions reveal">
+        <a class="btn btn--signal btn--lg hero__primary cta-book" href="#book">Book A Free Strategy Call</a>
+        <a class="btn btn--call btn--lg hero__phone" href="tel:+18557409608">Call (855) 740-9608</a>
+      </div>
     </div>
 
     <div class="hero__visual">
@@ -216,7 +220,7 @@ $apex_url    = get_permalink();
     <div class="proof__stats">
       <div class="reveal"><span class="stat" data-prefix="$" data-count="0">$0</span><small>Hidden fees or surprise charges</small></div>
       <div class="reveal"><span class="stat" data-count="24" data-suffix="hr">0</span><small>Response time on any question</small></div>
-      <div class="reveal"><span class="stat" data-count="100" data-suffix="%">0</span><small>Account ownership from day one</small></div>
+      <div class="reveal"><span class="stat">60-Day</span><small>Money Back Guarantee</small></div>
       <div class="reveal"><span class="stat" data-count="1">0</span><small>Dedicated contact who knows your practice</small></div>
     </div>
   </div>
@@ -302,14 +306,10 @@ $apex_url    = get_permalink();
       </svg>
       <div class="cert__inner">
         <img class="cert__seal" id="certSeal" src="<?php echo esc_url( $apex_img . 'seal/guarantee-seal.webp' ); ?>" alt="Money-back guarantee seal" width="487" height="413" loading="lazy" decoding="async">
-        <h2 class="cert__h2"><strong class="cert__lead">60-Day Money-Back Guarantee.</strong> No new consults? <span class="cert__type" id="certType"></span><span class="cert__caret" id="certCaret"></span></h2>
+        <h2 class="cert__h2"><strong class="cert__lead">60-Day Money-Back Guarantee.</strong> No new appointments? <span class="cert__type" id="certType"></span><span class="cert__caret" id="certCaret"></span></h2>
         <p class="cert__body">In writing. No fine print - because we only take on practices we're confident we can grow.</p>
         <div class="cert__signrow">
           <div class="cert__sig">
-            <svg id="sigSvg" viewBox="0 0 260 80" aria-hidden="true">
-              <path id="sigPath" d="M14 58 C 20 30, 30 18, 34 26 C 38 34, 26 58, 22 62 C 30 50, 44 34, 52 36 C 58 38, 52 52, 58 50 C 64 48, 68 38, 74 40 C 80 42, 78 52, 86 46 C 92 42, 96 34, 102 38 M 112 30 C 108 42, 106 54, 108 58 C 116 50, 124 34, 130 40 C 134 44, 128 56, 136 52 C 144 48, 150 36, 158 40 C 164 43, 160 54, 168 50 C 176 46, 182 34, 190 38 C 196 41, 194 50, 202 46 C 214 40, 226 28, 244 24"
-                fill="none" stroke="var(--signal)" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
             <span class="cert__sigline"></span>
             <span class="cert__signame">Nathan Park - Founder, Apex Marketing</span>
           </div>
@@ -332,12 +332,12 @@ $apex_url    = get_permalink();
       <div class="founder__body reveal">
         <p>I spent over a decade in marketing and audited hundreds of ad accounts for practices across the country.</p>
         <p>The story is almost always the same: a recycled playbook, vanity-metric reports, and a contract you can't escape.</p>
-        <p>At Apex the rule is simple - we report in the number that matters: <b>consults booked.</b> Not impressions. Not clicks. Patients in your consult room.</p>
+        <p>At Apex the rule is simple - we report in the number that matters: <b>appointments booked.</b> Not impressions. Not clicks. Patients in your consult room.</p>
       </div>
       <div class="founder__stats">
         <div><span class="stat" data-count="10" data-suffix="+">0</span><small>Years marketing experience</small></div>
         <div><span class="stat" data-count="200" data-suffix="+">0</span><small>Ad accounts audited</small></div>
-        <div><span class="stat" data-count="100" data-suffix="%">100%</span><small>Success rate over the last 2 years</small></div>
+        <div><span class="stat" data-count="100" data-suffix="%">100%</span><small>Revenue Driven</small></div>
       </div>
       <a class="btn btn--gold reveal cta-book" href="#book">Book a Call Directly with Nathan</a>
     </div>
@@ -349,9 +349,10 @@ $apex_url    = get_permalink();
   <div class="container">
     <h2 class="h2 reveal">From first call to campaigns live,<br><em>no surprises.</em></h2>
     <ol class="steps__list">
-      <li class="step reveal"><span class="step__num"></span><h3>Book your free strategy call</h3><p>15 minutes, no pitch. Nathan comes prepared with real ideas for your market.</p><span class="step__eta">15 minutes</span></li>
-      <li class="step reveal"><span class="step__num"></span><h3>Get a custom growth plan</h3><p>Channels, budget range, and an honest timeline for your case mix and your city.</p><span class="step__eta">Same week</span></li>
-      <li class="step reveal"><span class="step__num"></span><h3>We launch &amp; optimize</h3><p>Campaigns go live and improve every month - backed by the 60-day guarantee.</p><span class="step__eta">Ongoing</span></li>
+      <li class="step reveal"><span class="step__num"></span><h3>Book your free strategy call</h3><p>We audit your current digital presence, define your ideal patient or avatar, and identify your marketing goals. We recommend the best marketing channels to fit your goals.</p></li>
+      <li class="step reveal"><span class="step__num"></span><h3>Get a custom growth plan</h3><p>Within 48 hours of the discovery call, we provide a custom marketing plan with projections. Before we start, we set expectations for cost per lead, sales, and return on investment.</p></li>
+      <li class="step reveal"><span class="step__num"></span><h3>We launch &amp; optimize</h3><p>We adjust the custom marketing plan with you, align on the long-term plan, and set benchmarks. Once everyone is aligned, we execute and launch within one week.</p></li>
+      <li class="step reveal"><span class="step__num"></span><h3>Transparent reporting &amp; communications</h3><p>We report full-funnel indicators including cost per lead, qualification rate, cost per booking, sales, and return on investment. Recurring team meetings provide 100% transparency.</p></li>
     </ol>
   </div>
 </section>
@@ -362,12 +363,11 @@ $apex_url    = get_permalink();
     <h2 class="h2 reveal">Fair questions. <em>Straight answers.</em></h2>
     <div class="faq__list">
       <details class="faq__item reveal"><summary>You're month-to-month - doesn't that mean clients leave?</summary><p>The opposite. We're month-to-month because retention has to be earned with results, not contracts. Clients stay because consults keep landing on the calendar - and if they ever don't, you should be free to go.</p></details>
-      <details class="faq__item reveal"><summary>Who owns the ad accounts, the website, and the data?</summary><p>You do. From day one. Ad accounts, website, Google Business Profile, tracking data - everything is created in your name. If we part ways, you keep it all.</p></details>
-      <details class="faq__item reveal"><summary>We've run ads before - the leads couldn't qualify or no-showed. What's different?</summary><p>We optimize for qualified consults, not form-fills. Campaigns are built around surgical candidates and your case mix, leads are qualified and nurtured through the CRM before your staff ever dials, and reporting is tied to consults booked - so bad leads can't hide inside good-looking numbers.</p></details>
+      <details class="faq__item reveal"><summary>We've run ads before - the leads couldn't qualify or no-showed. What's different?</summary><p>We optimize for qualified consults, not form-fills. Campaigns are built around surgical candidates and your case mix, leads are qualified and nurtured through the CRM before your staff ever dials, and reporting is tied to appointments booked - so bad leads can't hide inside good-looking numbers.</p></details>
       <details class="faq__item reveal"><summary>Will this add work for my front desk?</summary><p>No - it removes it. Follow-up automation and scheduling flows handle the chasing, so your coordinator talks to people who are already qualified and expecting the call.</p></details>
-      <details class="faq__item reveal"><summary>Do you work with competing practices in my city?</summary><p>[PLACEHOLDER - confirm exclusivity policy: recommended answer is one practice per market.]</p></details>
-      <details class="faq__item reveal"><summary>What does the 60-day guarantee actually cover?</summary><p>Exactly what it says: if your first 60 days don't deliver new consults to your calendar, you get every dollar of your management fee back. In writing, before you start.</p></details>
-      <details class="faq__item reveal"><summary>How fast until we see consults?</summary><p>Paid campaigns typically produce first consults within weeks; SEO and profile work compound over months. On your strategy call you'll get an honest timeline for your market - not a promise engineered to close you.</p></details>
+      <details class="faq__item reveal"><summary>Do you work with competing practices in my city?</summary><p>No, we never engage in a conflict of interest and do not work with a competitor in your target location, ever.</p></details>
+      <details class="faq__item reveal"><summary>What does the 60-day guarantee actually cover?</summary><p>We provide projections and set expectations from day one. If we do not deliver the results, then you are entitled to your money back.</p></details>
+      <details class="faq__item reveal"><summary>How fast until we see results?</summary><p>Paid campaigns such as Google Ads, Meta Ads, and Local Service Ads typically produce leads from the first week of launch. SEO and Local SEO through Google Business Profile generally generate leads within a month. We recommend using all channels to accomplish your short-term and long-term marketing goals.</p></details>
     </div>
   </div>
 </section>
