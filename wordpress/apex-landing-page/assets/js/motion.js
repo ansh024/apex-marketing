@@ -139,7 +139,9 @@
   // Pinned sections + browser scroll restoration race on refresh and can
   // leave once-only triggers unfired (invisible sections). Take scroll
   // restoration over manually - GSAP's documented fix.
-  ScrollTrigger.clearScrollMemory("manual");
+  if (typeof ScrollTrigger.clearScrollMemory === "function") {
+    try { ScrollTrigger.clearScrollMemory("manual"); } catch (ignore) {}
+  }
 
   // UI bindings first - must never depend on animation code succeeding
   wireUi();
@@ -147,10 +149,31 @@
   /* ---------- Lenis smooth scroll ---------- */
   var lenis = null;
   if (typeof Lenis !== "undefined" && window.innerWidth > 760) {
-    lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
+    try {
+      lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    } catch (lenisError) {
+      if (window.console && console.warn) console.warn("Apex smooth scrolling disabled:", lenisError);
+      lenis = null;
+    }
+  }
+
+  function enterViewport(el, callback, threshold) {
+    if (!el) return;
+    if (!("IntersectionObserver" in window)) {
+      callback();
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        callback();
+      });
+    }, { threshold: typeof threshold === "number" ? threshold : 0.12 });
+    observer.observe(el);
   }
 
   /* ============================================================
@@ -242,9 +265,7 @@
     if (certSignature) gsap.set(certSignature, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
     if (certSeal) gsap.set(certSeal, { opacity: 0, scale: 0.4, rotate: -28, transformOrigin: "50% 50%" });
 
-    var certTl = gsap.timeline({
-      scrollTrigger: { trigger: "#cert", start: "top 72%", once: true }
-    });
+    var certTl = gsap.timeline({ paused: true });
 
     certTl
       .to(certBorder, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut" })
@@ -277,6 +298,10 @@
     certTl.from(".cert__body, .cert__signrow .btn", {
       opacity: 0, y: 16, stagger: 0.15, duration: 0.6
     }, 1.4);
+
+    enterViewport(document.getElementById("cert"), function () {
+      certTl.play(0);
+    }, 0.2);
   }
 
   /* ============================================================
@@ -309,9 +334,8 @@
      ============================================================ */
   document.querySelectorAll(".reveal").forEach(function (el) {
     if (el.closest(".hero")) return; // hero handled by entrance timeline
-    gsap.to(el, {
-      opacity: 1, y: 0, duration: 0.75, ease: "power2.out",
-      scrollTrigger: { trigger: el, start: "top 85%", once: true }
+    enterViewport(el, function () {
+      gsap.to(el, { opacity: 1, y: 0, duration: 0.75, ease: "power2.out" });
     });
   });
 
@@ -320,17 +344,12 @@
     var prefix = el.dataset.prefix || "";
     var suffix = el.dataset.suffix || "";
     var obj = { v: 0 };
-    ScrollTrigger.create({
-      trigger: el,
-      start: "top 85%",
-      once: true,
-      onEnter: function () {
-        gsap.to(obj, {
-          v: target, duration: 1.4, ease: "power2.out",
-          onUpdate: function () { el.textContent = prefix + Math.round(obj.v) + suffix; },
-          onComplete: function () { el.textContent = prefix + target + suffix; }
-        });
-      }
+    enterViewport(el, function () {
+      gsap.to(obj, {
+        v: target, duration: 1.4, ease: "power2.out",
+        onUpdate: function () { el.textContent = prefix + Math.round(obj.v) + suffix; },
+        onComplete: function () { el.textContent = prefix + target + suffix; }
+      });
     });
   });
 
@@ -377,21 +396,6 @@
     }, { threshold: 0.1 });
     document.querySelectorAll(".reveal").forEach(function (el) { failsafe.observe(el); });
 
-    // Certificate heading is typed in by its own once-only timeline - kick
-    // it if the section is on screen but the timeline never started.
-    var certEl = document.getElementById("cert");
-    if (certEl && typeof certTl !== "undefined") {
-      var certFailsafe = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          certFailsafe.unobserve(entry.target);
-          setTimeout(function () {
-            if (certTl.progress() === 0 && !certTl.isActive()) certTl.play(0);
-          }, 1000);
-        });
-      }, { threshold: 0.25 });
-      certFailsafe.observe(certEl);
-    }
   }
 
   /* ============================================================

@@ -1034,6 +1034,7 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
 .plan__price span { color: var(--ink-soft); font-size: 0.85rem; }
 .plan--popular .plan__price span { color: rgba(255, 255, 255, 0.85); }
 .plan__guarantee { margin: 0 0 24px; color: #101418; font-size: 12px; font-weight: 600; line-height: 1.35; }
+.plan--popular .plan__guarantee { color: #b8ffcf; }
 .plan__includes {
   display: block;
   font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase;
@@ -1192,6 +1193,15 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
 .form__legal { font-size: 0.7rem; color: rgba(16, 20, 24, 0.45); margin-top: 14px; text-align: center; }
 .form--teaser { text-align: center; }
 .form--teaser .form__note { margin-bottom: 20px; }
+.form--teaser .btn.btn--signal {
+  appearance: none;
+  -webkit-appearance: none;
+  border-color: transparent;
+  background: var(--signal);
+  color: #fff;
+  text-decoration: none;
+}
+.form--teaser .btn.btn--signal:hover { background: var(--signal-deep); color: #fff; }
 
 /* ---------- Book modal ---------- */
 .modal-overlay {
@@ -1309,6 +1319,7 @@ body.modal-open { overflow: hidden; }
 .nav__logo--footer { color: #fff; }
 .footer .nav__logo span { color: #fff; font-style: normal; font-weight: 600; }
 .footer nav { display: flex; gap: 24px; font-size: 0.85rem; }
+.footer nav a { color: #fff; font-weight: 700; }
 .footer nav a:hover { color: var(--bone); }
 .footer small { font-size: 0.75rem; opacity: 0.78; }
 .footer p { font-family: var(--sans); font-style: normal; color: rgba(255, 255, 255, 0.82); }
@@ -1378,8 +1389,8 @@ html.no-js .reveal, html.reduced .reveal { opacity: 1; transform: none; }
   }
   .nav__logo,
   .nav__logo-img {
-    width: 112px;
-    min-width: 112px;
+    width: 101px;
+    min-width: 101px;
     height: auto;
   }
   .nav.is-scrolled .nav__logo-img {

@@ -62,6 +62,48 @@ test('loads local animation dependencies and initializes motion', async ({ page 
   expect(await page.evaluate(() => window.__motionErrors)).toEqual([]);
 });
 
+test('mobile CTA, footer links, logo, and popular guarantee use production styles', async ({ page }) => {
+  await page.setViewportSize({ width: 379, height: 863 });
+  await page.reload({ waitUntil: 'domcontentloaded' });
+
+  const styles = await page.evaluate(() => {
+    const teaser = getComputedStyle(document.querySelector('.form--teaser .btn--signal'));
+    const footerLink = getComputedStyle(document.querySelector('.footer nav a'));
+    const logo = getComputedStyle(document.querySelector('.nav__logo-img'));
+    const guarantee = getComputedStyle(document.querySelector('.plan--popular .plan__guarantee'));
+    return {
+      teaserBackground: teaser.backgroundColor,
+      teaserColor: teaser.color,
+      footerColor: footerLink.color,
+      footerWeight: footerLink.fontWeight,
+      logoWidth: logo.width,
+      guaranteeColor: guarantee.color,
+    };
+  });
+
+  expect(styles.teaserBackground).toBe('rgb(242, 70, 0)');
+  expect(styles.teaserColor).toBe('rgb(255, 255, 255)');
+  expect(styles.footerColor).toBe('rgb(255, 255, 255)');
+  expect(Number(styles.footerWeight)).toBeGreaterThanOrEqual(700);
+  expect(parseFloat(styles.logoWidth)).toBeLessThanOrEqual(101);
+  expect(styles.guaranteeColor).toBe('rgb(184, 255, 207)');
+});
+
+test('guarantee and counters animate only when scrolled into view', async ({ page }) => {
+  await expect(page.locator('html')).toHaveClass(/motion-ready/);
+
+  const signature = page.locator('#certSignature');
+  await expect(signature).toHaveCSS('clip-path', 'inset(0px 100% 0px 0px)');
+
+  await page.locator('#cert').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(3200);
+  await expect(signature).toHaveCSS('clip-path', 'inset(0px 0% 0px 0px)');
+
+  const founderStat = page.locator('#founder .stat[data-count="200"]');
+  await founderStat.scrollIntoViewIfNeeded();
+  await expect(founderStat).toHaveText('200+', { timeout: 3000 });
+});
+
 test('every booking CTA opens the single GHL form modal', async ({ page }) => {
   const ctas = page.locator('.cta-book');
   const count = await ctas.count();
