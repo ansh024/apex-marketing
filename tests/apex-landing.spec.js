@@ -135,6 +135,8 @@ test('every booking CTA opens the single GHL form modal', async ({ page }) => {
 
 test('renders pricing guarantees and filled benefit icons', async ({ page }) => {
   await expect(page.locator('.plan__guarantee')).toHaveCount(3);
+  const pricingColumns = await page.locator('.pricing__grid').evaluate((grid) => getComputedStyle(grid).gridTemplateColumns.split(' ').length);
+  expect(pricingColumns).toBe(page.viewportSize().width > 1020 ? 3 : 1);
   await expect(page.locator('.pricing__chips li svg')).toHaveCount(6);
   const background = await page.locator('.pricing__chips li svg').first().evaluate((icon) => getComputedStyle(icon).backgroundColor);
   expect(background).not.toBe('rgba(0, 0, 0, 0)');
@@ -151,7 +153,7 @@ test('renders the approved revenue-driven content edits', async ({ page }) => {
   await expect(page.locator('#faq')).not.toContainText('[PLACEHOLDER');
   await expect(page.locator('#faq')).toContainText('How fast until we see results?');
   await expect(page.locator('#faq .faq__item').first().locator('summary')).toHaveText('How fast until we see results?');
-  await expect(page.locator('body')).not.toContainText(/consults booked/i);
+  await expect(page.locator('body')).not.toContainText(/\bconsults\b/i);
   await expect(page.locator('#sigPath')).toHaveCount(0);
   await expect(page.locator('#certSignature')).toHaveAttribute('src', /nathan-signature\.svg/);
 });
@@ -199,6 +201,19 @@ test('process steps use cards and swipe horizontally on mobile', async ({ page }
     expect(scroll.overflowX).toBe('auto');
     expect(scroll.scrollWidth).toBeGreaterThan(scroll.clientWidth);
   }
+});
+
+test('pain cards use native horizontal scrolling without desktop pinning', async ({ page }) => {
+  const rail = page.locator('#painsPin');
+  const track = page.locator('#painsTrack');
+  const state = await rail.evaluate((element) => ({
+    overflowX: getComputedStyle(element).overflowX,
+    scrollWidth: element.scrollWidth,
+    clientWidth: element.clientWidth,
+  }));
+  expect(state.overflowX).toBe('auto');
+  expect(state.scrollWidth).toBeGreaterThan(state.clientWidth);
+  await expect(track).toHaveCSS('transform', 'none');
 });
 
 test('Thank You template remains available', async ({ page }) => {

@@ -649,10 +649,21 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
 .cert__sigline { width: 240px; height: 1px; background: rgba(16, 20, 24, 0.35); }
 .cert__signame { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin-top: 8px; }
 
-/* ---------- Pains (pinned horizontal) ---------- */
+/* ---------- Pains (manually scrollable horizontal rail) ---------- */
 .pains { background: linear-gradient(139deg, #2255FA 0%, #0C37B7 100%); color: #fff; padding-top: clamp(50.4px, 6vw, 84px); padding-bottom: 0; }
 .pains__intro { padding-bottom: 24px; }
-.pains__pin { overflow: hidden; }
+.pains__pin {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-color: rgba(255, 255, 255, 0.72) rgba(255, 255, 255, 0.14);
+  scrollbar-width: thin;
+}
+.pains__pin::-webkit-scrollbar { height: 9px; }
+.pains__pin::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.14); }
+.pains__pin::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.72); border-radius: 99px; }
 .pains__track {
   display: flex;
   gap: 24px;
@@ -671,6 +682,7 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
   position: relative;
   box-shadow: 0 26px 50px -22px rgba(4, 12, 46, 0.4);
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+  scroll-snap-align: start;
 }
 .pain-card::before {
   content: "";
@@ -991,7 +1003,7 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
 }
 .pricing__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
   align-items: stretch;
 }

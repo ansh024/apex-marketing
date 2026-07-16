@@ -135,7 +135,7 @@ $apex_url    = get_permalink();
 
 <section class="services" id="services">
   <div class="container">
-    <h2 class="h2 reveal">One growth system. Built for one job:<br><em>qualified consults on your calendar.</em></h2>
+    <h2 class="h2 reveal">One growth system. Built for one job:<br><em>qualified appointments on your calendar.</em></h2>
     <div class="bento">
       <article class="bento__tile bento__tile--meta reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/meta-ads.webp' ); ?>')">
         <h3><span class="bento__logos" aria-hidden="true">
@@ -180,7 +180,7 @@ $apex_url    = get_permalink();
       <article class="pain-card">
         <span class="pain-card__idx">01 / 05</span>
         <h3>"The leads were garbage."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>We qualify before your staff ever dials. Campaigns built around surgical candidates, tracked all the way to consults - not inquiries.</p></div>
+        <div class="pain-card__fix"><span>The Apex fix</span><p>We qualify before your staff ever dials. Campaigns built around surgical candidates, tracked all the way to appointments - not inquiries.</p></div>
       </article>
       <article class="pain-card">
         <span class="pain-card__idx">02 / 05</span>
@@ -241,7 +241,7 @@ $apex_url    = get_permalink();
 
       <article class="plan reveal">
         <h3>Starter</h3>
-        <p class="plan__desc">One ad platform (Meta or Google) with LSA, CRM, and a landing page to start booking consults.</p>
+        <p class="plan__desc">One ad platform (Meta or Google) with LSA, CRM, and a landing page to start booking appointments.</p>
         <span class="plan__save">Save $2,000 · 44% off</span>
         <div class="plan__price"><b>$2,500</b><span>/month</span></div>
         <p class="plan__guarantee">60-Day Money-Back Guarantee</p>
@@ -364,8 +364,8 @@ $apex_url    = get_permalink();
     <h2 class="h2 reveal">Fair questions. <em>Straight answers.</em></h2>
     <div class="faq__list">
       <details class="faq__item reveal"><summary>How fast until we see results?</summary><p>Paid campaigns such as Google Ads, Meta Ads, and Local Service Ads typically produce leads from the first week of launch. SEO and Local SEO through Google Business Profile generally generate leads within a month. We recommend using all channels to accomplish your short-term and long-term marketing goals.</p></details>
-      <details class="faq__item reveal"><summary>You're month-to-month - doesn't that mean clients leave?</summary><p>The opposite. We're month-to-month because retention has to be earned with results, not contracts. Clients stay because consults keep landing on the calendar - and if they ever don't, you should be free to go.</p></details>
-      <details class="faq__item reveal"><summary>We've run ads before - the leads couldn't qualify or no-showed. What's different?</summary><p>We optimize for qualified consults, not form-fills. Campaigns are built around surgical candidates and your case mix, leads are qualified and nurtured through the CRM before your staff ever dials, and reporting is tied to appointments booked - so bad leads can't hide inside good-looking numbers.</p></details>
+      <details class="faq__item reveal"><summary>You're month-to-month - doesn't that mean clients leave?</summary><p>The opposite. We're month-to-month because retention has to be earned with results, not contracts. Clients stay because appointments keep landing on the calendar - and if they ever don't, you should be free to go.</p></details>
+      <details class="faq__item reveal"><summary>We've run ads before - the leads couldn't qualify or no-showed. What's different?</summary><p>We optimize for qualified appointments, not form-fills. Campaigns are built around surgical candidates and your case mix, leads are qualified and nurtured through the CRM before your staff ever dials, and reporting is tied to appointments booked - so bad leads can't hide inside good-looking numbers.</p></details>
       <details class="faq__item reveal"><summary>Will this add work for my front desk?</summary><p>No - it removes it. Follow-up automation and scheduling flows handle the chasing, so your coordinator talks to people who are already qualified and expecting the call.</p></details>
       <details class="faq__item reveal"><summary>Do you work with competing practices in my city?</summary><p>No, we never engage in a conflict of interest and do not work with a competitor in your target location, ever.</p></details>
       <details class="faq__item reveal"><summary>What does the 60-day guarantee actually cover?</summary><p>We provide projections and set expectations from day one. If we do not deliver the results, then you are entitled to your money back.</p></details>
@@ -401,7 +401,7 @@ $apex_url    = get_permalink();
 <footer class="footer">
   <div class="container footer__inner">
     <a class="nav__logo nav__logo--footer" href="#top">Apex<span>Marketing</span></a>
-    <p>If your first 60 days don't deliver new consults, you get every dollar back. In writing.</p>
+    <p>If your first 60 days don't deliver new appointments, you get every dollar back. In writing.</p>
     <nav><a href="#services">Services</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a class="cta-book" href="#book">Book a Call</a></nav>
     <small>© <?php echo esc_html( date( 'Y' ) ); ?> Apex Marketing. All rights reserved.</small>
   </div>

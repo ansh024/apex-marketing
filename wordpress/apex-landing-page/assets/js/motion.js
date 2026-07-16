@@ -305,31 +305,6 @@
   }
 
   /* ============================================================
-     PAINS - pinned horizontal rail (desktop only)
-     ============================================================ */
-  var painsTrack = document.getElementById("painsTrack");
-  var painsPin = document.getElementById("painsPin");
-  if (painsTrack && painsPin && window.innerWidth > 1020) {
-    var getScroll = function () { return painsTrack.scrollWidth - window.innerWidth + 48; };
-    gsap.to(painsTrack, {
-      x: function () { return -getScroll(); },
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#pains",
-        start: "top top",
-        end: function () { return "+=" + getScroll(); },
-        pin: true,
-        anticipatePin: 1,
-        scrub: true,
-        invalidateOnRefresh: true
-      }
-    });
-  } else if (painsPin) {
-    painsPin.style.overflowX = "auto";
-    painsPin.style.webkitOverflowScrolling = "touch";
-  }
-
-  /* ============================================================
      GENERIC: reveals + count-ups
      ============================================================ */
   document.querySelectorAll(".reveal").forEach(function (el) {
