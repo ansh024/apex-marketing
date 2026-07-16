@@ -111,6 +111,15 @@ test('mobile layout has no horizontal document overflow', async ({ page }, testI
   expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.client + 1);
 });
 
+test('closed mobile menu is fully hidden and opens from the nav', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'mobile-only navigation behavior');
+  const menu = page.locator('#mobileMenu');
+  await expect(menu).toBeHidden();
+  await page.locator('#burger').click();
+  await expect(menu).toBeVisible();
+  await expect(menu).toHaveClass(/open/);
+});
+
 test('Thank You template remains available', async ({ page }) => {
   await page.goto('/thank-you/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('.thanks h1')).toContainText("You're booked in");
