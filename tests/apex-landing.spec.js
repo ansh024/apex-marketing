@@ -108,6 +108,7 @@ test('renders the approved revenue-driven content edits', async ({ page }) => {
   await expect(page.locator('#faq')).not.toContainText('Who owns the ad accounts, the website, and the data?');
   await expect(page.locator('#faq')).not.toContainText('[PLACEHOLDER');
   await expect(page.locator('#faq')).toContainText('How fast until we see results?');
+  await expect(page.locator('#faq .faq__item').first().locator('summary')).toHaveText('How fast until we see results?');
   await expect(page.locator('body')).not.toContainText(/consults booked/i);
   await expect(page.locator('#sigPath')).toHaveCount(0);
   await expect(page.locator('#certSignature')).toHaveAttribute('src', /nathan-signature\.svg/);
@@ -140,6 +141,22 @@ test('closed mobile menu is fully hidden and opens from the nav', async ({ page 
   await page.locator('#burger').click();
   await expect(menu).toBeVisible();
   await expect(menu).toHaveClass(/open/);
+});
+
+test('process steps use cards and swipe horizontally on mobile', async ({ page }, testInfo) => {
+  const list = page.locator('.steps__list');
+  const firstCard = list.locator('.step').first();
+  const styles = await firstCard.evaluate((element) => {
+    const css = getComputedStyle(element);
+    return { background: css.backgroundColor, radius: css.borderRadius };
+  });
+  expect(styles.background).not.toBe('rgba(0, 0, 0, 0)');
+  expect(parseFloat(styles.radius)).toBeGreaterThan(0);
+  if (testInfo.project.name === 'mobile') {
+    const scroll = await list.evaluate((element) => ({ overflowX: getComputedStyle(element).overflowX, scrollWidth: element.scrollWidth, clientWidth: element.clientWidth }));
+    expect(scroll.overflowX).toBe('auto');
+    expect(scroll.scrollWidth).toBeGreaterThan(scroll.clientWidth);
+  }
 });
 
 test('Thank You template remains available', async ({ page }) => {
