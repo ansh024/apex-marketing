@@ -79,10 +79,15 @@ test('every booking CTA opens the single GHL form modal', async ({ page }) => {
     ).toBe(true);
   }
 
+  const ghlFrame = page.locator('#inline-PV33s1v3pTF8y2bzSIIs');
+  await expect(ghlFrame).not.toHaveAttribute('src', /leadconnectorhq/);
+  await expect(page.locator('script[data-apex-ghl-embed]')).toHaveCount(0);
+
   const visibleCta = page.locator('.hero__primary.cta-book');
   await visibleCta.click();
   await expect(page.locator('#bookModalOverlay')).toHaveClass(/is-open/);
-  await expect(page.locator('#inline-PV33s1v3pTF8y2bzSIIs')).toHaveCount(1);
+  await expect(ghlFrame).toHaveAttribute('src', /leadconnectorhq\.com\/widget\/form/);
+  await expect(page.locator('script[data-apex-ghl-embed]')).toHaveCount(1);
   await page.locator('#bookModalClose').click();
 });
 

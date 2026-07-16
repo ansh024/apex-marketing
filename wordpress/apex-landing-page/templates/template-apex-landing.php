@@ -22,6 +22,9 @@ $apex_url    = get_permalink();
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="<?php echo esc_url( $apex_url ); ?>">
 <meta name="theme-color" content="#2255FA">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="image" href="<?php echo esc_url( $apex_img . 'hero/hero-poster.webp' ); ?>" fetchpriority="high">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Apex Marketing">
 <meta property="og:url" content="<?php echo esc_url( $apex_url ); ?>">
@@ -99,7 +102,7 @@ $apex_url    = get_permalink();
     </div>
 
     <div class="hero__visual">
-      <video class="hero__portrait" autoplay muted loop playsinline poster="<?php echo esc_url( $apex_img . 'hero/hero-poster.jpg' ); ?>" aria-hidden="true">
+      <video class="hero__portrait" autoplay muted loop playsinline preload="metadata" poster="<?php echo esc_url( $apex_img . 'hero/hero-poster.webp' ); ?>" aria-hidden="true">
         <source src="<?php echo esc_url( $apex_img . 'hero/hero-video.mp4' ); ?>" type="video/mp4">
       </video>
       <div class="calendar" id="calendar" aria-hidden="true">
@@ -130,33 +133,33 @@ $apex_url    = get_permalink();
   <div class="container">
     <h2 class="h2 reveal">One growth system. Built for one job:<br><em>qualified consults on your calendar.</em></h2>
     <div class="bento">
-      <article class="bento__tile bento__tile--meta reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/meta-ads.jpg' ); ?>')">
+      <article class="bento__tile bento__tile--meta reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/meta-ads.webp' ); ?>')">
         <h3><span class="bento__logos" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="12" fill="#1877F2"/><path d="M13.5 12.5h2l.3-2.2h-2.3V8.8c0-.6.2-1 1-1h1.4V5.8c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3v1.9H8.6v2.2h2.2V19h2.7v-6.5z" fill="#fff"/></svg>
           <svg viewBox="0 0 24 24" width="22" height="22"><defs><linearGradient id="igGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#FEE411"/><stop offset="25%" stop-color="#FD5949"/><stop offset="50%" stop-color="#D6249F"/><stop offset="100%" stop-color="#285AEB"/></linearGradient></defs><rect width="24" height="24" rx="6" fill="url(#igGrad)"/><rect x="6" y="6" width="12" height="12" rx="4" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="16.2" cy="7.8" r="1" fill="#fff"/></svg>
         </span>Meta Ads</h3>
       </article>
-      <article class="bento__tile bento__tile--google reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/google-ads.jpg' ); ?>')">
+      <article class="bento__tile bento__tile--google reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/google-ads.webp' ); ?>')">
         <h3><span class="bento__logos" aria-hidden="true">
           <svg viewBox="0 0 48 48" width="22" height="22"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.6H24v9h11.8c-.5 2.7-2 5-4.3 6.6v5.5h7C42.5 37 45.1 31.3 45.1 24.5z"/><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.8 0-10.7-3.9-12.4-9.1H4.3v5.7C7.9 41.1 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.6 28.2c-.4-1.3-.7-2.7-.7-4.2s.3-2.9.7-4.2v-5.7H4.3C2.8 17 2 20.4 2 24s.8 7 2.3 9.9l7.3-5.7z"/><path fill="#EA4335" d="M24 10.7c3.2 0 6.1 1.1 8.4 3.3l6.2-6.2C34.9 4.2 29.9 2 24 2 15.4 2 7.9 6.9 4.3 14.1l7.3 5.7c1.7-5.2 6.6-9.1 12.4-9.1z"/></svg>
         </span>Google Ads</h3>
       </article>
-      <article class="bento__tile bento__tile--lsa reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/local-service-ads.jpg' ); ?>')">
+      <article class="bento__tile bento__tile--lsa reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/local-service-ads.webp' ); ?>')">
         <h3><span class="bento__logos" aria-hidden="true">
           <svg viewBox="0 0 48 48" width="20" height="20"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.6H24v9h11.8c-.5 2.7-2 5-4.3 6.6v5.5h7C42.5 37 45.1 31.3 45.1 24.5z"/><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.8 0-10.7-3.9-12.4-9.1H4.3v5.7C7.9 41.1 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.6 28.2c-.4-1.3-.7-2.7-.7-4.2s.3-2.9.7-4.2v-5.7H4.3C2.8 17 2 20.4 2 24s.8 7 2.3 9.9l7.3-5.7z"/><path fill="#EA4335" d="M24 10.7c3.2 0 6.1 1.1 8.4 3.3l6.2-6.2C34.9 4.2 29.9 2 24 2 15.4 2 7.9 6.9 4.3 14.1l7.3 5.7c1.7-5.2 6.6-9.1 12.4-9.1z"/></svg>
         </span>Local Service Ads</h3>
       </article>
-      <article class="bento__tile bento__tile--gbp reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/gbp.jpg' ); ?>')">
+      <article class="bento__tile bento__tile--gbp reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/gbp.webp' ); ?>')">
         <h3><span class="bento__logos" aria-hidden="true">
           <svg viewBox="0 0 48 48" width="20" height="20"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.6H24v9h11.8c-.5 2.7-2 5-4.3 6.6v5.5h7C42.5 37 45.1 31.3 45.1 24.5z"/><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.8 0-10.7-3.9-12.4-9.1H4.3v5.7C7.9 41.1 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.6 28.2c-.4-1.3-.7-2.7-.7-4.2s.3-2.9.7-4.2v-5.7H4.3C2.8 17 2 20.4 2 24s.8 7 2.3 9.9l7.3-5.7z"/><path fill="#EA4335" d="M24 10.7c3.2 0 6.1 1.1 8.4 3.3l6.2-6.2C34.9 4.2 29.9 2 24 2 15.4 2 7.9 6.9 4.3 14.1l7.3 5.7c1.7-5.2 6.6-9.1 12.4-9.1z"/></svg>
         </span>Google Business Profile</h3>
       </article>
-      <article class="bento__tile bento__tile--seo reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/seo.jpg' ); ?>')">
+      <article class="bento__tile bento__tile--seo reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/seo.webp' ); ?>')">
         <h3><span class="bento__logos" aria-hidden="true">
           <svg viewBox="0 0 48 48" width="20" height="20"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.6H24v9h11.8c-.5 2.7-2 5-4.3 6.6v5.5h7C42.5 37 45.1 31.3 45.1 24.5z"/><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7-5.5c-2 1.3-4.5 2.1-7.5 2.1-5.8 0-10.7-3.9-12.4-9.1H4.3v5.7C7.9 41.1 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.6 28.2c-.4-1.3-.7-2.7-.7-4.2s.3-2.9.7-4.2v-5.7H4.3C2.8 17 2 20.4 2 24s.8 7 2.3 9.9l7.3-5.7z"/><path fill="#EA4335" d="M24 10.7c3.2 0 6.1 1.1 8.4 3.3l6.2-6.2C34.9 4.2 29.9 2 24 2 15.4 2 7.9 6.9 4.3 14.1l7.3 5.7c1.7-5.2 6.6-9.1 12.4-9.1z"/></svg>
         </span>SEO</h3>
       </article>
-      <article class="bento__tile bento__tile--web reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/web-dev.jpg' ); ?>')">
+      <article class="bento__tile bento__tile--web reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/web-dev.webp' ); ?>')">
         <h3>Web Development</h3>
       </article>
     </div>
@@ -207,7 +210,7 @@ $apex_url    = get_permalink();
         <p class="section-sub reveal">Simple Numbers Reported - How many leads? At what cost? How many booked? What are plans to scale &amp; optimise? No Fluff.</p>
       </div>
       <figure class="proof__report reveal">
-        <img src="<?php echo esc_url( $apex_img . 'report.jpg' ); ?>" alt="A printed Apex monthly performance report on a desk" loading="lazy" width="1400" height="1045">
+        <img src="<?php echo esc_url( $apex_img . 'report.webp' ); ?>" alt="A printed Apex monthly performance report on a desk" loading="lazy" decoding="async" width="1400" height="1045">
       </figure>
     </div>
     <div class="proof__stats">
@@ -298,7 +301,7 @@ $apex_url    = get_permalink();
         <rect id="certBorder" x="6" y="6" width="988" height="628" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
       </svg>
       <div class="cert__inner">
-        <img class="cert__seal" id="certSeal" src="<?php echo esc_url( $apex_img . 'seal/guarantee-seal.png' ); ?>" alt="Money-back guarantee seal" width="487" height="413" loading="lazy">
+        <img class="cert__seal" id="certSeal" src="<?php echo esc_url( $apex_img . 'seal/guarantee-seal.webp' ); ?>" alt="Money-back guarantee seal" width="487" height="413" loading="lazy" decoding="async">
         <h2 class="cert__h2"><strong class="cert__lead">60-Day Money-Back Guarantee.</strong> No new consults? <span class="cert__type" id="certType"></span><span class="cert__caret" id="certCaret"></span></h2>
         <p class="cert__body">In writing. No fine print - because we only take on practices we're confident we can grow.</p>
         <div class="cert__signrow">
@@ -410,7 +413,7 @@ $apex_url    = get_permalink();
     <button class="modal__close" id="bookModalClose" type="button" aria-label="Close">&times;</button>
     <h2 class="sr-only" id="bookModalTitle">Book a free strategy call</h2>
     <iframe
-      src="https://api.leadconnectorhq.com/widget/form/PV33s1v3pTF8y2bzSIIs"
+      data-src="https://api.leadconnectorhq.com/widget/form/PV33s1v3pTF8y2bzSIIs"
       class="ghl-form-embed"
       id="inline-PV33s1v3pTF8y2bzSIIs"
       data-layout="{'id':'INLINE'}"
@@ -430,7 +433,6 @@ $apex_url    = get_permalink();
 </div>
 
 <script type="module">
-  import { NeatGradient } from "https://esm.sh/@firecms/neat";
   const gradientConfig = {
     colors: [
       { color: "#2255FA", enabled: true },
@@ -467,10 +469,23 @@ $apex_url    = get_permalink();
     shapeType: "plane",
     cameraLock: true,
   };
-  ["heroGradient", "founderGradient"].forEach((id) => {
-    const canvas = document.getElementById(id);
-    if (canvas) new NeatGradient({ ref: canvas, ...gradientConfig });
-  });
+  const startGradients = async () => {
+    try {
+      const { NeatGradient } = await import("https://esm.sh/@firecms/neat@1.0.1/es2022/neat.mjs");
+      ["heroGradient", "founderGradient"].forEach((id) => {
+        const canvas = document.getElementById(id);
+        if (canvas) new NeatGradient({ ref: canvas, ...gradientConfig });
+      });
+    } catch (_) {
+      document.documentElement.classList.add("gradient-fallback");
+    }
+  };
+  const queueGradients = () => {
+    if ("requestIdleCallback" in window) requestIdleCallback(startGradients, { timeout: 3500 });
+    else setTimeout(startGradients, 1800);
+  };
+  if (document.readyState === "complete") queueGradients();
+  else window.addEventListener("load", queueGradients, { once: true });
 </script>
 
 <?php wp_footer(); ?>

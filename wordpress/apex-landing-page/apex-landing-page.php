@@ -89,7 +89,6 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'apex-lp-gsap', APEX_LP_URL . 'assets/vendor/gsap.min.js', array(), '3.12.5', true );
 	wp_enqueue_script( 'apex-lp-scrolltrigger', APEX_LP_URL . 'assets/vendor/ScrollTrigger.min.js', array( 'apex-lp-gsap' ), '3.12.5', true );
 	wp_enqueue_script( 'apex-lp-lenis', APEX_LP_URL . 'assets/vendor/lenis.min.js', array(), '1.0.42', true );
-	wp_enqueue_script( 'apex-lp-ghl-form', 'https://link.msgsndr.com/js/form_embed.js', array(), null, true );
 	wp_enqueue_script( 'apex-lp-motion', APEX_LP_URL . 'assets/js/motion.js', array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis' ), APEX_LP_VERSION, true );
 } );
 

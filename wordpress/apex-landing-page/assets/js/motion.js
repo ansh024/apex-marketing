@@ -434,10 +434,29 @@
     /* ---- Book modal: open/close GHL form ---- */
     var overlay = document.getElementById("bookModalOverlay");
     var closeBtn = document.getElementById("bookModalClose");
+    var ghlFrame = document.querySelector(".ghl-form-embed");
     var lastFocused = null;
+    var ghlStarted = false;
+
+    function loadGhlForm() {
+      if (ghlStarted || !ghlFrame) return;
+      ghlStarted = true;
+
+      var formUrl = ghlFrame.getAttribute("data-src");
+      if (formUrl && !ghlFrame.getAttribute("src")) ghlFrame.setAttribute("src", formUrl);
+
+      if (!document.querySelector('script[data-apex-ghl-embed]')) {
+        var script = document.createElement("script");
+        script.src = "https://link.msgsndr.com/js/form_embed.js";
+        script.async = true;
+        script.dataset.apexGhlEmbed = "true";
+        document.body.appendChild(script);
+      }
+    }
 
     function openModal() {
       if (!overlay) return;
+      loadGhlForm();
       lastFocused = document.activeElement;
       overlay.classList.add("is-open");
       overlay.setAttribute("aria-hidden", "false");
