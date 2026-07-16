@@ -13,7 +13,7 @@ $apex_title  = get_the_title() ? get_the_title() . ' | Apex Marketing' : 'Apex M
 $apex_desc   = 'Google, Meta and local search campaigns built exclusively for aesthetic practices. Reported in booked consults - backed by a 60-day money-back guarantee.';
 $apex_url    = get_permalink();
 ?><!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html class="no-js" <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,6 +48,7 @@ $apex_url    = get_permalink();
   }
 }
 </script>
+<script>document.documentElement.classList.remove('no-js');</script>
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -126,70 +127,6 @@ $apex_url    = get_permalink();
   </div>
 </section>
 
-<!-- ============ SET PIECE 2 · THE SIGNED GUARANTEE ============ -->
-<section class="guarantee" id="guarantee">
-  <div class="container">
-    <div class="cert" id="cert">
-      <svg class="cert__border" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
-        <rect id="certBorder" x="6" y="6" width="988" height="628" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
-      </svg>
-      <div class="cert__inner">
-        <img class="cert__seal" id="certSeal" src="<?php echo esc_url( $apex_img . 'seal/guarantee-seal.png' ); ?>" alt="Money-back guarantee seal" width="487" height="413" loading="lazy">
-        <h2 class="cert__h2"><strong class="cert__lead">60-Day Money-Back Guarantee.</strong> No new consults? <span class="cert__type" id="certType"></span><span class="cert__caret" id="certCaret"></span></h2>
-        <p class="cert__body">In writing. No fine print - because we only take on practices we're confident we can grow.</p>
-        <div class="cert__signrow">
-          <div class="cert__sig">
-            <svg id="sigSvg" viewBox="0 0 260 80" aria-hidden="true">
-              <path id="sigPath" d="M14 58 C 20 30, 30 18, 34 26 C 38 34, 26 58, 22 62 C 30 50, 44 34, 52 36 C 58 38, 52 52, 58 50 C 64 48, 68 38, 74 40 C 80 42, 78 52, 86 46 C 92 42, 96 34, 102 38 M 112 30 C 108 42, 106 54, 108 58 C 116 50, 124 34, 130 40 C 134 44, 128 56, 136 52 C 144 48, 150 36, 158 40 C 164 43, 160 54, 168 50 C 176 46, 182 34, 190 38 C 196 41, 194 50, 202 46 C 214 40, 226 28, 244 24"
-                fill="none" stroke="var(--signal)" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-            <span class="cert__sigline"></span>
-            <span class="cert__signame">Nathan Park - Founder, Apex Marketing</span>
-          </div>
-          <a class="btn btn--dark cta-book" href="#book">Claim My Free Strategy Call</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SOUND FAMILIAR ============ -->
-<section class="pains" id="pains">
-  <div class="pains__intro container">
-    <h2 class="h2 h2--light reveal">You've probably said these things<br><em>to yourself.</em></h2>
-  </div>
-  <div class="pains__pin" id="painsPin">
-    <div class="pains__track" id="painsTrack">
-      <article class="pain-card">
-        <span class="pain-card__idx">01 / 05</span>
-        <h3>"The leads were garbage."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>We qualify before your staff ever dials. Campaigns built around surgical candidates, tracked all the way to consults - not inquiries.</p></div>
-      </article>
-      <article class="pain-card">
-        <span class="pain-card__idx">02 / 05</span>
-        <h3>"My front desk became the agency's follow-up team."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>CRM and follow-up automation included. Leads are nurtured and booked before they ever touch your front desk.</p></div>
-      </article>
-      <article class="pain-card">
-        <span class="pain-card__idx">03 / 05</span>
-        <h3>"I paid for clicks while one angry review sat on top of my profile."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>We fix the profile before we scale the spend. GBP management and review strategy are part of the system - not an upsell.</p></div>
-      </article>
-      <article class="pain-card">
-        <span class="pain-card__idx">04 / 05</span>
-        <h3>"Twelve-month contract. Results stalled at month three."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>Month-to-month only. If results stall, you walk - no penalty. Our retention has to be earned monthly.</p></div>
-      </article>
-      <article class="pain-card">
-        <span class="pain-card__idx">05 / 05</span>
-        <h3>"The agency owned my ad account, my site - even my reviews."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>You own everything from day one. Ad accounts, website, profile, data. Fire us anytime and keep it all.</p></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SERVICES ============ -->
 <section class="services" id="services">
   <div class="container">
     <h2 class="h2 reveal">One growth system. Built for one job:<br><em>qualified consults on your calendar.</em></h2>
@@ -228,32 +165,41 @@ $apex_url    = get_permalink();
   </div>
 </section>
 
-<!-- ============ FOUNDER ============ -->
-<section class="founder" id="founder">
-  <canvas id="founderGradient" class="founder__gradient" aria-hidden="true"></canvas>
-  <div class="container founder__grid">
-    <figure class="founder__photo reveal">
-      <img src="https://apex-marketing.ai/wp-content/uploads/2026/06/AM77lrI.jpg" alt="Nathan Park, Founder of Apex Marketing" loading="lazy" width="800" height="1000">
-      <figcaption>Nathan Park - Founder <span>(most clients just call me Nate)</span></figcaption>
-    </figure>
-    <div class="founder__copy">
-      <h2 class="h2 h2--light founder__quote reveal">"I built Apex because good doctors keep getting burned by <em>generic agencies.</em>"</h2>
-      <div class="founder__body reveal">
-        <p>I spent over a decade in marketing and audited hundreds of ad accounts for practices across the country.</p>
-        <p>The story is almost always the same: a recycled playbook, vanity-metric reports, and a contract you can't escape.</p>
-        <p>At Apex the rule is simple - we report in the number that matters: <b>consults booked.</b> Not impressions. Not clicks. Patients in your consult room.</p>
-      </div>
-      <div class="founder__stats">
-        <div><span class="stat" data-count="10" data-suffix="+">0</span><small>Years marketing experience</small></div>
-        <div><span class="stat" data-count="200" data-suffix="+">0</span><small>Ad accounts audited</small></div>
-        <div><span class="stat" data-count="100" data-suffix="%">100%</span><small>Success rate over the last 2 years</small></div>
-      </div>
-      <a class="btn btn--gold reveal cta-book" href="#book">Book a Call Directly with Nathan</a>
+<section class="pains" id="pains">
+  <div class="pains__intro container">
+    <h2 class="h2 h2--light reveal">You've probably said these things<br><em>to yourself.</em></h2>
+  </div>
+  <div class="pains__pin" id="painsPin">
+    <div class="pains__track" id="painsTrack">
+      <article class="pain-card">
+        <span class="pain-card__idx">01 / 05</span>
+        <h3>"The leads were garbage."</h3>
+        <div class="pain-card__fix"><span>The Apex fix</span><p>We qualify before your staff ever dials. Campaigns built around surgical candidates, tracked all the way to consults - not inquiries.</p></div>
+      </article>
+      <article class="pain-card">
+        <span class="pain-card__idx">02 / 05</span>
+        <h3>"My front desk became the agency's follow-up team."</h3>
+        <div class="pain-card__fix"><span>The Apex fix</span><p>CRM and follow-up automation included. Leads are nurtured and booked before they ever touch your front desk.</p></div>
+      </article>
+      <article class="pain-card">
+        <span class="pain-card__idx">03 / 05</span>
+        <h3>"I paid for clicks while one angry review sat on top of my profile."</h3>
+        <div class="pain-card__fix"><span>The Apex fix</span><p>We fix the profile before we scale the spend. GBP management and review strategy are part of the system - not an upsell.</p></div>
+      </article>
+      <article class="pain-card">
+        <span class="pain-card__idx">04 / 05</span>
+        <h3>"Twelve-month contract. Results stalled at month three."</h3>
+        <div class="pain-card__fix"><span>The Apex fix</span><p>Month-to-month only. If results stall, you walk - no penalty. Our retention has to be earned monthly.</p></div>
+      </article>
+      <article class="pain-card">
+        <span class="pain-card__idx">05 / 05</span>
+        <h3>"The agency owned my ad account, my site - even my reviews."</h3>
+        <div class="pain-card__fix"><span>The Apex fix</span><p>You own everything from day one. Ad accounts, website, profile, data. Fire us anytime and keep it all.</p></div>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- ============ PROOF / REPORTING ============ -->
 <section class="proof" id="proof">
   <div class="container">
     <div class="proof__head">
@@ -274,7 +220,6 @@ $apex_url    = get_permalink();
   </div>
 </section>
 
-<!-- ============ PRICING ============ -->
 <section class="pricing" id="pricing">
   <div class="container">
     <h2 class="h2 reveal">Pick the package that fits <em>your practice.</em></h2>
@@ -344,6 +289,56 @@ $apex_url    = get_permalink();
       </article>
     </div>
     <p class="pricing__foot reveal">All plans - month-to-month terms · you own your accounts · dedicated contact · 60-day money-back guarantee · ad spend billed separately to your accounts</p>
+  </div>
+</section>
+
+<section class="guarantee" id="guarantee">
+  <div class="container">
+    <div class="cert" id="cert">
+      <svg class="cert__border" viewBox="0 0 1000 640" preserveAspectRatio="none" aria-hidden="true">
+        <rect id="certBorder" x="6" y="6" width="988" height="628" rx="2" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+      </svg>
+      <div class="cert__inner">
+        <img class="cert__seal" id="certSeal" src="<?php echo esc_url( $apex_img . 'seal/guarantee-seal.png' ); ?>" alt="Money-back guarantee seal" width="487" height="413" loading="lazy">
+        <h2 class="cert__h2"><strong class="cert__lead">60-Day Money-Back Guarantee.</strong> No new consults? <span class="cert__type" id="certType"></span><span class="cert__caret" id="certCaret"></span></h2>
+        <p class="cert__body">In writing. No fine print - because we only take on practices we're confident we can grow.</p>
+        <div class="cert__signrow">
+          <div class="cert__sig">
+            <svg id="sigSvg" viewBox="0 0 260 80" aria-hidden="true">
+              <path id="sigPath" d="M14 58 C 20 30, 30 18, 34 26 C 38 34, 26 58, 22 62 C 30 50, 44 34, 52 36 C 58 38, 52 52, 58 50 C 64 48, 68 38, 74 40 C 80 42, 78 52, 86 46 C 92 42, 96 34, 102 38 M 112 30 C 108 42, 106 54, 108 58 C 116 50, 124 34, 130 40 C 134 44, 128 56, 136 52 C 144 48, 150 36, 158 40 C 164 43, 160 54, 168 50 C 176 46, 182 34, 190 38 C 196 41, 194 50, 202 46 C 214 40, 226 28, 244 24"
+                fill="none" stroke="var(--signal)" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            <span class="cert__sigline"></span>
+            <span class="cert__signame">Nathan Park - Founder, Apex Marketing</span>
+          </div>
+          <a class="btn btn--dark cta-book" href="#book">Claim My Free Strategy Call</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="founder" id="founder">
+  <canvas id="founderGradient" class="founder__gradient" aria-hidden="true"></canvas>
+  <div class="container founder__grid">
+    <figure class="founder__photo reveal">
+      <img src="https://apex-marketing.ai/wp-content/uploads/2026/06/AM77lrI.jpg" alt="Nathan Park, Founder of Apex Marketing" loading="lazy" width="800" height="1000">
+      <figcaption>Nathan Park - Founder <span>(most clients just call me Nate)</span></figcaption>
+    </figure>
+    <div class="founder__copy">
+      <h2 class="h2 h2--light founder__quote reveal">"I built Apex because good doctors keep getting burned by <em>generic agencies.</em>"</h2>
+      <div class="founder__body reveal">
+        <p>I spent over a decade in marketing and audited hundreds of ad accounts for practices across the country.</p>
+        <p>The story is almost always the same: a recycled playbook, vanity-metric reports, and a contract you can't escape.</p>
+        <p>At Apex the rule is simple - we report in the number that matters: <b>consults booked.</b> Not impressions. Not clicks. Patients in your consult room.</p>
+      </div>
+      <div class="founder__stats">
+        <div><span class="stat" data-count="10" data-suffix="+">0</span><small>Years marketing experience</small></div>
+        <div><span class="stat" data-count="200" data-suffix="+">0</span><small>Ad accounts audited</small></div>
+        <div><span class="stat" data-count="100" data-suffix="%">100%</span><small>Success rate over the last 2 years</small></div>
+      </div>
+      <a class="btn btn--gold reveal cta-book" href="#book">Book a Call Directly with Nathan</a>
+    </div>
   </div>
 </section>
 

@@ -9,24 +9,21 @@
 (function () {
   "use strict";
 
-  window.__motionErrors = [];
+  window.__motionErrors = window.__motionErrors || [];
   window.addEventListener("error", function (e) {
     window.__motionErrors.push((e.message || "?") + " @ " + (e.filename || "") + ":" + (e.lineno || 0));
   });
 
-  // Keep the services overview directly beneath the hero.
-  var heroSection = document.getElementById("hero");
-  var servicesSection = document.getElementById("services");
-  if (heroSection && servicesSection) heroSection.insertAdjacentElement("afterend", servicesSection);
-  var painsSection = document.getElementById("pains");
-  var guaranteeSection = document.getElementById("guarantee");
-  if (painsSection && guaranteeSection) guaranteeSection.insertAdjacentElement("beforebegin", painsSection);
-  var proofSection = document.getElementById("proof");
-  if (painsSection && proofSection) painsSection.insertAdjacentElement("afterend", proofSection);
-  var pricingSection = document.getElementById("pricing");
-  var founderSection = document.getElementById("founder");
-  if (pricingSection && founderSection) pricingSection.insertAdjacentElement("afterend", founderSection);
-  if (pricingSection && guaranteeSection) pricingSection.insertAdjacentElement("afterend", guaranteeSection);
+  function revealFallback(error) {
+    document.documentElement.classList.add("reduced", "motion-failed");
+    document.querySelectorAll(".reveal").forEach(function (el) {
+      el.style.opacity = "1";
+      el.style.transform = "none";
+    });
+    if (error) window.__motionErrors.push(String(error && error.message ? error.message : error));
+  }
+
+  function initMotion() {
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var hasGsap = typeof gsap !== "undefined";
@@ -342,10 +339,26 @@
      force-reveal anything ScrollTrigger missed (refresh mid-page,
      layout shifts from images/fonts/pin, CDN hiccups).
      ============================================================ */
-  window.addEventListener("load", function () { ScrollTrigger.refresh(); });
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(function () { ScrollTrigger.refresh(); });
+  var refreshTimer = null;
+  function scheduleRefresh() {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(function () { ScrollTrigger.refresh(); }, 80);
   }
+
+  window.addEventListener("load", scheduleRefresh);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(scheduleRefresh);
+  }
+  document.querySelectorAll("img").forEach(function (img) {
+    if (!img.complete) {
+      img.addEventListener("load", scheduleRefresh, { once: true });
+      img.addEventListener("error", scheduleRefresh, { once: true });
+    }
+  });
+  var ghlFrame = document.querySelector(".ghl-form-embed");
+  if (ghlFrame) ghlFrame.addEventListener("load", scheduleRefresh);
+  setTimeout(scheduleRefresh, 250);
+  setTimeout(scheduleRefresh, 1200);
 
   if ("IntersectionObserver" in window) {
     var failsafe = new IntersectionObserver(function (entries) {
@@ -457,5 +470,34 @@
       if (e.key === "Escape" && overlay && overlay.classList.contains("is-open")) closeModal();
     });
 
+  }
+  }
+
+  function bootMotion() {
+    var attempts = 0;
+    function startWhenReady() {
+      attempts += 1;
+      if (typeof window.gsap !== "undefined" && typeof window.ScrollTrigger !== "undefined") {
+        try {
+          initMotion();
+          document.documentElement.classList.add("motion-ready");
+        } catch (error) {
+          revealFallback(error);
+        }
+        return;
+      }
+      if (attempts < 40) {
+        setTimeout(startWhenReady, 100);
+      } else {
+        revealFallback(new Error("Animation dependencies did not initialize."));
+      }
+    }
+    startWhenReady();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootMotion, { once: true });
+  } else {
+    bootMotion();
   }
 })();

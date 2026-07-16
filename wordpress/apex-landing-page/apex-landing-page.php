@@ -86,9 +86,31 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 	wp_enqueue_style( 'apex-lp-main', APEX_LP_URL . 'assets/css/main.css', array(), APEX_LP_VERSION );
 
-	wp_enqueue_script( 'apex-lp-gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', true );
-	wp_enqueue_script( 'apex-lp-scrolltrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js', array( 'apex-lp-gsap' ), '3.12.5', true );
-	wp_enqueue_script( 'apex-lp-lenis', 'https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.42/bundled/lenis.min.js', array(), '1.0.42', true );
+	wp_enqueue_script( 'apex-lp-gsap', APEX_LP_URL . 'assets/vendor/gsap.min.js', array(), '3.12.5', true );
+	wp_enqueue_script( 'apex-lp-scrolltrigger', APEX_LP_URL . 'assets/vendor/ScrollTrigger.min.js', array( 'apex-lp-gsap' ), '3.12.5', true );
+	wp_enqueue_script( 'apex-lp-lenis', APEX_LP_URL . 'assets/vendor/lenis.min.js', array(), '1.0.42', true );
 	wp_enqueue_script( 'apex-lp-ghl-form', 'https://link.msgsndr.com/js/form_embed.js', array(), null, true );
 	wp_enqueue_script( 'apex-lp-motion', APEX_LP_URL . 'assets/js/motion.js', array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis' ), APEX_LP_VERSION, true );
 } );
+
+/**
+ * Animation scripts are order-sensitive. Keep performance plugins from
+ * delaying, combining, or moving them independently of their dependencies.
+ */
+function apex_lp_animation_script_needles() {
+	return array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion', 'assets/vendor/gsap.min.js', 'assets/vendor/ScrollTrigger.min.js', 'assets/vendor/lenis.min.js', 'assets/js/motion.js' );
+}
+
+add_filter( 'script_loader_tag', function ( $tag, $handle ) {
+	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion' ), true ) ) {
+		$tag = str_replace( '<script ', '<script data-no-optimize="1" data-cfasync="false" ', $tag );
+	}
+	return $tag;
+}, 10, 2 );
+
+foreach ( array( 'litespeed_optimize_js_excludes', 'litespeed_optm_js_defer_exc', 'litespeed_optm_js_delay_exc', 'rocket_delay_js_exclusions', 'rocket_exclude_defer_js' ) as $apex_lp_exclusion_filter ) {
+	add_filter( $apex_lp_exclusion_filter, function ( $exclusions ) {
+		$exclusions = is_array( $exclusions ) ? $exclusions : array();
+		return array_values( array_unique( array_merge( $exclusions, apex_lp_animation_script_needles() ) ) );
+	} );
+}

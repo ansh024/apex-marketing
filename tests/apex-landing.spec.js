@@ -42,6 +42,25 @@ test('keeps approved section order', async ({ page }) => {
   }
 });
 
+test('loads local animation dependencies and initializes motion', async ({ page }) => {
+  const scripts = await page.locator('script#apex-lp-gsap-js, script#apex-lp-scrolltrigger-js, script#apex-lp-lenis-js, script#apex-lp-motion-js').evaluateAll((elements) => elements
+    .map((element) => ({
+      src: element.src,
+      noOptimize: element.getAttribute('data-no-optimize'),
+      cfAsync: element.getAttribute('data-cfasync')
+    })));
+
+  expect(scripts).toHaveLength(4);
+  for (const script of scripts) {
+    expect(new URL(script.src).origin).toBe('http://localhost:8892');
+    expect(script.noOptimize).toBe('1');
+    expect(script.cfAsync).toBe('false');
+  }
+
+  await expect(page.locator('html')).toHaveClass(/motion-ready/);
+  expect(await page.evaluate(() => window.__motionErrors)).toEqual([]);
+});
+
 test('every booking CTA opens the single GHL form modal', async ({ page }) => {
   const ctas = page.locator('.cta-book');
   const count = await ctas.count();
