@@ -110,6 +110,7 @@ test('renders the approved revenue-driven content edits', async ({ page }) => {
   await expect(page.locator('#faq')).toContainText('How fast until we see results?');
   await expect(page.locator('body')).not.toContainText(/consults booked/i);
   await expect(page.locator('#sigPath')).toHaveCount(0);
+  await expect(page.locator('#certSignature')).toHaveAttribute('src', /nathan-signature\.svg/);
 });
 
 test('phone CTAs use the approved number', async ({ page }) => {

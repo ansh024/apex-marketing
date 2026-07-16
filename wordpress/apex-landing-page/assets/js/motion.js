@@ -231,6 +231,7 @@
   var certBorder = document.getElementById("certBorder");
   var typeTarget = document.getElementById("certType");
   var caret = document.getElementById("certCaret");
+  var certSignature = document.getElementById("certSignature");
   var TYPE_TEXT = "You get every dollar back.";
 
   var certSeal = document.getElementById("certSeal");
@@ -238,6 +239,7 @@
   if (certBorder && typeTarget) {
     var borderLen = certBorder.getTotalLength();
     gsap.set(certBorder, { strokeDasharray: borderLen, strokeDashoffset: borderLen });
+    if (certSignature) gsap.set(certSignature, { clipPath: "inset(0 100% 0 0)", opacity: 1 });
     if (certSeal) gsap.set(certSeal, { opacity: 0, scale: 0.4, rotate: -28, transformOrigin: "50% 50%" });
 
     var certTl = gsap.timeline({
@@ -263,7 +265,10 @@
         typeTarget.textContent = TYPE_TEXT.slice(0, ++i);
         if (i >= TYPE_TEXT.length) {
           clearInterval(iv);
-          gsap.from(".cert__sigline, .cert__signame", { opacity: 0, duration: 0.6, delay: 0.25 });
+          if (certSignature) {
+            gsap.to(certSignature, { clipPath: "inset(0 0% 0 0)", duration: 1.7, ease: "power1.inOut", delay: 0.25 });
+          }
+          gsap.from(".cert__sigline, .cert__signame", { opacity: 0, duration: 0.6, delay: 1.45 });
           if (caret) gsap.to(caret, { opacity: 0, duration: 0.3, delay: 0.8 });
         }
       }, 34);

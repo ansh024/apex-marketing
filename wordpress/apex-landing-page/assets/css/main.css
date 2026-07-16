@@ -639,6 +639,13 @@ section { padding: clamp(84px, 10vw, 140px) 0; position: relative; }
   text-align: left;
 }
 .cert__sig { display: flex; flex-direction: column; }
+.cert__signature {
+  width: 230px;
+  height: 70px;
+  object-fit: contain;
+  object-position: left bottom;
+  transform-origin: left center;
+}
 .cert__sigline { width: 240px; height: 1px; background: rgba(16, 20, 24, 0.35); }
 .cert__signame { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); margin-top: 8px; }
 

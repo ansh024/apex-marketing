@@ -310,6 +310,7 @@ $apex_url    = get_permalink();
         <p class="cert__body">In writing. No fine print - because we only take on practices we're confident we can grow.</p>
         <div class="cert__signrow">
           <div class="cert__sig">
+            <img class="cert__signature" id="certSignature" src="<?php echo esc_url( $apex_img . 'nathan-signature.svg' ); ?>" alt="Nathan Park's signature" width="230" height="70" loading="lazy">
             <span class="cert__sigline"></span>
             <span class="cert__signame">Nathan Park - Founder, Apex Marketing</span>
           </div>
