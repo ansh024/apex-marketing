@@ -320,15 +320,23 @@ a { color: inherit; }
    left, "Google Certified Partner" carries the width as a real label
    rather than the badge trying to read as a rectangle it isn't. */
 .google-partner-badge {
-  display:inline-flex; align-items:center; gap:12px; align-self:flex-start;
-  padding:8px 20px 8px 8px;
+  display:inline-flex; align-items:center; gap:10px; align-self:flex-start;
+  padding:6px 16px 6px 6px;
   background:var(--paper-raised); border:var(--hair) solid var(--rule-strong); border-radius:var(--r-sm);
   text-decoration:none;
   transition:border-color var(--d-fast) var(--e-out), background var(--d-fast) var(--e-out);
 }
 .google-partner-badge:hover, .google-partner-badge:focus-visible { border-color:var(--blue); background:#fff; }
-.google-partner-badge img { height:34px; width:auto; display:block; flex:none; }
-.google-partner-badge span { font-family:var(--font-data); font-size:var(--t-micro); letter-spacing:var(--tr-wide); text-transform:uppercase; color:var(--ink); white-space:nowrap; }
+.google-partner-badge img { height:28px; width:auto; display:block; flex:none; }
+/* Two lines (GOOGLE / CERTIFIED PARTNER) rather than one long line — a
+   narrower, shorter plate at every size, same treatment on desktop and
+   mobile. */
+.google-partner-badge span { font-family:var(--font-data); font-size:var(--t-micro); letter-spacing:var(--tr-wide); text-transform:uppercase; color:var(--ink); line-height:1.35; }
+@media (max-width:767px){
+  .google-partner-badge { gap:8px; padding:5px 14px 5px 5px; }
+  .google-partner-badge img { height:24px; }
+  .google-partner-badge span { font-size:var(--t-nano); }
+}
 /* The badge is Google's official colored artwork, unaltered — against the
    footer's solid blue flood it needs a light plate under it to read at all,
    same move the hero ghost button already makes against the relief. */
