@@ -1,0 +1,64 @@
+# Verifies the Apex plugin in an isolated WordPress site, then rsyncs
+# wordpress/apex-landing-page/ directly to the live site's plugin folder via
+# GoDaddy's native Git Deployment (SSH, deploy-only user — no interactive
+# login). Replaces the Git Updater + webhook path in publish-wp-plugin.yml;
+# once this is verified working, that workflow and the Git Updater plugin
+# get retired (see docs/17-deployment-pipeline.md in apx-page).
+#
+# Deliberately manual (workflow_dispatch only): you click "Run workflow" when
+# you want it live. Never deploys the database, uploads, local backups,
+# environment files, or credentials.
+name: Deploy to GoDaddy (native Git Deployment)
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: apex-godaddy-deploy
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run wp:start
+      - run: npm run wp:test
+      - if: always()
+        run: npm run wp:stop || true
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint every PHP file
+        shell: bash
+        run: |
+          set -euo pipefail
+          find wordpress/apex-landing-page -type f -name '*.php' -print0 \
+            | xargs -0 -n1 php -l
+
+      - name: Deploy plugin folder to GoDaddy via SSH
+        uses: godaddy-wordpress/gd-wordpress-deployer@v0.0.1
+        with:
+          remote_host: ${{ secrets.GODADDY_SSH_HOST }}
+          ssh_user: ${{ secrets.GODADDY_SSH_USER }}
+          ssh_private_key: ${{ secrets.GODADDY_SSH_PRIVATE_KEY }}
+          # Local source is wordpress/apex-landing-page/; this only overrides
+          # the destination path on the server. Confirm the exact input name
+          # the action expects once "Create your GitHub CI/CD repository" in
+          # the GoDaddy dashboard shows the generated workflow snippet —
+          # GoDaddy's own scaffold is the source of truth for this value.
+          deployment_dest: 'wp-content/plugins/apex-marketing'
+          enable_health_check: 'yes'
