@@ -77,9 +77,12 @@ $apex_home_url   = get_permalink();
       <div class="hero__lead">
         <h1 class="hero__h1">More customers.<br>Not more <span class="emph">spend</span>.</h1>
         <p class="lede">Paid ads built for your business.<br>No lock-in. No vague promises.</p>
-        <div class="row gap-3 wrap" style="margin-top:var(--s-2)">
+        <div class="row gap-3 wrap center-y" style="margin-top:var(--s-2)">
           <a class="btn" href="#book">Book a strategy call</a>
-          <a class="btn btn--ghost" href="#pricing">See pricing</a>
+          <a class="btn btn--ghost" href="tel:+18557409608">Call (855) 740-9608</a>
+          <a class="google-partner-badge" href="https://www.google.com/partners/agency?id=6492081901" target="_blank" rel="noopener" aria-label="Apex Marketing is a Google Partner">
+            <img src="https://www.gstatic.com/partners/badge/images/2026/PartnerBadgeClickable.svg" width="152" height="145.5" alt="Google Partner badge" loading="lazy">
+          </a>
         </div>
       </div>
     </div>
@@ -134,6 +137,7 @@ $apex_home_url   = get_permalink();
 
     <div class="plates">
       <a class="pc pc--a" href="#book">
+        <span class="pc__partner-flag data data--nano">Google Certified Partner</span>
         <div class="pc__band"><h3 class="pc__title">Google Ads</h3></div>
         <div class="pc__fig">
           <picture><source type="image/webp" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/google-ads-700.webp 700w, <?php echo esc_url( $apex_home_img ); ?>opt/google-ads-1400.webp 1400w" sizes="(max-width:767px) 92vw, (max-width:1199px) 48vw, 46vw"><img class="pc__image" src="<?php echo esc_url( $apex_home_img ); ?>opt/google-ads-1400.jpg" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/google-ads-700.jpg 700w, <?php echo esc_url( $apex_home_img ); ?>opt/google-ads-1400.jpg 1400w" sizes="(max-width:767px) 92vw, (max-width:1199px) 48vw, 46vw" width="1401" height="895" loading="lazy" decoding="async" alt="Google Ads campaign and performance dashboard illustration"></picture>
@@ -204,7 +208,6 @@ $apex_home_url   = get_permalink();
       <div class="red__stack" id="clauses">
         <div class="red__art" aria-hidden="true">
           <figure class="receipt is-on"><picture><source type="image/webp" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/terms-flexible-700.webp 700w, <?php echo esc_url( $apex_home_img ); ?>opt/terms-flexible-1100.webp 1100w" sizes="(max-width:1023px) 92vw, 42vw"><img src="<?php echo esc_url( $apex_home_img ); ?>opt/terms-flexible-1100.webp" width="1115" height="800" loading="lazy" decoding="async" alt=""></picture></figure>
-          <figure class="receipt"><picture><source type="image/webp" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/terms-ownership-700.webp 700w, <?php echo esc_url( $apex_home_img ); ?>opt/terms-ownership-1100.webp 1100w" sizes="(max-width:1023px) 92vw, 42vw"><img src="<?php echo esc_url( $apex_home_img ); ?>opt/terms-ownership-1100.webp" width="1200" height="784" loading="lazy" decoding="async" alt=""></picture></figure>
           <figure class="receipt"><picture><source type="image/webp" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/terms-reporting-700.webp 700w, <?php echo esc_url( $apex_home_img ); ?>opt/terms-reporting-1100.webp 1100w" sizes="(max-width:1023px) 92vw, 42vw"><img src="<?php echo esc_url( $apex_home_img ); ?>opt/terms-reporting-1100.webp" width="1085" height="780" loading="lazy" decoding="async" alt=""></picture></figure>
           <figure class="receipt"><picture><source type="image/webp" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/terms-guarantee-700.webp 700w, <?php echo esc_url( $apex_home_img ); ?>opt/terms-guarantee-1100.webp 1100w" sizes="(max-width:1023px) 92vw, 42vw"><img src="<?php echo esc_url( $apex_home_img ); ?>opt/terms-guarantee-1100.webp" width="1200" height="900" loading="lazy" decoding="async" alt=""></picture></figure>
         </div>
@@ -221,10 +224,10 @@ $apex_home_url   = get_permalink();
 
         <div class="clause" data-tone="mint">
           <div class="clause__wash"></div>
-          <h3><button class="clause__hd" type="button" aria-expanded="false" aria-controls="cl-2"><span class="clause__term">You own everything.</span></button></h3>
+          <h3><button class="clause__hd" type="button" aria-expanded="false" aria-controls="cl-2"><span class="clause__term">Every engagement starts with a free audit.</span></button></h3>
           <div class="clause__panel" id="cl-2"><div class="clause__inner"><div class="clause__copy">
-            <p class="clause__note">Ad accounts, CRM, customer data and communication channels. From day one, and on the day you leave.</p>
-            <a class="clause__go" href="#book">Ask us to walk through it <span>&rarr;</span></a>
+            <p class="clause__note">We map your offer, buying cycle and current spend before you commit to anything — no cost, no obligation.</p>
+            <a class="clause__go" href="#book">Book your free audit <span>&rarr;</span></a>
           </div></div></div>
           <div class="clause__bar" aria-hidden="true"><i></i></div>
         </div>
@@ -265,7 +268,7 @@ $apex_home_url   = get_permalink();
 
     <ul class="price__foot data" aria-label="Included with every plan">
       <li>Month-to-month terms</li>
-      <li>You own your accounts</li>
+      <li>Free audit & consultation</li>
       <li>One dedicated contact</li>
       <li>60-day money-back guarantee</li>
     </ul>
@@ -342,11 +345,11 @@ $apex_home_url   = get_permalink();
     </div>
     <div class="founder__copy">
       <h2 class="h2">Why I built Apex Marketing.</h2>
-      <p class="founder__q">&ldquo;I&rsquo;ve audited hundreds of ad accounts, and the story is almost always the same: a recycled playbook, vanity metrics, and a contract you can&rsquo;t escape. So I made one rule — we report on the only number that matters. Appointments booked. Not impressions. Not clicks.&rdquo;</p>
+      <p class="founder__q">&ldquo;I&rsquo;ve managed over 1,000 ad accounts, and the story is almost always the same: a recycled playbook, vanity metrics, and a contract you can&rsquo;t escape. So I made one rule — we report on the only number that matters. Appointments booked. Not impressions. Not clicks.&rdquo;</p>
       <div class="founder__stats">
         <div><span class="founder__n">10+</span><span class="data data--nano">years in marketing</span></div>
-        <div><span class="founder__n">200+</span><span class="data data--nano">ad accounts audited</span></div>
-        <div><span class="founder__n">$0</span><span class="data data--nano">to start</span></div>
+        <div><span class="founder__n">1000+</span><span class="data data--nano">accounts managed</span></div>
+        <div><span class="founder__n">$10M+</span><span class="data data--nano">budget managed</span></div>
       </div>
       <p class="founder__sig data data--nano">Nathan &mdash; founder, Apex Marketing. Most clients just call me Nate.</p>
       <a class="btn" href="#book">Book a call directly with Nathan</a>
@@ -383,6 +386,9 @@ $apex_home_url   = get_permalink();
     <div class="foot__brand">
       <span class="mark foot__mark">ΛPEX</span>
       <p class="data data--nano">Paid acquisition for businesses that want to check the numbers.</p>
+      <a class="google-partner-badge" href="https://www.google.com/partners/agency?id=6492081901" target="_blank" rel="noopener" aria-label="Apex Marketing is a Google Partner">
+        <img src="https://www.gstatic.com/partners/badge/images/2026/PartnerBadgeClickable.svg" width="152" height="145.5" alt="Google Partner badge" loading="lazy">
+      </a>
     </div>
     <div><span class="data data--nano foot__k">Services</span><a href="#services">Google Ads</a><a href="#services">Meta Ads</a><a href="#services">SEO</a><a href="#services">Website development</a></div>
     <div><span class="data data--nano foot__k">Company</span><a href="#terms">Terms</a><a href="#pricing">Pricing</a><a href="#founder">About Nathan</a><a href="#book">Book a call</a></div>

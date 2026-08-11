@@ -46,7 +46,8 @@ test('keeps approved section order', async ({ page }) => {
 test('pricing tiers and phone/CTA content are present', async ({ page }) => {
   await expect(page.locator('.tier')).toHaveCount(3);
   await expect(page.locator('.tier--hot')).toContainText('Growth');
-  await expect(page.locator('a[href="tel:+18557409608"]')).toHaveCount(1);
+  // Hero CTA row + footer contact — both intentionally link the same number.
+  await expect(page.locator('a[href="tel:+18557409608"]')).toHaveCount(2);
 });
 
 test('self-hosts its own GSAP/ScrollTrigger, independent of the landing template', async ({ page }) => {

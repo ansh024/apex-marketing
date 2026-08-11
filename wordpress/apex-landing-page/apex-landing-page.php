@@ -148,26 +148,70 @@ foreach ( array( 'litespeed_optimize_js_excludes', 'litespeed_optm_js_defer_exc'
 }
 
 /**
- * Both templates' CSS is deliberately self-contained (own font, own tokens,
- * own colors) — it is written to stand alone, not to merge with the theme's
- * or Elementor's site-wide styles. LiteSpeed's CSS Combine setting was
- * folding it into one sitewide bundle regardless, which silently reorders
- * the cascade: generic bare selectors we rely on (a, body, h1 — see
- * `a { color: inherit }` etc.) started losing to the theme/Elementor's own
- * same-specificity rules once combined, instead of winning on load order
- * the way they do as separate stylesheets. Symptom on the live homepage:
- * washed-out (theme gray) body/heading text and stray pink (Elementor
- * accent) nav links and borders — both templates' color tokens never
- * actually changed, the cascade just stopped landing them last.
+ * Both templates are deliberately self-contained (own font, own tokens, own
+ * colors, own bare-selector CSS like `a { color: inherit }`) — written to
+ * stand alone, not to merge with the theme's or Elementor's site-wide
+ * styles. LiteSpeed's page optimization pipeline (CSS Combine, Remove
+ * Unused CSS, async/Critical CSS) runs regardless and silently reworks the
+ * page: Combine folds our stylesheet into one sitewide bundle and can
+ * reorder the cascade so generic theme/Elementor rules win instead of ours
+ * landing last; Remove Unused CSS statically crawls the page and doesn't
+ * understand our JS-toggled classes (.is-on), canvas-drawn visuals, or
+ * scroll-driven reveals, so it can strip rules that ARE used, just not
+ * detectably so; async/Critical CSS can flash a stale critical-path
+ * snapshot before the real stylesheet takes over. Symptom seen on the live
+ * homepage: washed-out (theme gray) body/heading text, stray pink
+ * (Elementor accent) borders and nav links, and duplicated/overlapping
+ * headline text — none of that is in our CSS; the color tokens never
+ * changed, the optimizer just isn't a safe fit for either template.
+ *
+ * The targeted CSS-combine exclude (litespeed_optimize_css_excludes) tried
+ * first wasn't enough — it only covers Combine, not UCSS or Critical CSS.
+ * This is the actual master switch: LiteSpeed checks litespeed_optm_uri_exc
+ * before running ANY page optimization step, matched against the full
+ * request URI. Excluding the current request whenever one of our templates
+ * is rendering opts the whole page out cleanly, and works regardless of
+ * what URL/slug the page ends up published at (including once this becomes
+ * the site's actual homepage at /).
  */
-function apex_lp_css_exclude_needles() {
-	return array(
-		'assets/css/main.css',      // apex-lp-main — the landing template
-		'assets/css/homepage.css',  // apex-home-main — the homepage template
-	);
-}
-
-add_filter( 'litespeed_optimize_css_excludes', function ( $excludes ) {
+add_filter( 'litespeed_optm_uri_exc', function ( $excludes ) {
 	$excludes = is_array( $excludes ) ? $excludes : array();
-	return array_values( array_unique( array_merge( $excludes, apex_lp_css_exclude_needles() ) ) );
+	if ( is_page() && in_array( get_page_template_slug( get_the_ID() ), array_keys( apex_lp_templates() ), true ) && ! empty( $_SERVER['REQUEST_URI'] ) ) {
+		$excludes[] = sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) );
+	}
+	return array_values( array_unique( array_filter( $excludes ) ) );
 } );
+
+/**
+ * A second, unrelated source of the same symptom: Elementor tags every
+ * frontend page — including these fully self-contained, non-Elementor
+ * templates — with its global kit body classes (elementor-kit-5,
+ * elementor-page, etc., added via the standard body_class() call every WP
+ * template is expected to make) and unconditionally enqueues its own kit
+ * CSS (site-wide "Global Colors"/"Global Fonts") regardless of whether the
+ * page was built with Elementor. That kit CSS is a real, separate
+ * stylesheet with its own color rules — nothing to do with caching or
+ * optimization — competing with ours on the same bare selectors.
+ *
+ * Since both templates render 100% of their own markup (no theme header/
+ * footer, no Elementor widgets, no WP core blocks), no other plugin's or
+ * theme's CSS is ever actually needed on these pages. Rather than chase
+ * every current and future source of that collision individually,
+ * dequeue every OTHER enqueued stylesheet on these two pages and keep only
+ * our own. Scripts are left untouched — analytics, SEO schema, trust
+ * badges, chat widgets etc. all keep working; this addresses CSS only,
+ * since that's the entire observed problem.
+ */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_page() || ! in_array( get_page_template_slug( get_the_ID() ), array_keys( apex_lp_templates() ), true ) ) return;
+
+	global $wp_styles;
+	if ( empty( $wp_styles->queue ) ) return;
+
+	$keep = array( 'apex-lp-fonts', 'apex-lp-main', 'apex-home-fonts', 'apex-home-main', 'admin-bar' );
+	foreach ( (array) $wp_styles->queue as $handle ) {
+		if ( in_array( $handle, $keep, true ) ) continue;
+		wp_dequeue_style( $handle );
+		wp_deregister_style( $handle );
+	}
+}, 9999 );

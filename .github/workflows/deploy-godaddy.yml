@@ -51,6 +51,25 @@ jobs:
       - name: Checkout Repository Code
         uses: actions/checkout@v4
 
+      - name: Stamp version
+        shell: bash
+        run: |
+          set -euo pipefail
+          # APEX_LP_VERSION drives the ?ver= query string on every enqueued
+          # stylesheet/script. If it never changes between deploys, every
+          # caching layer (LiteSpeed page cache, browser cache) keeps
+          # serving old JS/CSS forever under the same URL, even though the
+          # file content on disk changed — this already caused a real bug
+          # (index.html shipped new markup while a browser served
+          # previously-cached JS built for the old markup, throwing on
+          # null.appendChild). Bumping it here, every run, is what makes a
+          # deploy actually invalidate caches downstream.
+          VERSION="1.${{ github.run_number }}.0"
+          cd wordpress/apex-landing-page
+          sed -i "s/^ \* Version: .*/ * Version: $VERSION/" apex-landing-page.php
+          sed -i "s/define( 'APEX_LP_VERSION', '[^']*' )/define( 'APEX_LP_VERSION', '$VERSION' )/" apex-landing-page.php
+          grep -E "Version: |APEX_LP_VERSION" apex-landing-page.php | head -2
+
       - name: Lint every PHP file
         shell: bash
         run: |

@@ -307,6 +307,22 @@ a { color: inherit; }
   padding-block: clamp(140px, 25vh, 260px) var(--s-7); }
 .hero__cols { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:var(--s-6); width:100%; align-items:start; }
 .hero__lead { grid-column:1 / span 7; display:flex; flex-direction:column; gap:var(--s-5); }
+/* Google's own badge asset — sized only, never recolored/restyled per their
+   brand guidelines. Hero copy already sits on scroll-in reveals; this stays
+   plain (no motion) since it's third-party-verified trust mark, not a brand
+   device we get to choreograph. */
+/* Sized to sit level with the CTA pills beside it (btn is ~46px tall:
+   14px vertical padding + hairline border either side of the label). The
+   badge is near-square (152x145.5 native), so matching height alone keeps
+   it proportionate without cropping or distorting Google's artwork. */
+.google-partner-badge { display:inline-flex; align-items:center; line-height:0; opacity:.92; transition:opacity var(--d-fast) var(--e-out); }
+.google-partner-badge:hover, .google-partner-badge:focus-visible { opacity:1; }
+.google-partner-badge img { height:46px; width:auto; display:block; }
+/* The badge is Google's official colored artwork, unaltered — against the
+   footer's solid blue flood it needs a light plate under it to read at all,
+   same move the hero ghost button already makes against the relief. */
+.foot__brand .google-partner-badge { margin-top:var(--s-4); background:var(--paper); padding:8px 10px; border-radius:var(--r-sm); opacity:1; }
+.foot__brand .google-partner-badge:hover, .foot__brand .google-partner-badge:focus-visible { box-shadow:0 0 0 2px rgba(238,238,238,.4); }
 .hero__h1 { font-size:clamp(2.9rem,1rem + 6.2vw,7rem); line-height:.9; letter-spacing:-0.048em; font-weight:600; }
 /* The rail sits inside the black handover band, so it inverts: dark ink here
    would land at ~2.6:1. Light type on black instead — the channel list is real
@@ -392,6 +408,7 @@ a { color: inherit; }
 .pc--d { --pc-bg:#eef0ff; --pc-band:#dde1ff; --pc-rule:#7587e8; --pc-accent:#354fc5; --pc-hover:#e2e5ff; }
 /* the three bands are TONALLY DISTINCT — that is what makes it a card
    rather than a bordered box (Jasper reference) */
+.pc__partner-flag { position:absolute; z-index:2; top:0; right:0; background:var(--blue); color:var(--paper); padding:6px 12px; border-radius:0 var(--r-sm) 0 12px; }
 .pc__band { position:relative; z-index:1; padding:var(--s-5) var(--s-5) var(--s-4);
   background:var(--pc-band); border-bottom:var(--hair) solid var(--pc-rule); }
 .pc__title { font-size:clamp(1.4rem,1rem+1.2vw,2rem); font-weight:600; letter-spacing:-0.03em; transition:color var(--d-mid) var(--e-out); }
@@ -539,8 +556,12 @@ a { color: inherit; }
 .tier::after { z-index:1; background:radial-gradient(220px circle at var(--glow-x) var(--glow-y),rgba(1,94,255,.16),rgba(1,94,255,.055) 38%,transparent 72%); }
 .tier::before { z-index:4; padding:2px; border-radius:inherit; background:radial-gradient(170px circle at var(--glow-x) var(--glow-y),rgba(1,94,255,1),rgba(184,236,226,.72) 34%,transparent 72%); -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); mask-composite:exclude; }
 .tier.is-spotlit { --glow-opacity:1; }
-.tier:nth-child(1),.tier:nth-child(3) { margin-top:20px; }
-.tier:nth-child(2) { transform:translateY(-20px); }
+/* Was a 20px pop on the popular card via translateY, offset by 20px
+   margin-top on its siblings — reads as "featured" but throws off every
+   card's bottom edge, so the CTAs no longer land on a shared baseline
+   (cards are equal height via grid stretch + margin-top:auto on the CTA,
+   so removing the offset is what actually re-aligns them). The card's own
+   dark/blue styling + "Most chosen" flag already carry the emphasis. */
 .tier--hot { z-index:3; background:var(--night); color:var(--paper); border:2px solid var(--blue); box-shadow:0 28px 66px -40px rgba(1,66,180,.72); }
 .tier .grid-field { display:none; }
 .tier__texture { position:absolute; inset:0; z-index:0; width:100%; height:100%; display:block; background:var(--night); image-rendering:pixelated; }
@@ -556,7 +577,7 @@ a { color: inherit; }
 .tier__list { list-style:none; padding:0; margin:var(--s-5) 0 0; display:flex; flex-direction:column; gap:var(--s-3); text-align:left; }
 .tier__list li { display:grid; grid-template-columns:18px minmax(0,1fr) auto; gap:9px; align-items:start; font-size:.9375rem; line-height:1.35; }
 .tier__list li::before { content:"✓"; color:var(--blue); font-weight:700; }
-.tier__list li span:last-child { color:var(--ink-faint); text-align:right; }
+.tier__list li span:last-child { color:var(--ink-muted); text-align:right; }
 .tier__list em { font-style:italic; font-family:var(--font-emph); }
 .tier__cta { order:7; margin-top:auto; padding:0 var(--s-5); align-self:stretch; justify-content:center; margin-block-start:var(--s-6); min-height:48px; line-height:1; background:var(--ink); color:var(--paper); border-color:var(--ink); box-shadow:none; }
 .tier__cta:hover { background:var(--blue); border-color:var(--blue); color:var(--paper); box-shadow:0 0 0 2px var(--paper-raised),0 0 0 4px var(--blue); }
@@ -616,7 +637,7 @@ a { color: inherit; }
 .founder__stats { display:flex; gap:var(--s-7); flex-wrap:wrap; }
 .founder__stats div { display:flex; flex-direction:column; gap:4px; }
 .founder__n { font-size:clamp(1.75rem,3vw,2.5rem); font-weight:600; letter-spacing:-0.04em; line-height:1; }
-.founder__stats .data { color:var(--ink-faint); }
+.founder__stats .data { color:var(--ink-muted); }
 .founder__sig { color:var(--ink-muted); }
 
 /* ══ BOOK / ADMIT ONE TICKET ════════════════════════════════════ */
