@@ -80,10 +80,11 @@ $apex_home_url   = get_permalink();
         <div class="row gap-3 wrap center-y" style="margin-top:var(--s-2)">
           <a class="btn" href="#book">Book a strategy call</a>
           <a class="btn btn--ghost" href="tel:+18557409608">Call (855) 740-9608</a>
-          <a class="google-partner-badge" href="https://www.google.com/partners/agency?id=6492081901" target="_blank" rel="noopener" aria-label="Apex Marketing is a Google Partner">
-            <img src="https://www.gstatic.com/partners/badge/images/2026/PartnerBadgeClickable.svg" width="152" height="145.5" alt="Google Partner badge" loading="lazy">
-          </a>
         </div>
+        <a class="google-partner-badge" href="https://www.google.com/partners/agency?id=6492081901" target="_blank" rel="noopener" aria-label="Apex Marketing is a Google Partner" style="margin-top:var(--s-3)">
+          <img src="https://www.gstatic.com/partners/badge/images/2026/PartnerBadgeClickable.svg" width="152" height="145.5" alt="" loading="lazy">
+          <span>Google Certified Partner</span>
+        </a>
       </div>
     </div>
   </div>
@@ -387,7 +388,8 @@ $apex_home_url   = get_permalink();
       <span class="mark foot__mark">ΛPEX</span>
       <p class="data data--nano">Paid acquisition for businesses that want to check the numbers.</p>
       <a class="google-partner-badge" href="https://www.google.com/partners/agency?id=6492081901" target="_blank" rel="noopener" aria-label="Apex Marketing is a Google Partner">
-        <img src="https://www.gstatic.com/partners/badge/images/2026/PartnerBadgeClickable.svg" width="152" height="145.5" alt="Google Partner badge" loading="lazy">
+        <img src="https://www.gstatic.com/partners/badge/images/2026/PartnerBadgeClickable.svg" width="152" height="145.5" alt="" loading="lazy">
+        <span>Google Certified Partner</span>
       </a>
     </div>
     <div><span class="data data--nano foot__k">Services</span><a href="#services">Google Ads</a><a href="#services">Meta Ads</a><a href="#services">SEO</a><a href="#services">Website development</a></div>

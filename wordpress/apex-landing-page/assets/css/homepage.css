@@ -315,15 +315,31 @@ a { color: inherit; }
    14px vertical padding + hairline border either side of the label). The
    badge is near-square (152x145.5 native), so matching height alone keeps
    it proportionate without cropping or distorting Google's artwork. */
-.google-partner-badge { display:inline-flex; align-items:center; line-height:0; opacity:.92; transition:opacity var(--d-fast) var(--e-out); }
-.google-partner-badge:hover, .google-partner-badge:focus-visible { opacity:1; }
-.google-partner-badge img { height:46px; width:auto; display:block; }
+/* A wide plate rather than the bare square badge: Google's own artwork
+   (unaltered — never crop/stretch/recolor it) sits at icon size on the
+   left, "Google Certified Partner" carries the width as a real label
+   rather than the badge trying to read as a rectangle it isn't. */
+.google-partner-badge {
+  display:inline-flex; align-items:center; gap:12px; align-self:flex-start;
+  padding:8px 20px 8px 8px;
+  background:var(--paper-raised); border:var(--hair) solid var(--rule-strong); border-radius:var(--r-sm);
+  text-decoration:none;
+  transition:border-color var(--d-fast) var(--e-out), background var(--d-fast) var(--e-out);
+}
+.google-partner-badge:hover, .google-partner-badge:focus-visible { border-color:var(--blue); background:#fff; }
+.google-partner-badge img { height:34px; width:auto; display:block; flex:none; }
+.google-partner-badge span { font-family:var(--font-data); font-size:var(--t-micro); letter-spacing:var(--tr-wide); text-transform:uppercase; color:var(--ink); white-space:nowrap; }
 /* The badge is Google's official colored artwork, unaltered — against the
    footer's solid blue flood it needs a light plate under it to read at all,
    same move the hero ghost button already makes against the relief. */
-.foot__brand .google-partner-badge { margin-top:var(--s-4); background:var(--paper); padding:8px 10px; border-radius:var(--r-sm); opacity:1; }
-.foot__brand .google-partner-badge:hover, .foot__brand .google-partner-badge:focus-visible { box-shadow:0 0 0 2px rgba(238,238,238,.4); }
+.foot__brand .google-partner-badge { margin-top:var(--s-4); background:var(--paper); }
+.foot__brand .google-partner-badge:hover, .foot__brand .google-partner-badge:focus-visible { border-color:var(--paper); box-shadow:0 0 0 2px rgba(238,238,238,.4); }
 .hero__h1 { font-size:clamp(2.9rem,1rem + 6.2vw,7rem); line-height:.9; letter-spacing:-0.048em; font-weight:600; }
+/* Desktop only, 15% down from the base clamp above — mobile keeps its own
+   size, this doesn't touch it. */
+@media (min-width:768px){
+  .hero__h1 { font-size:clamp(2.465rem, 0.85rem + 5.27vw, 5.95rem); }
+}
 /* The rail sits inside the black handover band, so it inverts: dark ink here
    would land at ~2.6:1. Light type on black instead — the channel list is real
    content, not decoration, so it has to clear AA. */
@@ -747,15 +763,21 @@ a { color: inherit; }
   .hero__rail { justify-content:flex-start; }
   /* Mobile hero ran ~260px of dead top padding before the headline even
      started, on top of a 100vh floor — the relief and rail were pushed off
-     the first screen entirely. Cuts the top offset by roughly a third and
-     drops the height floor so the section reads as one composed screen. */
-  .hero { min-height:auto; }
-  .hero__body { padding-block: clamp(88px, 15vh, 168px) var(--s-5); }
-  /* the ascent pin is already 100svh; the 200svh scroll TRACK above it is
-     what read as "too tall" — two full screens of scroll to clear one
-     section. Collapsing the track to match the pin removes the extra
-     scroll-scrub distance on small screens without touching desktop. */
-  .ascent { height:100svh; }
+     the first screen entirely. First pass cut that padding hard, which
+     fixed the overflow but read as cramped with everything jammed to the
+     top. Fixed height instead of a floor, content vertically centered in
+     the space above the rail, so the section keeps real whitespace rather
+     than either extreme. */
+  .hero { min-height:650px; }
+  .hero__body { align-items:center; padding-block:clamp(64px, 10vh, 110px) var(--s-6); }
+  /* The word-by-word reveal is scroll-scrubbed: JS divides scroll progress
+     by (track height − pin height), so collapsing the track to exactly
+     100svh (previous pass) left ~0px of scrub room and the whole reveal
+     completed in a single pixel of scroll — reads as static, not the
+     desktop scrub effect. This restores real scrub distance (60svh of
+     extra scroll) while staying well short of the original 200svh that
+     read as too long in the first place. */
+  .ascent { height:160svh; }
   /* M0 — 36 sectors one-per-row was ~1,580px of scrolling on a phone, about
      two full screens of list. The widest label needs 151px and two columns
      at this gap give 161px, so it stays on one line and the section halves. */
