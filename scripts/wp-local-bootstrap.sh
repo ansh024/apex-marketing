@@ -33,6 +33,10 @@ ensure_page() {
 
 LANDING_ID="$(ensure_page 'Apex Landing' 'apex-landing' 'templates/template-apex-landing.php')"
 ensure_page 'Thank You' 'thank-you' 'templates/template-apex-thank-you.php' >/dev/null
+# Deliberately not set as the front page here — the front-page switch is a
+# one-time manual WP admin step done on the real site, not part of the
+# pipeline. Provisioned at /apex-home/ so tests can reach it directly.
+ensure_page 'Apex Homepage' 'apex-home' 'templates/template-apex-homepage.php' >/dev/null
 "$WP_ENV_BIN" run cli wp option update show_on_front page >/dev/null
 "$WP_ENV_BIN" run cli wp option update page_on_front "$LANDING_ID" >/dev/null
 "$WP_ENV_BIN" run cli wp rewrite flush --hard >/dev/null

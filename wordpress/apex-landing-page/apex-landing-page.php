@@ -16,13 +16,14 @@ define( 'APEX_LP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'APEX_LP_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * The two templates this plugin makes available, keyed by the relative
+ * The templates this plugin makes available, keyed by the relative
  * path (inside this plugin) WordPress stores in each Page's _wp_page_template meta.
  */
 function apex_lp_templates() {
 	return array(
 		'templates/template-apex-landing.php'    => 'Apex – Landing Page',
 		'templates/template-apex-thank-you.php'  => 'Apex – Thank You',
+		'templates/template-apex-homepage.php'   => 'Apex – Homepage',
 	);
 }
 
@@ -71,6 +72,10 @@ function apex_lp_thank_you_url() {
 	return apex_lp_url_for_template( 'templates/template-apex-thank-you.php', '/thank-you/' );
 }
 
+function apex_lp_homepage_url() {
+	return apex_lp_url_for_template( 'templates/template-apex-homepage.php', '/' );
+}
+
 /**
  * Enqueue assets only on the landing template. The thank-you template is light
  * enough that it registers its own inline gradient script directly.
@@ -93,15 +98,43 @@ add_action( 'wp_enqueue_scripts', function () {
 } );
 
 /**
+ * Enqueue assets only on the homepage template (risograph design system,
+ * ported from apx-page's design/prototypes/index.html). Own font, own CSS,
+ * own GSAP version (3.13.0, pinned to what the prototype was built/tested
+ * against — deliberately not shared with the landing template's 3.12.5 to
+ * avoid changing that page's tested behavior).
+ */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_page() || get_page_template_slug( get_the_ID() ) !== 'templates/template-apex-homepage.php' ) return;
+
+	wp_enqueue_style(
+		'apex-home-fonts',
+		'https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap',
+		array(),
+		null
+	);
+	wp_enqueue_style( 'apex-home-main', APEX_LP_URL . 'assets/css/homepage.css', array(), APEX_LP_VERSION );
+
+	wp_enqueue_script( 'apex-home-gsap', APEX_LP_URL . 'assets/vendor/gsap-3.13.0.min.js', array(), '3.13.0', true );
+	wp_enqueue_script( 'apex-home-scrolltrigger', APEX_LP_URL . 'assets/vendor/ScrollTrigger-3.13.0.min.js', array( 'apex-home-gsap' ), '3.13.0', true );
+	wp_enqueue_script( 'apex-home-script', APEX_LP_URL . 'assets/js/homepage.js', array( 'apex-home-gsap', 'apex-home-scrolltrigger' ), APEX_LP_VERSION, true );
+} );
+
+/**
  * Animation scripts are order-sensitive. Keep performance plugins from
  * delaying, combining, or moving them independently of their dependencies.
  */
 function apex_lp_animation_script_needles() {
-	return array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion', 'assets/vendor/gsap.min.js', 'assets/vendor/ScrollTrigger.min.js', 'assets/vendor/lenis.min.js', 'assets/js/motion.js' );
+	return array(
+		'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion',
+		'assets/vendor/gsap.min.js', 'assets/vendor/ScrollTrigger.min.js', 'assets/vendor/lenis.min.js', 'assets/js/motion.js',
+		'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script',
+		'assets/vendor/gsap-3.13.0.min.js', 'assets/vendor/ScrollTrigger-3.13.0.min.js', 'assets/js/homepage.js',
+	);
 }
 
 add_filter( 'script_loader_tag', function ( $tag, $handle ) {
-	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion' ), true ) ) {
+	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion', 'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script' ), true ) ) {
 		$tag = str_replace( '<script ', '<script data-no-optimize="1" data-cfasync="false" ', $tag );
 	}
 	return $tag;
