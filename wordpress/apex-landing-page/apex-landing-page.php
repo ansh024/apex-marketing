@@ -146,3 +146,28 @@ foreach ( array( 'litespeed_optimize_js_excludes', 'litespeed_optm_js_defer_exc'
 		return array_values( array_unique( array_merge( $exclusions, apex_lp_animation_script_needles() ) ) );
 	} );
 }
+
+/**
+ * Both templates' CSS is deliberately self-contained (own font, own tokens,
+ * own colors) — it is written to stand alone, not to merge with the theme's
+ * or Elementor's site-wide styles. LiteSpeed's CSS Combine setting was
+ * folding it into one sitewide bundle regardless, which silently reorders
+ * the cascade: generic bare selectors we rely on (a, body, h1 — see
+ * `a { color: inherit }` etc.) started losing to the theme/Elementor's own
+ * same-specificity rules once combined, instead of winning on load order
+ * the way they do as separate stylesheets. Symptom on the live homepage:
+ * washed-out (theme gray) body/heading text and stray pink (Elementor
+ * accent) nav links and borders — both templates' color tokens never
+ * actually changed, the cascade just stopped landing them last.
+ */
+function apex_lp_css_exclude_needles() {
+	return array(
+		'assets/css/main.css',      // apex-lp-main — the landing template
+		'assets/css/homepage.css',  // apex-home-main — the homepage template
+	);
+}
+
+add_filter( 'litespeed_optimize_css_excludes', function ( $excludes ) {
+	$excludes = is_array( $excludes ) ? $excludes : array();
+	return array_values( array_unique( array_merge( $excludes, apex_lp_css_exclude_needles() ) ) );
+} );
