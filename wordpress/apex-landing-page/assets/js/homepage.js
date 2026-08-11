@@ -722,6 +722,7 @@ window.APX = { PALETTE, ridged, fbm, ridgeline, relief, haze, separate, separate
   let spinTick = () => {};
   (function () {
     const plot = document.getElementById('plot'), list = document.getElementById('list');
+    const listRow1 = document.getElementById('listRow1'), listRow2 = document.getElementById('listRow2');
     if (!plot) return;
     const tally = document.getElementById('tally');
     if (tally) tally.textContent = SECTORS.length;
@@ -768,9 +769,25 @@ window.APX = { PALETTE, ridged, fbm, ridgeline, relief, haze, separate, separate
         x: Math.sin(phi)*Math.cos(th), y: Math.cos(phi), z: Math.sin(phi)*Math.sin(th) });
 
       const li = document.createElement('a'); li.href = '#';
-      li.innerHTML = '<i></i><span class="data data--nano">' + name + '</span>'; list.appendChild(li);
+      li.innerHTML = '<i></i><span class="data data--nano">' + name + '</span>';
+      (i % 2 === 0 ? listRow1 : listRow2).appendChild(li);
     });
     plot.appendChild(reading);
+
+    /* Seamless marquee loop: duplicate each row's items once more so the
+       CSS animation can run to translateX(-50%) and jump back invisibly.
+       The duplicate is a real DOM copy for the visual loop but carries no
+       assistive-tech presence — display:contents keeps it out of layout
+       (the items sit inline in the same flex row) while aria-hidden keeps
+       screen readers from hitting every sector twice. */
+    [listRow1, listRow2].forEach(row => {
+      if (!row) return;
+      const dup = document.createElement('div');
+      dup.setAttribute('aria-hidden', 'true');
+      dup.style.display = 'contents';
+      dup.innerHTML = row.innerHTML;
+      row.appendChild(dup);
+    });
 
     /* rotation: eased toward the cursor, with a slow idle drift so the volume
        is alive before you touch it (L10/L16) */

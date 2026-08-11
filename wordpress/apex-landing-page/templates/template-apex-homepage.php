@@ -182,7 +182,10 @@ $apex_home_url   = get_permalink();
     </header>
     <div class="plot" id="plot" role="list" aria-label="Industries">
     </div>
-    <nav class="ind__list" id="list" aria-label="Industries"></nav>
+    <nav class="ind__list" id="list" aria-label="Industries">
+      <div class="ind__track" id="listRow1"></div>
+      <div class="ind__track" id="listRow2"></div>
+    </nav>
   </div>
 </section>
 

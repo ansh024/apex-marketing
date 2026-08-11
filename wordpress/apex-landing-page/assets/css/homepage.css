@@ -205,12 +205,13 @@ a { color: inherit; }
 .nav__pill {
   pointer-events: auto;
   display: flex; align-items: center; gap: var(--s-6);
-  padding: 8px 8px 8px var(--s-6);
+  padding: 6px 6px 6px var(--s-6);
   background: rgba(238,238,238,0.72);
   -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
   border: var(--hair) solid var(--rule-strong);
   border-radius: var(--r-pill);
 }
+.nav .btn { padding: 10px 20px; }
 .nav__link { text-decoration: none; opacity: 0.72; transition: opacity var(--d-fast); }
 .nav__link:hover { opacity: 1; }
 
@@ -441,7 +442,23 @@ a { color: inherit; }
 .reading__go { display:flex; align-items:center; justify-content:space-between; gap:6px;
   padding:var(--s-3) var(--s-4); border-top:var(--hair) solid rgba(238,238,238,.14); color:var(--pink); }
 
+/* Mobile/tablet gets a horizontally auto-scrolling marquee instead of the
+   sphere (which needs cursor-driven rotation desktop alone can offer) — two
+   rows, crossing directions, brand pills instead of a plain link list.
+   Desktop is untouched: .plot stays the sphere, this block stays display:none
+   until the ≤1023px override turns it on. */
 .ind__list { display:none; }
+.ind__track { display:flex; gap:var(--s-3); width:max-content; will-change:transform; }
+.ind__track a {
+  display:inline-flex; align-items:center; min-height:44px;
+  padding:10px 18px; white-space:nowrap;
+  border:var(--hair) solid var(--rule-strong); border-radius:var(--r-pill);
+  background:var(--paper-raised); color:var(--ink); text-decoration:none;
+}
+.ind__track a:nth-child(5n) { background:var(--ink); border-color:var(--ink); color:var(--paper); }
+.ind__track i { display:none; }
+@keyframes ind-scroll-left  { to   { transform:translateX(-50%); } }
+@keyframes ind-scroll-right { from { transform:translateX(-50%); } to { transform:translateX(0); } }
 
 /* ══ REDLINE — accordion (Jasper geometry) ═════════════════════ ═
    One open row at a time inside a ruled stack; the open row takes a
@@ -633,10 +650,10 @@ a { color: inherit; }
 /* R1: nav pill overflowed under ~900px — links collapse, brand + CTA stay */
 @media (max-width: 899px){
   .nav__link { display:none; }
-  .nav__pill { gap: var(--s-3); padding: 8px 8px 8px var(--s-4); }
+  .nav__pill { gap: var(--s-3); padding: 6px 6px 6px var(--s-4); }
 }
-/* A2: link tap height — the pill's visual size is fine, the target wasn't */
-.nav__link { padding-block: 13px; }
+/* A2: link tap height, balanced against the squeezed pill (later revision) */
+.nav__link { padding-block: 10px; }
 /* T1: numerals in data roles align as columns (typeset.md) */
 .tier__num, .annot__val, .ind__tally, .founder__n,
 .tier__list .data--nano { font-variant-numeric: tabular-nums; }
@@ -682,10 +699,16 @@ a { color: inherit; }
   .ascent__copy { grid-column:1 / span 12; }
   .ascent__reveal { max-width:18ch; }
   .ascent__media { position:relative; right:auto; bottom:auto; grid-column:1 / span 12; justify-self:center; height:56vh; }
-  .ind__list { display:grid; grid-template-columns:1fr 1fr; gap:0 var(--s-6); }
-  .ind__list a { display:flex; align-items:center; gap:8px; padding-block:var(--s-3);
-    border-bottom:var(--hair) solid var(--rule); text-decoration:none; color:var(--ink); }
-  .ind__list i { width:5px; height:5px; background:var(--blue); flex:none; }
+  .ind__list {
+    display:flex; flex-direction:column; gap:var(--s-4);
+    margin-inline:calc(var(--gutter) * -1); padding-inline:var(--gutter);
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);
+            mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);
+  }
+  .ind__track:nth-child(1) { animation:ind-scroll-left 46s linear infinite; }
+  .ind__track:nth-child(2) { animation:ind-scroll-right 52s linear infinite; }
+  .ind__list:hover .ind__track, .ind__list:focus-within .ind__track { animation-play-state:paused; }
   /* the artwork stops overlapping and takes the top of the stack */
   .red__art { position:relative; inset:auto; transform:none; width:100%; max-width:none;
     height:clamp(300px,62vw,380px); margin-bottom:var(--s-8); }
@@ -701,11 +724,21 @@ a { color: inherit; }
      the decorative half of the rail and goes, so the list stays unwrapped */
   .hero__idx, .hero__scroll { display:none; }
   .hero__rail { justify-content:flex-start; }
+  /* Mobile hero ran ~260px of dead top padding before the headline even
+     started, on top of a 100vh floor — the relief and rail were pushed off
+     the first screen entirely. Cuts the top offset by roughly a third and
+     drops the height floor so the section reads as one composed screen. */
+  .hero { min-height:auto; }
+  .hero__body { padding-block: clamp(88px, 15vh, 168px) var(--s-5); }
+  /* the ascent pin is already 100svh; the 200svh scroll TRACK above it is
+     what read as "too tall" — two full screens of scroll to clear one
+     section. Collapsing the track to match the pin removes the extra
+     scroll-scrub distance on small screens without touching desktop. */
+  .ascent { height:100svh; }
   /* M0 — 36 sectors one-per-row was ~1,580px of scrolling on a phone, about
      two full screens of list. The widest label needs 151px and two columns
      at this gap give 161px, so it stays on one line and the section halves. */
-  .ind__list { grid-template-columns:1fr 1fr; gap:0 var(--s-3); }
-  .ind__list a { gap:6px; }
+  .ind__track a { padding:8px 14px; font-size:.8125rem; }
   .foot__grid { grid-template-columns:1fr; }
   .book { min-height:600px; }
   .book__body { gap:var(--s-6); }
@@ -754,15 +787,14 @@ a { color: inherit; }
   /* M6 — the artwork box was holding a 300px floor for a 240px image */
   .red__art { height:auto; }
 }
-/* M7 — below ~360px the two sector columns stop fitting "Financial advice"
-   on one line, so the list goes back to a single column. */
-@media (max-width:359px){
-  .ind__list { grid-template-columns:1fr; }
-}
 @media (prefers-reduced-motion:reduce){
   .ascent { height:auto; }
   .ascent__pin { position:relative; height:auto; }
   .ascent__reveal .word { color:var(--paper); transition:none; }
+  /* the marquee is auto-playing motion — stop it and fall back to an
+     ordinary swipeable row, same content, user-driven only */
+  .ind__track { animation:none !important; }
+  .ind__list { overflow-x:auto; -webkit-overflow-scrolling:touch; }
   /* no timer, no dwell bar — the accordion is click-only */
   .clause__bar { display:none; }
   .red__play { display:none; }
