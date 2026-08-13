@@ -36,6 +36,18 @@ close, not worth waiting for.
 
 ---
 
+## 1a. Decisions taken
+
+- **Elementor Pro is active.** So location pages are one dynamic template over a `location` CPT
+  (§7), not per-city imports.
+- **Design target is the calm, pure-Elementor version.** Brand colors, type, spacing and layout
+  language carry over; the canvas/riso/GSAP effects do not. No plugin CSS dependency on the
+  location pages — see §6 and §9.
+- **Atomic first, V3 as a deliberate fallback.** V4 renders atomic and V3/Pro widgets on the same
+  page, so anything V4 can't yet do (see the `e-grid` gap in §2, and Pro-only widgets like forms
+  or loop grids) uses a mature V3/Pro widget instead of being faked in atomic markup. Falling back
+  to a real widget is always better than an HTML widget.
+
 ## 2. The atomic data model
 
 This is the part every third-party tutorial gets wrong. Atomic elements do **not** use the flat
@@ -160,6 +172,21 @@ JSON is a supported import**, not a hack.
 
 Import: **Templates → Saved Templates → Import Templates**, single `.json` or a `.zip` of several.
 
+### Three export paths, and which one to use
+
+The saved-template JSON above is one of three mechanisms. They are not interchangeable:
+
+| Path | Carries | Granularity | Use it for |
+|---|---|---|---|
+| **Saved template JSON** | one template + its used classes/variables | one template | the location template itself |
+| **Design-system ZIP** | global variables + global classes | **all or nothing** | seeding the brand tokens once |
+| **Website-template ZIP** | pages, templates, site settings, media | plan-dependent | full-site moves, not this |
+
+The design-system ZIP imports the *entire* design system rather than a selected subset, which
+makes it a one-time seeding tool, not part of the iteration loop. Once the tokens are on the site,
+the saved-template JSON is the thing we hand over repeatedly — it carries only the classes it
+actually uses and merges them by label, so re-importing a revised template doesn't churn the kit.
+
 ---
 
 ## 4. Why the blog template needed rework, and what changes
@@ -244,29 +271,80 @@ Elementor's own guidance for repeating layouts is explicit: a design that repeat
 For local SEO you still need N indexable URLs with unique content — those aren't in conflict. The
 structure that satisfies both:
 
-- A `location` custom post type, one entry per city, holding the per-city fields (city, service
-  area, phone, testimonials, map, local copy).
+- A `location` custom post type, one entry per city.
 - **One** Elementor `single-location` theme template that renders any of them via dynamic tags.
 - Adding a city = adding a CPT entry and filling fields. No page building, no template import.
 
-That is the "less work from my end" answer. **It requires Elementor Pro** — the Theme Builder,
-dynamic tags, and loop widgets are all Pro. On free Elementor the fallback is a saved template
-imported once per city and edited by hand, which is roughly 20 minutes per city forever.
+Pro is active, so this is the path. Atomic V4 elements support WordPress and post dynamic tags,
+and Pro can additionally bind ACF fields — so the field source (registered post meta vs ACF) is an
+implementation choice, not a constraint on the design.
+
+Working field list, to be confirmed against the design references:
+
+| Group | Fields |
+|---|---|
+| Identity | city, state |
+| Hero | hero copy (headline / subhead) |
+| Proof | localized proof — reviews, results, client names for that market |
+| Offer | services offered in that market |
+| Local | nearby areas served |
+| Support | FAQs |
+| Contact | map data, phone, address / service-area |
+| SEO | title, meta description, canonical, schema fields |
+
+Two of these need a shape decision before the template is built, because they're repeaters rather
+than single values: **services** and **nearby areas** (and FAQs, if they vary by city). Repeating
+content in Elementor is either a loop over a related CPT/taxonomy, an ACF repeater, or a fixed
+number of discrete fields. Cheapest that still scales is usually a taxonomy for service areas plus
+a shared FAQ set with optional per-city overrides — but this depends on how different the cities
+really are, which the references should settle.
 
 ---
 
-## 8. Before the build starts — needs checking on the live site
+## 8. Hard constraint: location pages must not use the Apex PHP template path
+
+This is the trap most likely to produce a blank-looking location page, and it lives in this repo.
+
+`apex-landing-page.php:205-217` dequeues **every enqueued stylesheet except a five-handle
+allowlist** (`apex-lp-fonts`, `apex-lp-main`, `apex-home-fonts`, `apex-home-main`, `admin-bar`) on
+any page assigned one of the three Apex templates. That was a deliberate fix — Elementor
+unconditionally enqueues its kit CSS on every frontend page, and it was fighting the homepage's
+bare-selector CSS. On a page built *with* Elementor it would strip the page's own styling.
+
+`apex-lp-templates()` also drives a `litespeed_optm_uri_exc` entry (`:177-183`) that opts those
+URLs out of LiteSpeed optimization entirely.
+
+**So: location pages go through the normal Elementor page/template path and are never registered
+as an Apex PHP page template.** Concretely:
+
+- Do not add a location template to `apex_lp_templates()`.
+- Do not assign an Apex template to a location page in Page Attributes.
+
+The CPT route is naturally safe here — both guards test `is_page()`, which is false for a
+`location` CPT single, so neither the dequeue nor the LiteSpeed exclusion can fire. No plugin
+change is needed to keep location pages clear of it; it only has to stay that way.
+
+One consequence to watch: because the LiteSpeed exclusion won't cover location pages, they run
+through the normal optimization pipeline. Elementor pages usually survive it, but Remove Unused
+CSS is the same feature that corrupted the homepage's colors, so it's the first thing to suspect
+if a location page renders unstyled.
+
+## 9. Before the build starts — needs checking on the live site
 
 I can't inspect apex-marketing.ai from this environment (outbound requests to it and to
 wordpress.org are blocked by the sandbox's egress policy), so these have to be read off the site:
 
 1. **Elementor version** — Elementor → About / plugin list. Needs to be 4.0.x for atomic elements.
-2. **Elementor Pro?** — decides §7 entirely.
-3. **`e_opt_in_v4` on?** — Elementor → Settings → Features. Atomic elements do not exist until this
+2. **`e_opt_in_v4` on?** — Elementor → Settings → Features. Atomic elements do not exist until this
    is enabled. Enable it on staging first: it changes the editor for the whole site.
-4. **Is there a staging site?** — first import should never land on production.
-5. **Existing global classes/variables** — if a kit already has them, our labels must not collide,
+3. **Is there a staging site?** — first import should never land on production.
+4. **Existing global classes/variables** — if a kit already has them, our labels must not collide,
    since import merges by label.
+5. **Does the kit already have a header/footer?** — location pages should use the site's Elementor
+   header/footer rather than reproducing the homepage's hand-coded nav, which is not an Elementor
+   template and can't be reused.
+
+(Elementor Pro is confirmed active, so the §7 question is settled.)
 
 ---
 
