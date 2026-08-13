@@ -11,6 +11,17 @@ Read this before designing a new page. Sections 1–8 are the language. §9 is w
 > system (Fraunces / Inter / Poppins / Titillium / IBM Plex Mono). It is not the brand reference and
 > new pages must not inherit from it. Everything below comes from the homepage system.
 
+> **Canonical source, 2026-08-13.** A packaged design-system skill (`apex-marketing-design`) now
+> exists with the same tokens under an `apex-` class prefix, semantic aliases (`--surface-page`,
+> `--text-body`, `--accent-draw`, …), and named components with `.prompt.md` usage notes —
+> `Button`, `DataLabel`, `Wordmark`, `Plate`, `GridField`, `SurveyMark`, `NavPill`, `ServicePlate`,
+> `PricingTier`, `FeatureTile`, `Clause`, `GooglePartnerBadge`, `Portrait`, `StatBlock`,
+> `IndustryPill`, `AdmitTicket`. Values match this file exactly (it was built from the same source);
+> treat that skill as the day-to-day reference for exact class names and markup, this file as the
+> narrative "why" behind the rules. `FeatureTile`, `StatBlock`, `IndustryPill`, `GridField`,
+> `DataLabel`, `Wordmark`, `Plate`, `SurveyMark` are named components there despite being global
+> classes here — same CSS, just formalized as reusable pieces once a second page needed them.
+
 ---
 
 ## 1. The idea
@@ -324,6 +335,18 @@ Two constraints from the Elementor research that shape how they're written:
 step them at Elementor's breakpoints using the desktop/tablet/mobile ends of each clamp.
 
 ---
+
+## 11a. Location pages — applied
+
+`design/location-pages/` carries this out for a concrete page (Austin, TX): the full section
+checklist below, built with zero JavaScript and nothing outside the atomic style schema — see
+that folder's README for what's there and why. `elementor-templates/` has the same page as an
+Elementor `build-composition` payload, plus the global-variable/global-class definitions it
+depends on. Read both READMEs before starting the next city; they record decisions (no
+duplicated pricing table, no fabricated local proof, a real answer to the "competing
+businesses" FAQ that conflicts with the landing template's stronger existing promise and
+needs a policy call before either gets copied onto the other) that a second design pass would
+otherwise redo or contradict.
 
 ## 11. Checklist for a new page
 

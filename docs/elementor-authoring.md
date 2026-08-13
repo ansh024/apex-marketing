@@ -243,7 +243,10 @@ either way:
   are not converted to variants and are also stripped.
 - Don't set `height`/`width` without a specific reason; let flex size things.
 
-Until it's released, we hand-author the JSON to the same shape.
+Until it's released, we hand-author *this* payload shape — the XML + plain config + plain CSS
+`build-composition` accepts — rather than the raw `$$type`-wrapped document JSON from §2. See §10:
+that raw shape turned out to have real, unresolved ambiguity that the composition payload sidesteps
+entirely.
 
 ---
 
@@ -348,11 +351,55 @@ wordpress.org are blocked by the sandbox's egress policy), so these have to be r
 
 ---
 
+## 10. What building the first real template actually found
+
+`design/location-pages/austin-tx.html` (the design) and `elementor-templates/location-page.json`
+(the Elementor payload) are the applied result of everything above, for a concrete page. Two things
+only showed up by actually attempting it:
+
+**The raw `$$type` document shape from §2 has a real ambiguity this project could not resolve.**
+`Object_Prop_Type`'s validate/sanitize logic (`prop-types/base/object-prop-type.php`) reads as if
+every field inside an object-shaped prop — `size`'s `{unit, size}`, `link`'s `{destination, ...}` —
+is itself individually `$$type`-wrapped. But the one real example in source
+(`Size_Prop_Type::generate(['unit' => 'px', 'size' => 0])` in `atomic-heading.php`'s base styles)
+passes those fields in **raw**, unwrapped. Both readings are defensible from the code; nothing
+in the sparse-checked source settles which one the parser actually expects for a *style variant*
+specifically (as opposed to a widget *setting*, which may not even use the same code path). With no
+live Elementor instance reachable to test against, and styles failing **soft** on a mismatch
+(§2 — silently unstyled, not an error), hand-authoring the raw shape risked shipping exactly the
+failure this project exists to avoid: it would *look* fine and only prove wrong later.
+
+So `location-page.json` is not that raw shape. It's the `build-composition` **input** payload from
+§5 — plain XML, plain `element_config` (verified directly against the widget prop names in
+`elements/*/atomic-*.php` — e.g. confirming `e-button` uses a `text` prop, not `content`), and plain
+CSS text for `style`. Elementor's own server does the type-wrapping and CSS conversion, so this
+project never has to get that ambiguity right by hand. Trade-off stated in §1: `build-composition`
+isn't released yet, so this is ready for the moment it (or a self-hosted MCP client) is reachable,
+not something importable today. `elementor-templates/README.md` has the current manual workaround.
+
+**Global *variables* can't hold a `clamp()`.** A V4 Size variable is a structured `{size, unit}`
+pair — there's no slot for `clamp(2.1rem, 1rem + 3.4vw, 4.25rem)`. Only flat, non-fluid tokens (the
+`s-1`…`s-11` spacing ramp, `hair`, the radii, the container max-width) became global variables in
+the generated payload. The fluid type scale, `--gutter`, `--section-pad` and `--grid-cell` stay as
+literal CSS with explicit `@media(--breakpoint)` steps inside each element's own style, never as a
+`var()` reference. Budget for that when scoping how much of `docs/design.md`'s token list is
+"portable" — it's the flat half, not all of it.
+
+`scripts/build_elementor_location_composition.py` generates the payload from a small Python tree
+DSL rather than hand-typed JSON, specifically so 141 elements' worth of configuration-ids, style
+strings and class references can be validated (uniqueness, XML well-formedness, every referenced
+class actually defined) before anything is written — the generator catches the kind of mistake
+hand-typing would only surface as a silently-dropped style.
+
+---
+
 ## Sources
 
 All file paths above are in `github.com/elementor/elementor`. Primary references:
 
 - `modules/atomic-widgets/` — element definitions, prop types, style schema, import/export
+- `modules/atomic-widgets/prop-types/base/` — the `Plain_Prop_Type` / `Object_Prop_Type` /
+  `Array_Prop_Type` wrapping logic behind the §10 ambiguity
 - `modules/atomic-opt-in/` — the `e_opt_in_v4` gate
 - `modules/global-classes/utils/`, `modules/variables/utils/` — template snapshot embedding
 - `includes/template-library/sources/local.php` — the JSON envelope
