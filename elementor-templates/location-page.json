@@ -1,5 +1,18 @@
 {
-  "_readme": "Payload for Elementor's `elementor/build-composition` MCP tool (not released yet — see docs/elementor-authoring.md §5). Apply in this order once reachable: 1) elementor/manage-global-variable for each entry in global_variables, 2) elementor/manage-classes for each entry in global_classes, 3) elementor/build-composition with the composition block below, against the single-location template's content, parent_id: 'document', mode: 'replace_children'. See elementor-templates/README.md for the manual (no-MCP) path.",
+  "_readme": "Payload for Elementor's `elementor/build-composition` MCP tool. Apply in order: 1) elementor/manage-global-variable per entry in global_variables, 2) elementor/manage-classes per entry in global_classes, 3) elementor/build-composition with the composition block, against the single-location template, parent_id 'document', mode 'replace_children'. Then add the booking form as an HTML widget inside 'Book Form Slot' (see elementor-templates/README.md). Header, footer and nav are Theme Builder parts and are deliberately not in this composition.",
+  "manual_steps": [
+    {
+      "target": "Book Form Slot",
+      "why": "No atomic iframe element exists; this is the sanctioned V3 fallback.",
+      "action": "Drop an Elementor HTML widget inside this div and paste the iframe.",
+      "html": "<iframe src=\"https://api.leadconnectorhq.com/widget/form/PV33s1v3pTF8y2bzSIIs\" title=\"Book a free strategy call with Apex Marketing\" style=\"width:100%;min-height:640px;border:0;display:block\" loading=\"lazy\"></iframe>"
+    },
+    {
+      "target": "FAQ section",
+      "why": "<details> has no atomic equivalent in the released widget set.",
+      "action": "Optional: replace the FAQ rows with Elementor Pro's Accordion widget for collapse behaviour. Same six questions and answers either way."
+    }
+  ],
   "global_variables": [
     {
       "label": "paper",
@@ -62,11 +75,6 @@
       "value": "#151A2C"
     },
     {
-      "label": "night-raised",
-      "type": "color",
-      "value": "#1E2438"
-    },
-    {
       "label": "rule",
       "type": "color",
       "value": "rgba(0,0,0,0.10)"
@@ -75,6 +83,76 @@
       "label": "rule-strong",
       "type": "color",
       "value": "rgba(0,0,0,0.22)"
+    },
+    {
+      "label": "tone-mint",
+      "type": "color",
+      "value": "#198F7B"
+    },
+    {
+      "label": "tone-lavender",
+      "type": "color",
+      "value": "#6354C7"
+    },
+    {
+      "label": "pc-a-bg",
+      "type": "color",
+      "value": "#F6F8DC"
+    },
+    {
+      "label": "pc-a-band",
+      "type": "color",
+      "value": "#EAF1A8"
+    },
+    {
+      "label": "pc-a-rule",
+      "type": "color",
+      "value": "#A7B833"
+    },
+    {
+      "label": "pc-b-bg",
+      "type": "color",
+      "value": "#FBEDF8"
+    },
+    {
+      "label": "pc-b-band",
+      "type": "color",
+      "value": "#F5D6EE"
+    },
+    {
+      "label": "pc-b-rule",
+      "type": "color",
+      "value": "#D86ABF"
+    },
+    {
+      "label": "pc-c-bg",
+      "type": "color",
+      "value": "#EDF9EE"
+    },
+    {
+      "label": "pc-c-band",
+      "type": "color",
+      "value": "#D8F1D9"
+    },
+    {
+      "label": "pc-c-rule",
+      "type": "color",
+      "value": "#63AD6A"
+    },
+    {
+      "label": "pc-d-bg",
+      "type": "color",
+      "value": "#EEF0FF"
+    },
+    {
+      "label": "pc-d-band",
+      "type": "color",
+      "value": "#DDE1FF"
+    },
+    {
+      "label": "pc-d-rule",
+      "type": "color",
+      "value": "#7587E8"
     },
     {
       "label": "s-1",
@@ -153,7 +231,7 @@
       "style": "width: 100%; margin-left: auto; margin-right: auto; max-width: var(--container-max); padding-right: 20px; padding-left: 20px; @media(--tablet) { padding-right: 40px; padding-left: 40px; } @media(--laptop) { padding-right: 64px; padding-left: 64px; }"
     },
     {
-      "label": "h1",
+      "label": "hero-h1",
       "style": "font-size: 2.9rem; line-height: 0.9; letter-spacing: -0.048em; font-weight: 600; @media(--tablet) { font-size: 4.2rem; } @media(--laptop) { font-size: 5.95rem; }"
     },
     {
@@ -178,39 +256,43 @@
     },
     {
       "label": "data-nano",
-      "style": "font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase;"
-    },
-    {
-      "label": "eyebrow",
-      "style": "font-size: 0.6875rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-deep);"
+      "style": "font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; @media(--laptop) { font-size: 0.6875rem; }"
     },
     {
       "label": "btn",
-      "style": "display: inline-flex; align-items: center; column-gap: 8px; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; padding-top: 14px; padding-right: 24px; padding-bottom: 14px; padding-left: 24px;border-top-left-radius: var(--r-pill); border-top-right-radius: var(--r-pill); border-bottom-right-radius: var(--r-pill); border-bottom-left-radius: var(--r-pill);border-top-width: 1px; border-top-style: solid; border-top-color: var(--ink);border-right-width: 1px; border-right-style: solid; border-right-color: var(--ink);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--ink);border-left-width: 1px; border-left-style: solid; border-left-color: var(--ink); background-color: var(--ink); color: var(--paper); text-decoration: none; &:hover { background-color: var(--blue); border-top-color: var(--blue); border-right-color: var(--blue); border-bottom-color: var(--blue); border-left-color: var(--blue); color: #ffffff; }"
+      "style": "display: inline-flex; align-items: center; justify-content: center; min-height: 44px; column-gap: 8px; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; padding-top: 14px; padding-right: 24px; padding-bottom: 14px; padding-left: 24px;border-top-left-radius: var(--r-pill);border-top-right-radius: var(--r-pill);border-bottom-right-radius: var(--r-pill);border-bottom-left-radius: var(--r-pill);border-top-width: 1px; border-top-style: solid; border-top-color: var(--ink);border-right-width: 1px; border-right-style: solid; border-right-color: var(--ink);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--ink);border-left-width: 1px; border-left-style: solid; border-left-color: var(--ink); background-color: var(--ink); color: var(--paper); text-decoration: none; &:hover { background-color: var(--blue); border-top-color: var(--blue); border-right-color: var(--blue); border-bottom-color: var(--blue); border-left-color: var(--blue); color: #ffffff; }"
     },
     {
       "label": "btn-ghost",
       "style": "background-color: transparent; color: var(--ink); border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);border-right-width: 1px; border-right-style: solid; border-right-color: var(--rule-strong);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong);border-left-width: 1px; border-left-style: solid; border-left-color: var(--rule-strong); &:hover { background-color: var(--ink); color: var(--paper); border-top-color: var(--ink); border-right-color: var(--ink); border-bottom-color: var(--ink); border-left-color: var(--ink); }"
     },
     {
-      "label": "btn-paper",
-      "style": "background-color: var(--paper); color: var(--night); border-top-width: 1px; border-top-style: solid; border-top-color: var(--paper);border-right-width: 1px; border-right-style: solid; border-right-color: var(--paper);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--paper);border-left-width: 1px; border-left-style: solid; border-left-color: var(--paper); &:hover { background-color: var(--blue); color: var(--paper); }"
-    },
-    {
       "label": "section",
       "style": "position: relative; background-color: var(--paper); padding-top: 96px; padding-bottom: 96px; @media(--laptop) { padding-top: 160px; padding-bottom: 160px; }"
-    },
-    {
-      "label": "section-tight",
-      "style": "padding-top: var(--s-8); padding-bottom: var(--s-8);"
     },
     {
       "label": "section-raised",
       "style": "background-color: var(--paper-raised);"
     },
     {
+      "label": "section-tight",
+      "style": "padding-top: 64px; padding-bottom: 64px;"
+    },
+    {
+      "label": "grid-field",
+      "style": "position: absolute; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none; opacity: 0.05; background-image: linear-gradient(to right, var(--ink) 1px, transparent 1px), linear-gradient(to bottom, var(--ink) 1px, transparent 1px); background-size: 220px 220px;"
+    },
+    {
+      "label": "plate",
+      "style": "position: relative; background-color: var(--paper-raised); border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);border-right-width: 1px; border-right-style: solid; border-right-color: var(--rule-strong);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong);border-left-width: 1px; border-left-style: solid; border-left-color: var(--rule-strong);border-top-left-radius: var(--r-sm);border-top-right-radius: var(--r-sm);border-bottom-right-radius: var(--r-sm);border-bottom-left-radius: var(--r-sm); overflow: hidden;"
+    },
+    {
+      "label": "plate-row",
+      "style": "display: flex; justify-content: space-between; align-items: baseline; column-gap: 16px;padding-top: 12px; padding-bottom: 12px;border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule);"
+    },
+    {
       "label": "stat-n",
-      "style": "font-size: 1.75rem; font-weight: 600; letter-spacing: -0.04em; line-height: 1; @media(--laptop) { font-size: 2.5rem; }"
+      "style": "font-size: 1.75rem; font-weight: 600; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; @media(--laptop) { font-size: 2.5rem; }"
     },
     {
       "label": "stat-k",
@@ -218,11 +300,11 @@
     },
     {
       "label": "pc",
-      "style": "position: relative; display: flex; flex-direction: column; border-top-width: 1px; border-top-style: solid; border-top-color: var(--pc-rule, var(--rule-strong));border-right-width: 1px; border-right-style: solid; border-right-color: var(--pc-rule, var(--rule-strong));border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--pc-rule, var(--rule-strong));border-left-width: 1px; border-left-style: solid; border-left-color: var(--pc-rule, var(--rule-strong));border-top-left-radius: var(--r-sm); border-top-right-radius: var(--r-sm); border-bottom-right-radius: var(--r-sm); border-bottom-left-radius: var(--r-sm); overflow: hidden; text-decoration: none; color: inherit; background-color: var(--pc-bg, var(--paper-raised));"
+      "style": "position: relative; display: flex; flex-direction: column; flex-grow: 1; flex-shrink: 1; flex-basis: 45%; min-width: 320px; border-top-width: 1px; border-top-style: solid; border-top-color: var(--pc-rule);border-right-width: 1px; border-right-style: solid; border-right-color: var(--pc-rule);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--pc-rule);border-left-width: 1px; border-left-style: solid; border-left-color: var(--pc-rule);border-top-left-radius: var(--r-sm);border-top-right-radius: var(--r-sm);border-bottom-right-radius: var(--r-sm);border-bottom-left-radius: var(--r-sm); overflow: hidden; text-decoration: none; color: inherit; background-color: var(--pc-bg);"
     },
     {
       "label": "pc-band",
-      "style": "padding-top: 24px; padding-right: 24px; padding-bottom: 16px; padding-left: 24px; background-color: var(--pc-band, var(--paper-raised)); border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--pc-rule, var(--rule-strong));"
+      "style": "padding-top: 24px; padding-right: 24px; padding-bottom: 16px; padding-left: 24px; background-color: var(--pc-band); border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--pc-rule);"
     },
     {
       "label": "pc-title",
@@ -230,7 +312,7 @@
     },
     {
       "label": "pc-fig",
-      "style": "position: relative; min-height: 240px; overflow: hidden; background-color: var(--pc-bg, var(--paper-raised));"
+      "style": "position: relative; min-height: 240px; overflow: hidden; background-color: var(--pc-bg);"
     },
     {
       "label": "pc-image",
@@ -238,19 +320,35 @@
     },
     {
       "label": "pc-foot",
-      "style": "position: relative; display: flex; align-items: flex-end; justify-content: space-between; column-gap: 16px;padding-top: 16px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background-color: var(--pc-band, var(--paper-raised)); border-top-width: 1px; border-top-style: solid; border-top-color: var(--pc-rule, var(--rule-strong));"
+      "style": "position: relative; display: flex; align-items: flex-end; justify-content: space-between; column-gap: 16px;padding-top: 16px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background-color: var(--pc-band); border-top-width: 1px; border-top-style: solid; border-top-color: var(--pc-rule);"
     },
     {
       "label": "pc-desc",
       "style": "font-size: 1rem; line-height: 1.45; color: var(--ink-muted); max-width: 38ch;"
     },
     {
+      "label": "pc-flag",
+      "style": "position: absolute; top: 0; right: 0; z-index: 2; background-color: var(--blue); color: #FFFFFF; padding-top: 6px; padding-right: 12px; padding-bottom: 6px; padding-left: 12px;"
+    },
+    {
+      "label": "clause-term",
+      "style": "font-size: 1.2rem; font-weight: 600; letter-spacing: -0.032em; line-height: 1.14; color: var(--ink); @media(--laptop) { font-size: 1.9rem; }"
+    },
+    {
+      "label": "clause-note",
+      "style": "font-size: 1rem; line-height: 1.55; color: var(--ink-muted); max-width: 46ch;"
+    },
+    {
       "label": "feature-tile",
-      "style": "display: flex; align-items: center; column-gap: 0.65rem; min-height: 3.5rem; padding-top: 0.7rem; padding-right: 0.8rem; padding-bottom: 0.7rem; padding-left: 0.8rem;border-top-width: 1px; border-top-style: solid; border-top-color: rgba(1,94,255,0.24);border-right-width: 1px; border-right-style: solid; border-right-color: rgba(1,94,255,0.24);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgba(1,94,255,0.24);border-left-width: 1px; border-left-style: solid; border-left-color: rgba(1,94,255,0.24); background-color: var(--paper-raised); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.055em; text-transform: uppercase; color: var(--ink);"
+      "style": "display: flex; align-items: center; column-gap: 0.65rem; min-height: 3.5rem; padding-top: 0.7rem; padding-right: 0.8rem; padding-bottom: 0.7rem; padding-left: 0.8rem;border-top-width: 1px; border-top-style: solid; border-top-color: rgba(1,94,255,0.24);border-right-width: 1px; border-right-style: solid; border-right-color: rgba(1,94,255,0.24);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: rgba(1,94,255,0.24);border-left-width: 1px; border-left-style: solid; border-left-color: rgba(1,94,255,0.24); background-color: var(--paper-raised); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.055em; text-transform: uppercase; color: var(--ink);"
     },
     {
       "label": "pill",
-      "style": "display: inline-flex; align-items: center; min-height: 44px; padding-top: 10px; padding-right: 18px; padding-bottom: 10px; padding-left: 18px;border-top-left-radius: var(--r-pill); border-top-right-radius: var(--r-pill); border-bottom-right-radius: var(--r-pill); border-bottom-left-radius: var(--r-pill);border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);border-right-width: 1px; border-right-style: solid; border-right-color: var(--rule-strong);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong);border-left-width: 1px; border-left-style: solid; border-left-color: var(--rule-strong); background-color: var(--paper-raised); color: var(--ink); text-decoration: none; &:hover { background-color: var(--ink); color: var(--paper); }"
+      "style": "display: inline-flex; align-items: center; min-height: 44px; padding-top: 10px; padding-right: 18px; padding-bottom: 10px; padding-left: 18px;border-top-left-radius: var(--r-pill);border-top-right-radius: var(--r-pill);border-bottom-right-radius: var(--r-pill);border-bottom-left-radius: var(--r-pill);border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);border-right-width: 1px; border-right-style: solid; border-right-color: var(--rule-strong);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong);border-left-width: 1px; border-left-style: solid; border-left-color: var(--rule-strong); background-color: var(--paper-raised); color: var(--ink);"
+    },
+    {
+      "label": "faq-row",
+      "style": "border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);padding-top: 24px; padding-bottom: 24px;"
     },
     {
       "label": "faq-q",
@@ -259,19 +357,18 @@
     {
       "label": "faq-a",
       "style": "color: var(--ink-muted); font-size: 1rem; line-height: 1.55; max-width: 62ch;"
-    },
-    {
-      "label": "faq-row",
-      "style": "border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);padding-top: 24px; padding-bottom: 24px;"
     }
   ],
   "composition": {
     "parent_id": "document",
     "mode": "replace_children",
-    "xml_structure": "<e-div-block configuration-id=\"Location Hero\"><e-flexbox configuration-id=\"Hero Container\"><e-flexbox configuration-id=\"Hero Breadcrumb\"><e-button configuration-id=\"Crumb Home\"></e-button><e-paragraph configuration-id=\"Crumb Sep 1\"></e-paragraph><e-button configuration-id=\"Crumb Locations\"></e-button><e-paragraph configuration-id=\"Crumb Sep 2\"></e-paragraph><e-paragraph configuration-id=\"Crumb Current\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Hero Lead\"><e-paragraph configuration-id=\"Hero Eyebrow\"></e-paragraph><e-heading configuration-id=\"Hero H1\"></e-heading><e-paragraph configuration-id=\"Hero Lede\"></e-paragraph><e-flexbox configuration-id=\"Hero CTA Row\"><e-button configuration-id=\"Hero Book Call\"></e-button><e-button configuration-id=\"Hero Call Phone\"></e-button></e-flexbox></e-flexbox></e-flexbox><e-flexbox configuration-id=\"Hero Rail\"><e-paragraph configuration-id=\"Rail Channels\"></e-paragraph><e-paragraph configuration-id=\"Rail Area\"></e-paragraph></e-flexbox></e-div-block><e-flexbox configuration-id=\"Proof Strip\"><e-flexbox configuration-id=\"Proof Container\"><e-paragraph configuration-id=\"Proof Eyebrow\"></e-paragraph><e-flexbox configuration-id=\"Proof Stats Row\"><e-flexbox configuration-id=\"Stat years in marketing\"><e-paragraph configuration-id=\"Stat years in marketing N\"></e-paragraph><e-paragraph configuration-id=\"Stat years in marketing K\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Stat accounts managed\"><e-paragraph configuration-id=\"Stat accounts managed N\"></e-paragraph><e-paragraph configuration-id=\"Stat accounts managed K\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Stat budget managed\"><e-paragraph configuration-id=\"Stat budget managed N\"></e-paragraph><e-paragraph configuration-id=\"Stat budget managed K\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Stat money-back guarantee\"><e-paragraph configuration-id=\"Stat money-back guarantee N\"></e-paragraph><e-paragraph configuration-id=\"Stat money-back guarantee K\"></e-paragraph></e-flexbox></e-flexbox></e-flexbox></e-flexbox><e-div-block configuration-id=\"Services Section\"><e-flexbox configuration-id=\"Services Container\"><e-flexbox configuration-id=\"Services Head\"><e-heading configuration-id=\"Services H2\"></e-heading><e-paragraph configuration-id=\"Services Lede\"></e-paragraph><e-button configuration-id=\"Services Audit CTA\"></e-button></e-flexbox><e-flexbox configuration-id=\"Services Grid\"><e-div-block configuration-id=\"Service Google Ads\"><e-paragraph configuration-id=\"Service Google Ads Flag\"></e-paragraph><e-div-block configuration-id=\"Service Google Ads Band\"><e-heading configuration-id=\"Service Google Ads Title\"></e-heading></e-div-block><e-div-block configuration-id=\"Service Google Ads Fig\"><e-image configuration-id=\"Service Google Ads Image\"></e-image></e-div-block><e-flexbox configuration-id=\"Service Google Ads Foot\"><e-paragraph configuration-id=\"Service Google Ads Desc\"></e-paragraph><e-paragraph configuration-id=\"Service Google Ads Arrow\"></e-paragraph></e-flexbox></e-div-block><e-div-block configuration-id=\"Service Meta Ads\"><e-div-block configuration-id=\"Service Meta Ads Band\"><e-heading configuration-id=\"Service Meta Ads Title\"></e-heading></e-div-block><e-div-block configuration-id=\"Service Meta Ads Fig\"><e-image configuration-id=\"Service Meta Ads Image\"></e-image></e-div-block><e-flexbox configuration-id=\"Service Meta Ads Foot\"><e-paragraph configuration-id=\"Service Meta Ads Desc\"></e-paragraph><e-paragraph configuration-id=\"Service Meta Ads Arrow\"></e-paragraph></e-flexbox></e-div-block><e-div-block configuration-id=\"Service SEO\"><e-div-block configuration-id=\"Service SEO Band\"><e-heading configuration-id=\"Service SEO Title\"></e-heading></e-div-block><e-div-block configuration-id=\"Service SEO Fig\"><e-image configuration-id=\"Service SEO Image\"></e-image></e-div-block><e-flexbox configuration-id=\"Service SEO Foot\"><e-paragraph configuration-id=\"Service SEO Desc\"></e-paragraph><e-paragraph configuration-id=\"Service SEO Arrow\"></e-paragraph></e-flexbox></e-div-block><e-div-block configuration-id=\"Service Website\"><e-div-block configuration-id=\"Service Website Band\"><e-heading configuration-id=\"Service Website Title\"></e-heading></e-div-block><e-div-block configuration-id=\"Service Website Fig\"><e-image configuration-id=\"Service Website Image\"></e-image></e-div-block><e-flexbox configuration-id=\"Service Website Foot\"><e-paragraph configuration-id=\"Service Website Desc\"></e-paragraph><e-paragraph configuration-id=\"Service Website Arrow\"></e-paragraph></e-flexbox></e-div-block></e-flexbox><e-flexbox configuration-id=\"Feature Tile Grid\"><e-paragraph configuration-id=\"Feature 1\"></e-paragraph><e-paragraph configuration-id=\"Feature 2\"></e-paragraph><e-paragraph configuration-id=\"Feature 3\"></e-paragraph><e-paragraph configuration-id=\"Feature 4\"></e-paragraph></e-flexbox><e-button configuration-id=\"Full Pricing Link\"></e-button></e-flexbox></e-div-block><e-div-block configuration-id=\"Service Area Section\"><e-flexbox configuration-id=\"Service Area Container\"><e-paragraph configuration-id=\"Service Area Eyebrow\"></e-paragraph><e-heading configuration-id=\"Service Area H2\"></e-heading><e-flexbox configuration-id=\"Area Pills\"><e-button configuration-id=\"Area Round Rock\"></e-button><e-button configuration-id=\"Area Cedar Park\"></e-button><e-button configuration-id=\"Area Georgetown\"></e-button><e-button configuration-id=\"Area Pflugerville\"></e-button><e-button configuration-id=\"Area San Marcos\"></e-button><e-button configuration-id=\"Area Leander\"></e-button><e-button configuration-id=\"Area Kyle\"></e-button><e-button configuration-id=\"Area Buda\"></e-button></e-flexbox></e-flexbox></e-div-block><e-div-block configuration-id=\"FAQ Section\"><e-flexbox configuration-id=\"FAQ Container\"><e-paragraph configuration-id=\"FAQ Eyebrow\"></e-paragraph><e-heading configuration-id=\"FAQ H2\"></e-heading><e-flexbox configuration-id=\"FAQ List\"><e-flexbox configuration-id=\"FAQ 1 Row\"><e-heading configuration-id=\"FAQ 1 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 1 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 2 Row\"><e-heading configuration-id=\"FAQ 2 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 2 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 3 Row\"><e-heading configuration-id=\"FAQ 3 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 3 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 4 Row\"><e-heading configuration-id=\"FAQ 4 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 4 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 5 Row\"><e-heading configuration-id=\"FAQ 5 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 5 A\"></e-paragraph></e-flexbox></e-flexbox></e-flexbox></e-div-block><e-flexbox configuration-id=\"Founder Section\"><e-flexbox configuration-id=\"Founder Container\"><e-div-block configuration-id=\"Founder Portrait\"><e-image configuration-id=\"Founder Photo\"></e-image><e-paragraph configuration-id=\"Founder Photo Caption\"></e-paragraph></e-div-block><e-flexbox configuration-id=\"Founder Copy\"><e-heading configuration-id=\"Founder H2\"></e-heading><e-paragraph configuration-id=\"Founder Quote\"></e-paragraph><e-flexbox configuration-id=\"Founder Stats\"><e-flexbox configuration-id=\"Founder Stat years in marketing\"><e-paragraph configuration-id=\"Founder Stat years in marketing N\"></e-paragraph><e-paragraph configuration-id=\"Founder Stat years in marketing K\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Founder Stat accounts managed\"><e-paragraph configuration-id=\"Founder Stat accounts managed N\"></e-paragraph><e-paragraph configuration-id=\"Founder Stat accounts managed K\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Founder Stat budget managed\"><e-paragraph configuration-id=\"Founder Stat budget managed N\"></e-paragraph><e-paragraph configuration-id=\"Founder Stat budget managed K\"></e-paragraph></e-flexbox></e-flexbox><e-paragraph configuration-id=\"Founder Signoff\"></e-paragraph><e-button configuration-id=\"Founder Book CTA\"></e-button></e-flexbox></e-flexbox></e-flexbox><e-flexbox configuration-id=\"Final CTA Section\"><e-flexbox configuration-id=\"CTA Container\"><e-paragraph configuration-id=\"CTA Eyebrow\"></e-paragraph><e-heading configuration-id=\"CTA H2\"></e-heading><e-paragraph configuration-id=\"CTA Lede\"></e-paragraph><e-flexbox configuration-id=\"CTA Button Row\"><e-button configuration-id=\"CTA Book Call\"></e-button><e-button configuration-id=\"CTA Call Phone\"></e-button></e-flexbox></e-flexbox></e-flexbox>",
+    "xml_structure": "<e-div-block configuration-id=\"Hero\"><e-div-block configuration-id=\"Hero Grid\"></e-div-block><e-flexbox configuration-id=\"Hero Container\"><e-flexbox configuration-id=\"Hero Breadcrumb\"><e-button configuration-id=\"Crumb Home\"></e-button><e-paragraph configuration-id=\"Crumb Sep\"></e-paragraph><e-paragraph configuration-id=\"Crumb Current\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Hero Cols\"><e-flexbox configuration-id=\"Hero Lead\"><e-heading configuration-id=\"Hero H1\"></e-heading><e-paragraph configuration-id=\"Hero Lede\"></e-paragraph><e-flexbox configuration-id=\"Hero CTA Row\"><e-button configuration-id=\"Hero Book\"></e-button><e-button configuration-id=\"Hero Call\"></e-button></e-flexbox></e-flexbox><e-div-block configuration-id=\"Hero Plate\"><e-div-block configuration-id=\"Hero Plate Grid\"></e-div-block><e-flexbox configuration-id=\"Hero Plate Body\"><e-flexbox configuration-id=\"Plate Row Market\"><e-paragraph configuration-id=\"Plate Key Market\"></e-paragraph><e-paragraph configuration-id=\"Plate Value Market\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Plate Row Counties\"><e-paragraph configuration-id=\"Plate Key Counties\"></e-paragraph><e-paragraph configuration-id=\"Plate Value Counties\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Plate Row Areas served\"><e-paragraph configuration-id=\"Plate Key Areas served\"></e-paragraph><e-paragraph configuration-id=\"Plate Value Areas served\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Plate Row Time zone\"><e-paragraph configuration-id=\"Plate Key Time zone\"></e-paragraph><e-paragraph configuration-id=\"Plate Value Time zone\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Plate Row Plans from\"><e-paragraph configuration-id=\"Plate Key Plans from\"></e-paragraph><e-paragraph configuration-id=\"Plate Value Plans from\"></e-paragraph></e-flexbox></e-flexbox></e-div-block></e-flexbox><e-flexbox configuration-id=\"Hero Rail\"><e-paragraph configuration-id=\"Rail Channels\"></e-paragraph><e-paragraph configuration-id=\"Rail Area\"></e-paragraph></e-flexbox></e-flexbox></e-div-block><e-div-block configuration-id=\"Proof\"><e-flexbox configuration-id=\"Proof Container\"><e-paragraph configuration-id=\"Proof Label\"></e-paragraph><e-flexbox configuration-id=\"Proof Stats\"><e-flexbox configuration-id=\"Stat years in marketing\"><e-paragraph configuration-id=\"Stat years in marketing N\"></e-paragraph><e-paragraph configuration-id=\"Stat years in marketing K\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Stat accounts managed\"><e-paragraph configuration-id=\"Stat accounts managed N\"></e-paragraph><e-paragraph configuration-id=\"Stat accounts managed K\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Stat budget managed\"><e-paragraph configuration-id=\"Stat budget managed N\"></e-paragraph><e-paragraph configuration-id=\"Stat budget managed K\"></e-paragraph></e-flexbox></e-flexbox></e-flexbox></e-div-block><e-div-block configuration-id=\"Services\"><e-div-block configuration-id=\"Services Grid\"></e-div-block><e-flexbox configuration-id=\"Services Container\"><e-flexbox configuration-id=\"Services Head\"><e-flexbox configuration-id=\"Services Head Title\"><e-heading configuration-id=\"Services H2\"></e-heading></e-flexbox><e-flexbox configuration-id=\"Services Head Intro\"><e-paragraph configuration-id=\"Services Lede\"></e-paragraph><e-button configuration-id=\"Services CTA\"></e-button></e-flexbox></e-flexbox><e-flexbox configuration-id=\"Services Cards\"><e-div-block configuration-id=\"Service Google Ads\"><e-paragraph configuration-id=\"Service Google Ads Flag\"></e-paragraph><e-div-block configuration-id=\"Service Google Ads Band\"><e-heading configuration-id=\"Service Google Ads Title\"></e-heading></e-div-block><e-div-block configuration-id=\"Service Google Ads Fig\"><e-image configuration-id=\"Service Google Ads Image\"></e-image></e-div-block><e-flexbox configuration-id=\"Service Google Ads Foot\"><e-paragraph configuration-id=\"Service Google Ads Desc\"></e-paragraph><e-paragraph configuration-id=\"Service Google Ads Arrow\"></e-paragraph></e-flexbox></e-div-block><e-div-block configuration-id=\"Service Meta Ads\"><e-div-block configuration-id=\"Service Meta Ads Band\"><e-heading configuration-id=\"Service Meta Ads Title\"></e-heading></e-div-block><e-div-block configuration-id=\"Service Meta Ads Fig\"><e-image configuration-id=\"Service Meta Ads Image\"></e-image></e-div-block><e-flexbox configuration-id=\"Service Meta Ads Foot\"><e-paragraph configuration-id=\"Service Meta Ads Desc\"></e-paragraph><e-paragraph configuration-id=\"Service Meta Ads Arrow\"></e-paragraph></e-flexbox></e-div-block><e-div-block configuration-id=\"Service SEO\"><e-div-block configuration-id=\"Service SEO Band\"><e-heading configuration-id=\"Service SEO Title\"></e-heading></e-div-block><e-div-block configuration-id=\"Service SEO Fig\"><e-image configuration-id=\"Service SEO Image\"></e-image></e-div-block><e-flexbox configuration-id=\"Service SEO Foot\"><e-paragraph configuration-id=\"Service SEO Desc\"></e-paragraph><e-paragraph configuration-id=\"Service SEO Arrow\"></e-paragraph></e-flexbox></e-div-block><e-div-block configuration-id=\"Service Website\"><e-div-block configuration-id=\"Service Website Band\"><e-heading configuration-id=\"Service Website Title\"></e-heading></e-div-block><e-div-block configuration-id=\"Service Website Fig\"><e-image configuration-id=\"Service Website Image\"></e-image></e-div-block><e-flexbox configuration-id=\"Service Website Foot\"><e-paragraph configuration-id=\"Service Website Desc\"></e-paragraph><e-paragraph configuration-id=\"Service Website Arrow\"></e-paragraph></e-flexbox></e-div-block></e-flexbox></e-flexbox></e-div-block><e-div-block configuration-id=\"Terms\"><e-div-block configuration-id=\"Terms Grid\"></e-div-block><e-flexbox configuration-id=\"Terms Container\"><e-flexbox configuration-id=\"Terms Head\"><e-flexbox configuration-id=\"Terms Head Title\"><e-heading configuration-id=\"Terms H2\"></e-heading></e-flexbox></e-flexbox><e-flexbox configuration-id=\"Terms Stack\"><e-flexbox configuration-id=\"Clause blue\"><e-heading configuration-id=\"Clause blue Term\"></e-heading><e-divider configuration-id=\"Clause blue Bar\"></e-divider><e-paragraph configuration-id=\"Clause blue Note\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Clause mint\"><e-heading configuration-id=\"Clause mint Term\"></e-heading><e-divider configuration-id=\"Clause mint Bar\"></e-divider><e-paragraph configuration-id=\"Clause mint Note\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Clause lavender\"><e-heading configuration-id=\"Clause lavender Term\"></e-heading><e-divider configuration-id=\"Clause lavender Bar\"></e-divider><e-paragraph configuration-id=\"Clause lavender Note\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"Clause rose\"><e-heading configuration-id=\"Clause rose Term\"></e-heading><e-divider configuration-id=\"Clause rose Bar\"></e-divider><e-paragraph configuration-id=\"Clause rose Note\"></e-paragraph></e-flexbox></e-flexbox><e-flexbox configuration-id=\"Terms Tiles\"><e-paragraph configuration-id=\"Tile 1\"></e-paragraph><e-paragraph configuration-id=\"Tile 2\"></e-paragraph><e-paragraph configuration-id=\"Tile 3\"></e-paragraph><e-paragraph configuration-id=\"Tile 4\"></e-paragraph></e-flexbox></e-flexbox></e-div-block><e-div-block configuration-id=\"Area\"><e-div-block configuration-id=\"Area Grid\"></e-div-block><e-flexbox configuration-id=\"Area Container\"><e-heading configuration-id=\"Area H2\"></e-heading><e-paragraph configuration-id=\"Area Counties\"></e-paragraph><e-flexbox configuration-id=\"Area Pills\"><e-paragraph configuration-id=\"Area Round Rock\"></e-paragraph><e-paragraph configuration-id=\"Area Cedar Park\"></e-paragraph><e-paragraph configuration-id=\"Area Georgetown\"></e-paragraph><e-paragraph configuration-id=\"Area Pflugerville\"></e-paragraph><e-paragraph configuration-id=\"Area San Marcos\"></e-paragraph><e-paragraph configuration-id=\"Area Leander\"></e-paragraph><e-paragraph configuration-id=\"Area Kyle\"></e-paragraph><e-paragraph configuration-id=\"Area Buda\"></e-paragraph></e-flexbox></e-flexbox></e-div-block><e-div-block configuration-id=\"FAQ\"><e-div-block configuration-id=\"FAQ Grid\"></e-div-block><e-flexbox configuration-id=\"FAQ Container\"><e-flexbox configuration-id=\"FAQ Head\"><e-flexbox configuration-id=\"FAQ Head Title\"><e-heading configuration-id=\"FAQ H2\"></e-heading></e-flexbox></e-flexbox><e-flexbox configuration-id=\"FAQ List\"><e-flexbox configuration-id=\"FAQ 1\"><e-heading configuration-id=\"FAQ 1 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 1 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 2\"><e-heading configuration-id=\"FAQ 2 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 2 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 3\"><e-heading configuration-id=\"FAQ 3 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 3 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 4\"><e-heading configuration-id=\"FAQ 4 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 4 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 5\"><e-heading configuration-id=\"FAQ 5 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 5 A\"></e-paragraph></e-flexbox><e-flexbox configuration-id=\"FAQ 6\"><e-heading configuration-id=\"FAQ 6 Q\"></e-heading><e-paragraph configuration-id=\"FAQ 6 A\"></e-paragraph></e-flexbox></e-flexbox></e-flexbox></e-div-block><e-div-block configuration-id=\"Founder\"><e-div-block configuration-id=\"Founder Grid\"></e-div-block><e-flexbox configuration-id=\"Founder Container\"><e-div-block configuration-id=\"Founder Portrait\"><e-image configuration-id=\"Founder Photo\"></e-image></e-div-block><e-flexbox configuration-id=\"Founder Copy\"><e-heading configuration-id=\"Founder H2\"></e-heading><e-paragraph configuration-id=\"Founder Quote\"></e-paragraph><e-paragraph configuration-id=\"Founder Sig\"></e-paragraph><e-button configuration-id=\"Founder CTA\"></e-button></e-flexbox></e-flexbox></e-div-block><e-div-block configuration-id=\"Book\"><e-flexbox configuration-id=\"Book Container\"><e-flexbox configuration-id=\"Book Copy\"><e-heading configuration-id=\"Book H2\"></e-heading><e-flexbox configuration-id=\"Book List\"><e-paragraph configuration-id=\"Book Point 1\"></e-paragraph><e-paragraph configuration-id=\"Book Point 2\"></e-paragraph><e-paragraph configuration-id=\"Book Point 3\"></e-paragraph></e-flexbox><e-button configuration-id=\"Book Call\"></e-button></e-flexbox><e-div-block configuration-id=\"Book Form Slot\"></e-div-block></e-flexbox></e-div-block>",
     "element_config": {
-      "Location Hero": {
+      "Hero": {
         "tag": "header"
+      },
+      "Hero Grid": {
+        "tag": "div"
       },
       "Hero Container": {
         "tag": "div"
@@ -290,25 +387,7 @@
           "tag": "a"
         }
       },
-      "Crumb Sep 1": {
-        "paragraph": {
-          "content": "/",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Crumb Locations": {
-        "text": {
-          "content": "Locations",
-          "children": []
-        },
-        "link": {
-          "destination": "/locations/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
-      },
-      "Crumb Sep 2": {
+      "Crumb Sep": {
         "paragraph": {
           "content": "/",
           "children": []
@@ -322,26 +401,22 @@
         },
         "tag": "p"
       },
+      "Hero Cols": {
+        "tag": "div"
+      },
       "Hero Lead": {
         "tag": "div"
       },
-      "Hero Eyebrow": {
-        "paragraph": {
-          "content": "Austin, TX · Paid Acquisition",
-          "children": []
-        },
-        "tag": "p"
-      },
       "Hero H1": {
         "title": {
-          "content": "Austin businesses get more customers. Not more spend.",
+          "content": "More customers in Austin. Not more spend.",
           "children": []
         },
         "tag": "h1"
       },
       "Hero Lede": {
         "paragraph": {
-          "content": "Google Ads, Meta Ads, SEO and web builds for the Austin market. No lock-in. No vague promises.",
+          "content": "Paid ads for businesses across the Austin metro. No lock-in. No vague promises.",
           "children": []
         },
         "tag": "p"
@@ -349,7 +424,7 @@
       "Hero CTA Row": {
         "tag": "div"
       },
-      "Hero Book Call": {
+      "Hero Book": {
         "text": {
           "content": "Book a strategy call",
           "children": []
@@ -360,7 +435,7 @@
           "tag": "a"
         }
       },
-      "Hero Call Phone": {
+      "Hero Call": {
         "text": {
           "content": "Call (855) 740-9608",
           "children": []
@@ -371,37 +446,131 @@
           "tag": "a"
         }
       },
+      "Hero Plate": {
+        "tag": "div"
+      },
+      "Hero Plate Grid": {
+        "tag": "div"
+      },
+      "Hero Plate Body": {
+        "tag": "div"
+      },
+      "Plate Row Market": {
+        "tag": "div"
+      },
+      "Plate Key Market": {
+        "paragraph": {
+          "content": "Market",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Value Market": {
+        "paragraph": {
+          "content": "Austin, TX",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Row Counties": {
+        "tag": "div"
+      },
+      "Plate Key Counties": {
+        "paragraph": {
+          "content": "Counties",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Value Counties": {
+        "paragraph": {
+          "content": "Travis, Williamson, Hays",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Row Areas served": {
+        "tag": "div"
+      },
+      "Plate Key Areas served": {
+        "paragraph": {
+          "content": "Areas served",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Value Areas served": {
+        "paragraph": {
+          "content": "8",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Row Time zone": {
+        "tag": "div"
+      },
+      "Plate Key Time zone": {
+        "paragraph": {
+          "content": "Time zone",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Value Time zone": {
+        "paragraph": {
+          "content": "Central",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Row Plans from": {
+        "tag": "div"
+      },
+      "Plate Key Plans from": {
+        "paragraph": {
+          "content": "Plans from",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Plate Value Plans from": {
+        "paragraph": {
+          "content": "$2,500 / mo",
+          "children": []
+        },
+        "tag": "p"
+      },
       "Hero Rail": {
         "tag": "div"
       },
       "Rail Channels": {
         "paragraph": {
-          "content": "Google Ads · Meta · SEO · Web",
+          "content": "Google Ads, Meta, SEO and web",
           "children": []
         },
         "tag": "p"
       },
       "Rail Area": {
         "paragraph": {
-          "content": "Serving Austin & Central Texas",
+          "content": "Serving Austin and Central Texas",
           "children": []
         },
         "tag": "p"
       },
-      "Proof Strip": {
+      "Proof": {
         "tag": "section"
       },
       "Proof Container": {
         "tag": "div"
       },
-      "Proof Eyebrow": {
+      "Proof Label": {
         "paragraph": {
-          "content": "Why Austin businesses work with Apex",
+          "content": "Track record, across every market we work in",
           "children": []
         },
-        "tag": "span"
+        "tag": "p"
       },
-      "Proof Stats Row": {
+      "Proof Stats": {
         "tag": "div"
       },
       "Stat years in marketing": {
@@ -455,25 +624,11 @@
         },
         "tag": "p"
       },
-      "Stat money-back guarantee": {
-        "tag": "div"
-      },
-      "Stat money-back guarantee N": {
-        "paragraph": {
-          "content": "60-day",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Stat money-back guarantee K": {
-        "paragraph": {
-          "content": "money-back guarantee",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Services Section": {
+      "Services": {
         "tag": "section"
+      },
+      "Services Grid": {
+        "tag": "div"
       },
       "Services Container": {
         "tag": "div"
@@ -481,23 +636,29 @@
       "Services Head": {
         "tag": "div"
       },
+      "Services Head Title": {
+        "tag": "div"
+      },
       "Services H2": {
         "title": {
-          "content": "Marketing channels built for the Austin market.",
+          "content": "Marketing channels that bring in leads.",
           "children": []
         },
         "tag": "h2"
       },
+      "Services Head Intro": {
+        "tag": "div"
+      },
       "Services Lede": {
         "paragraph": {
-          "content": "Paid acquisition and the infrastructure that makes it convert — tuned to how Austin buyers actually search.",
+          "content": "Paid acquisition and the infrastructure that makes it convert. Not a full-service shop doing eleven things adequately.",
           "children": []
         },
         "tag": "p"
       },
-      "Services Audit CTA": {
+      "Services CTA": {
         "text": {
-          "content": "Free audit & consultation",
+          "content": "Free audit and consultation",
           "children": []
         },
         "link": {
@@ -506,7 +667,7 @@
           "tag": "a"
         }
       },
-      "Services Grid": {
+      "Services Cards": {
         "tag": "div"
       },
       "Service Google Ads": {
@@ -550,7 +711,7 @@
       },
       "Service Google Ads Desc": {
         "paragraph": {
-          "content": "Local search and map-pack campaigns built around Austin's highest-value neighborhoods.",
+          "content": "Local search and map-pack campaigns built around your highest-value services.",
           "children": []
         },
         "tag": "p"
@@ -596,7 +757,7 @@
       },
       "Service Meta Ads Desc": {
         "paragraph": {
-          "content": "Facebook and Instagram campaigns, from new-customer offers to awareness across Central Texas.",
+          "content": "Facebook and Instagram campaigns, from new-customer offers to awareness.",
           "children": []
         },
         "tag": "p"
@@ -642,7 +803,7 @@
       },
       "Service SEO Desc": {
         "paragraph": {
-          "content": "Rankings, organic traffic, and a Google Business Profile that looks credible to Austin searchers.",
+          "content": "Rankings, organic traffic, and a Google Business Profile that looks credible.",
           "children": []
         },
         "tag": "p"
@@ -688,7 +849,7 @@
       },
       "Service Website Desc": {
         "paragraph": {
-          "content": "Conversion-focused pages with call tracking, so every Austin lead source is accounted for.",
+          "content": "Conversion-focused pages with call tracking, so every source is accounted for.",
           "children": []
         },
         "tag": "p"
@@ -700,171 +861,226 @@
         },
         "tag": "p"
       },
-      "Feature Tile Grid": {
+      "Terms": {
+        "tag": "section"
+      },
+      "Terms Grid": {
         "tag": "div"
       },
-      "Feature 1": {
+      "Terms Container": {
+        "tag": "div"
+      },
+      "Terms Head": {
+        "tag": "div"
+      },
+      "Terms Head Title": {
+        "tag": "div"
+      },
+      "Terms H2": {
+        "title": {
+          "content": "Terms built around your business, not an agency contract.",
+          "children": []
+        },
+        "tag": "h2"
+      },
+      "Terms Stack": {
+        "tag": "div"
+      },
+      "Clause blue": {
+        "tag": "div"
+      },
+      "Clause blue Term": {
+        "title": {
+          "content": "Month to month. Leave anytime.",
+          "children": []
+        },
+        "tag": "h3"
+      },
+      "Clause blue Note": {
+        "paragraph": {
+          "content": "No notice period. No termination fee. No conversation about it. You stay because the work is worth staying for.",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Clause mint": {
+        "tag": "div"
+      },
+      "Clause mint Term": {
+        "title": {
+          "content": "Every engagement starts with a free audit.",
+          "children": []
+        },
+        "tag": "h3"
+      },
+      "Clause mint Note": {
+        "paragraph": {
+          "content": "We map your offer, buying cycle and current spend before you commit to anything. No cost, no obligation.",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Clause lavender": {
+        "tag": "div"
+      },
+      "Clause lavender Term": {
+        "title": {
+          "content": "Reporting in booked appointments.",
+          "children": []
+        },
+        "tag": "h3"
+      },
+      "Clause lavender Note": {
+        "paragraph": {
+          "content": "One number, walked through by a real person every month. Impressions and reach are not reported, because they are not the point.",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Clause rose": {
+        "tag": "div"
+      },
+      "Clause rose Term": {
+        "title": {
+          "content": "60 days, or every dollar back.",
+          "children": []
+        },
+        "tag": "h3"
+      },
+      "Clause rose Note": {
+        "paragraph": {
+          "content": "In writing. No fine print, no qualifying conditions, no minimum spend threshold.",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Terms Tiles": {
+        "tag": "div"
+      },
+      "Tile 1": {
         "paragraph": {
           "content": "Month-to-month terms",
           "children": []
         },
         "tag": "p"
       },
-      "Feature 2": {
+      "Tile 2": {
         "paragraph": {
-          "content": "Free audit & consultation",
+          "content": "Free audit and consultation",
           "children": []
         },
         "tag": "p"
       },
-      "Feature 3": {
+      "Tile 3": {
         "paragraph": {
           "content": "One dedicated contact",
           "children": []
         },
         "tag": "p"
       },
-      "Feature 4": {
+      "Tile 4": {
         "paragraph": {
           "content": "60-day money-back guarantee",
           "children": []
         },
         "tag": "p"
       },
-      "Full Pricing Link": {
-        "text": {
-          "content": "See full pricing →",
-          "children": []
-        },
-        "link": {
-          "destination": "/#pricing",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
-      },
-      "Service Area Section": {
+      "Area": {
         "tag": "section"
       },
-      "Service Area Container": {
+      "Area Grid": {
         "tag": "div"
       },
-      "Service Area Eyebrow": {
-        "paragraph": {
-          "content": "Service area",
-          "children": []
-        },
-        "tag": "p"
+      "Area Container": {
+        "tag": "div"
       },
-      "Service Area H2": {
+      "Area H2": {
         "title": {
           "content": "Also serving the greater Austin area.",
           "children": []
         },
-        "tag": "h3"
+        "tag": "h2"
+      },
+      "Area Counties": {
+        "paragraph": {
+          "content": "Travis, Williamson and Hays counties",
+          "children": []
+        },
+        "tag": "p"
       },
       "Area Pills": {
         "tag": "div"
       },
       "Area Round Rock": {
-        "text": {
+        "paragraph": {
           "content": "Round Rock",
           "children": []
         },
-        "link": {
-          "destination": "/locations/round-rock-tx/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
       "Area Cedar Park": {
-        "text": {
+        "paragraph": {
           "content": "Cedar Park",
           "children": []
         },
-        "link": {
-          "destination": "/locations/cedar-park-tx/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
       "Area Georgetown": {
-        "text": {
+        "paragraph": {
           "content": "Georgetown",
           "children": []
         },
-        "link": {
-          "destination": "/locations/georgetown-tx/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
       "Area Pflugerville": {
-        "text": {
+        "paragraph": {
           "content": "Pflugerville",
           "children": []
         },
-        "link": {
-          "destination": "/locations/pflugerville-tx/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
       "Area San Marcos": {
-        "text": {
+        "paragraph": {
           "content": "San Marcos",
           "children": []
         },
-        "link": {
-          "destination": "/locations/san-marcos-tx/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
       "Area Leander": {
-        "text": {
+        "paragraph": {
           "content": "Leander",
           "children": []
         },
-        "link": {
-          "destination": "/locations/leander-tx/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
       "Area Kyle": {
-        "text": {
+        "paragraph": {
           "content": "Kyle",
           "children": []
         },
-        "link": {
-          "destination": "/locations/kyle-tx/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
       "Area Buda": {
-        "text": {
+        "paragraph": {
           "content": "Buda",
           "children": []
         },
-        "link": {
-          "destination": "/locations/buda-tx/",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
-      "FAQ Section": {
+      "FAQ": {
         "tag": "section"
+      },
+      "FAQ Grid": {
+        "tag": "div"
       },
       "FAQ Container": {
         "tag": "div"
       },
-      "FAQ Eyebrow": {
-        "paragraph": {
-          "content": "Austin FAQ",
-          "children": []
-        },
-        "tag": "p"
+      "FAQ Head": {
+        "tag": "div"
+      },
+      "FAQ Head Title": {
+        "tag": "div"
       },
       "FAQ H2": {
         "title": {
@@ -876,29 +1092,29 @@
       "FAQ List": {
         "tag": "div"
       },
-      "FAQ 1 Row": {
+      "FAQ 1": {
         "tag": "div"
       },
       "FAQ 1 Q": {
         "title": {
-          "content": "Do you work with businesses outside Austin?",
+          "content": "Which areas around Austin do you cover?",
           "children": []
         },
         "tag": "h3"
       },
       "FAQ 1 A": {
         "paragraph": {
-          "content": "Yes — Apex works with businesses across the US. Austin is one of several markets we actively serve; the process, pricing and guarantee are the same everywhere.",
+          "content": "The Austin metro across Travis, Williamson and Hays counties, including Round Rock, Cedar Park, Georgetown, Pflugerville, San Marcos, Leander, Kyle and Buda. If you are just outside that list, ask on the audit call.",
           "children": []
         },
         "tag": "p"
       },
-      "FAQ 2 Row": {
+      "FAQ 2": {
         "tag": "div"
       },
       "FAQ 2 Q": {
         "title": {
-          "content": "How fast can an Austin campaign launch?",
+          "content": "How fast can a campaign launch?",
           "children": []
         },
         "tag": "h3"
@@ -910,7 +1126,7 @@
         },
         "tag": "p"
       },
-      "FAQ 3 Row": {
+      "FAQ 3": {
         "tag": "div"
       },
       "FAQ 3 Q": {
@@ -922,29 +1138,29 @@
       },
       "FAQ 3 A": {
         "paragraph": {
-          "content": "No. Every plan is month-to-month. Leave anytime — no notice period, no termination fee, no conversation about it.",
+          "content": "No. Every plan is month-to-month. Leave anytime. No notice period, no termination fee, no conversation about it.",
           "children": []
         },
         "tag": "p"
       },
-      "FAQ 4 Row": {
+      "FAQ 4": {
         "tag": "div"
       },
       "FAQ 4 Q": {
         "title": {
-          "content": "What's included in the free audit?",
+          "content": "What does the free audit include?",
           "children": []
         },
         "tag": "h3"
       },
       "FAQ 4 A": {
         "paragraph": {
-          "content": "We map your current spend, buying cycle and cost of a bad click, and tell you plainly what we'd change — before you pay us anything.",
+          "content": "We map your current spend, buying cycle and cost of a bad click, then tell you plainly what we would change. It happens before you pay us anything.",
           "children": []
         },
         "tag": "p"
       },
-      "FAQ 5 Row": {
+      "FAQ 5": {
         "tag": "div"
       },
       "FAQ 5 Q": {
@@ -956,13 +1172,33 @@
       },
       "FAQ 5 A": {
         "paragraph": {
-          "content": "We don't offer blanket exclusivity by default — most clients choose month-to-month specifically because nothing is locked up long-term. If category exclusivity in Austin matters for your business, raise it on the audit call and we'll tell you plainly whether it's workable for your industry and spend level.",
+          "content": "We do not offer blanket exclusivity by default. Most clients choose month-to-month specifically because nothing is locked up long term. If category exclusivity in Austin matters to you, raise it on the audit call and we will tell you plainly whether it is workable for your industry and spend level.",
           "children": []
         },
         "tag": "p"
       },
-      "Founder Section": {
+      "FAQ 6": {
+        "tag": "div"
+      },
+      "FAQ 6 Q": {
+        "title": {
+          "content": "What does it cost?",
+          "children": []
+        },
+        "tag": "h3"
+      },
+      "FAQ 6 A": {
+        "paragraph": {
+          "content": "Plans start at $2,500 a month and every price is published, including what each channel costs on its own. See the full pricing table on the homepage.",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Founder": {
         "tag": "section"
+      },
+      "Founder Grid": {
+        "tag": "div"
       },
       "Founder Container": {
         "tag": "div"
@@ -978,13 +1214,6 @@
           "size": "full"
         }
       },
-      "Founder Photo Caption": {
-        "paragraph": {
-          "content": "Nathan, founder",
-          "children": []
-        },
-        "tag": "p"
-      },
       "Founder Copy": {
         "tag": "div"
       },
@@ -997,73 +1226,19 @@
       },
       "Founder Quote": {
         "paragraph": {
-          "content": "“I’ve managed over 1,000 ad accounts, and the story is almost always the same: a recycled playbook, vanity metrics, and a contract you can’t escape. So I made one rule — we report on the only number that matters. Appointments booked. Not impressions. Not clicks.”",
+          "content": "“I’ve managed over 1,000 ad accounts, and the story is almost always the same: a recycled playbook, vanity metrics, and a contract you can’t escape. So I made one rule. We report on the only number that matters. Appointments booked. Not impressions. Not clicks.”",
           "children": []
         },
         "tag": "p"
       },
-      "Founder Stats": {
-        "tag": "div"
-      },
-      "Founder Stat years in marketing": {
-        "tag": "div"
-      },
-      "Founder Stat years in marketing N": {
+      "Founder Sig": {
         "paragraph": {
-          "content": "10+",
+          "content": "Nathan, founder of Apex Marketing. Most clients just call me Nate.",
           "children": []
         },
         "tag": "p"
       },
-      "Founder Stat years in marketing K": {
-        "paragraph": {
-          "content": "years in marketing",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Founder Stat accounts managed": {
-        "tag": "div"
-      },
-      "Founder Stat accounts managed N": {
-        "paragraph": {
-          "content": "1000+",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Founder Stat accounts managed K": {
-        "paragraph": {
-          "content": "accounts managed",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Founder Stat budget managed": {
-        "tag": "div"
-      },
-      "Founder Stat budget managed N": {
-        "paragraph": {
-          "content": "$10M+",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Founder Stat budget managed K": {
-        "paragraph": {
-          "content": "budget managed",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Founder Signoff": {
-        "paragraph": {
-          "content": "Nathan — founder, Apex Marketing. Most clients just call me Nate.",
-          "children": []
-        },
-        "tag": "p"
-      },
-      "Founder Book CTA": {
+      "Founder CTA": {
         "text": {
           "content": "Book a call directly with Nathan",
           "children": []
@@ -1074,48 +1249,47 @@
           "tag": "a"
         }
       },
-      "Final CTA Section": {
+      "Book": {
         "tag": "section"
       },
-      "CTA Container": {
+      "Book Container": {
         "tag": "div"
       },
-      "CTA Eyebrow": {
-        "paragraph": {
-          "content": "Austin, TX",
-          "children": []
-        },
-        "tag": "p"
+      "Book Copy": {
+        "tag": "div"
       },
-      "CTA H2": {
+      "Book H2": {
         "title": {
-          "content": "Get more Austin customers without more spend.",
+          "content": "Book your free Austin audit.",
           "children": []
         },
         "tag": "h2"
       },
-      "CTA Lede": {
+      "Book List": {
+        "tag": "div"
+      },
+      "Book Point 1": {
         "paragraph": {
-          "content": "15-minute call · no pressure",
+          "content": "15 minutes, no pressure, no pitch deck.",
           "children": []
         },
         "tag": "p"
       },
-      "CTA Button Row": {
-        "tag": "div"
-      },
-      "CTA Book Call": {
-        "text": {
-          "content": "Book a strategy call",
+      "Book Point 2": {
+        "paragraph": {
+          "content": "We map your current spend before you commit to anything.",
           "children": []
         },
-        "link": {
-          "destination": "#book",
-          "isTargetBlank": false,
-          "tag": "a"
-        }
+        "tag": "p"
       },
-      "CTA Call Phone": {
+      "Book Point 3": {
+        "paragraph": {
+          "content": "You leave with a specific timeline and a number, whether or not you hire us.",
+          "children": []
+        },
+        "tag": "p"
+      },
+      "Book Call": {
         "text": {
           "content": "Call (855) 740-9608",
           "children": []
@@ -1125,78 +1299,126 @@
           "isTargetBlank": false,
           "tag": "a"
         }
+      },
+      "Book Form Slot": {
+        "tag": "div"
       }
     },
     "style": {
-      "Location Hero": "background-color: var(--paper); overflow: hidden; padding-top: 120px; padding-bottom: 64px;",
-      "Hero Container": "flex-direction: column;",
-      "Hero Breadcrumb": "flex-direction: row; align-items: center; column-gap: 8px; color: var(--ink-muted); margin-bottom: var(--s-6);",
-      "Crumb Home": "color: var(--ink-muted); background-color: transparent; padding-top:0; padding-right:0; padding-bottom:0; padding-left:0; border-top-width:0; border-right-width:0; border-bottom-width:0; border-left-width:0; text-transform:none; letter-spacing:0.14em; font-size:0.6875rem;",
-      "Crumb Sep 1": "opacity: 0.5;",
-      "Crumb Locations": "color: var(--ink-muted); background-color: transparent; padding-top:0; padding-right:0; padding-bottom:0; padding-left:0; border-top-width:0; border-right-width:0; border-bottom-width:0; border-left-width:0; text-transform:none; letter-spacing:0.14em; font-size:0.6875rem;",
-      "Crumb Sep 2": "opacity: 0.5;",
+      "Hero": "position: relative; background-color: var(--paper); overflow: hidden; padding-top: 112px; padding-bottom: 64px; @media(--laptop) { padding-top: 168px; padding-bottom: 64px; }",
+      "Hero Container": "position: relative; z-index: 2; flex-direction: column;",
+      "Hero Breadcrumb": "flex-direction: row; align-items: center; flex-wrap: wrap; column-gap: 8px; color: var(--ink-muted); margin-bottom: 32px;",
+      "Crumb Home": "background-color: transparent; color: var(--ink-muted); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; min-height: 44px; padding-top: 0; padding-right: 4px; padding-bottom: 0; padding-left: 4px;",
+      "Crumb Sep": "opacity: 0.45;",
       "Crumb Current": "color: var(--ink);",
-      "Hero Lead": "flex-direction: column; max-width: 54rem; row-gap: var(--s-5);",
-      "Hero CTA Row": "flex-direction: row; flex-wrap: wrap; align-items: center; row-gap: var(--s-3); column-gap: var(--s-3);",
-      "Hero Rail": "flex-direction: row; justify-content: space-between; flex-wrap: wrap; row-gap: var(--s-3); column-gap: var(--s-3);padding-top: var(--s-4); padding-bottom: var(--s-4); margin-top: var(--s-8); color: var(--ink-muted); border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);",
-      "Proof Strip": "background-color: var(--paper-raised); border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong);padding-top: var(--s-7); padding-bottom: var(--s-7);",
-      "Proof Container": "flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: baseline; row-gap: var(--s-5); column-gap: var(--s-7);",
-      "Proof Eyebrow": "color: var(--ink-muted); max-width: 22ch;",
-      "Proof Stats Row": "flex-direction: row; flex-wrap: wrap; row-gap: var(--s-7); column-gap: var(--s-7);",
+      "Hero Cols": "flex-direction: column; row-gap: 48px; column-gap: 48px; @media(--laptop) { flex-direction: row; align-items: flex-start; }",
+      "Hero Lead": "flex-direction: column; align-items: flex-start; flex-grow: 1; flex-shrink: 1; flex-basis: 58%; row-gap: 24px;",
+      "Hero CTA Row": "flex-direction: row; flex-wrap: wrap; align-items: center; row-gap: 12px; column-gap: 12px;",
+      "Hero Plate": "flex-grow: 0; flex-shrink: 1; flex-basis: 34%; align-self: flex-start; width: 100%; max-width: 420px;",
+      "Hero Plate Grid": "opacity: 0.085;",
+      "Hero Plate Body": "position: relative; z-index: 1; flex-direction: column; padding-top: 24px; padding-right: 24px; padding-bottom: 16px; padding-left: 24px;",
+      "Plate Row Market": "flex-direction: row;",
+      "Plate Key Market": "color: var(--ink-muted);",
+      "Plate Value Market": "color: var(--ink); text-align: right; font-variant-numeric: tabular-nums;",
+      "Plate Row Counties": "flex-direction: row;",
+      "Plate Key Counties": "color: var(--ink-muted);",
+      "Plate Value Counties": "color: var(--ink); text-align: right; font-variant-numeric: tabular-nums;",
+      "Plate Row Areas served": "flex-direction: row;",
+      "Plate Key Areas served": "color: var(--ink-muted);",
+      "Plate Value Areas served": "color: var(--ink); text-align: right; font-variant-numeric: tabular-nums;",
+      "Plate Row Time zone": "flex-direction: row;",
+      "Plate Key Time zone": "color: var(--ink-muted);",
+      "Plate Value Time zone": "color: var(--ink); text-align: right; font-variant-numeric: tabular-nums;",
+      "Plate Row Plans from": "flex-direction: row;",
+      "Plate Key Plans from": "color: var(--ink-muted);",
+      "Plate Value Plans from": "color: var(--ink); text-align: right; font-variant-numeric: tabular-nums;",
+      "Hero Rail": "flex-direction: column; align-items: flex-start; margin-top: 64px; padding-top: 16px; padding-bottom: 16px;border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong); color: var(--ink-muted); row-gap: 8px; @media(--laptop) { flex-direction: row; justify-content: space-between; align-items: center; }",
+      "Proof": "position: relative; background-color: var(--paper-raised); border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong);padding-top: 48px; padding-bottom: 48px;",
+      "Proof Container": "flex-direction: column; row-gap: 24px; column-gap: 48px; @media(--laptop) { flex-direction: row; justify-content: space-between; align-items: baseline; }",
+      "Proof Label": "color: var(--ink-muted); max-width: 30ch;",
+      "Proof Stats": "flex-direction: row; flex-wrap: wrap; row-gap: 24px; column-gap: 48px;",
       "Stat years in marketing": "flex-direction: column; row-gap: 4px;",
       "Stat accounts managed": "flex-direction: column; row-gap: 4px;",
       "Stat budget managed": "flex-direction: column; row-gap: 4px;",
-      "Stat money-back guarantee": "flex-direction: column; row-gap: 4px;",
-      "Services Container": "flex-direction: column;",
-      "Services Head": "flex-direction: column; row-gap: var(--s-6); margin-bottom: var(--s-8); max-width: 60rem;",
-      "Services Grid": "flex-direction: row; flex-wrap: wrap; row-gap: var(--s-5); column-gap: var(--s-5);",
-      "Service Google Ads": "flex-grow: 1; flex-shrink: 1; flex-basis: 45%; min-width: 320px; position: relative;",
-      "Service Google Ads Flag": "position: absolute; top: 0; right: 0; z-index: 2; background-color: var(--blue); color: var(--paper); padding-top: 6px; padding-right: 12px; padding-bottom: 6px; padding-left: 12px;",
-      "Service Google Ads Foot": "flex-direction: row; align-items: flex-end; justify-content: space-between;",
-      "Service Meta Ads": "flex-grow: 1; flex-shrink: 1; flex-basis: 45%; min-width: 320px; position: relative;",
-      "Service Meta Ads Foot": "flex-direction: row; align-items: flex-end; justify-content: space-between;",
-      "Service SEO": "flex-grow: 1; flex-shrink: 1; flex-basis: 45%; min-width: 320px; position: relative;",
-      "Service SEO Foot": "flex-direction: row; align-items: flex-end; justify-content: space-between;",
-      "Service Website": "flex-grow: 1; flex-shrink: 1; flex-basis: 45%; min-width: 320px; position: relative;",
-      "Service Website Foot": "flex-direction: row; align-items: flex-end; justify-content: space-between;",
-      "Feature Tile Grid": "flex-direction: row; flex-wrap: wrap; row-gap: var(--s-3); column-gap: var(--s-3); margin-top: var(--s-8);",
-      "Full Pricing Link": "align-self: center; margin-top: var(--s-6);",
-      "Service Area Container": "flex-direction: column;",
-      "Service Area Eyebrow": "color: var(--ink-muted);",
-      "Service Area H2": "margin-top: var(--s-2); margin-bottom: var(--s-6);",
-      "Area Pills": "flex-direction: row; flex-wrap: wrap; row-gap: var(--s-3); column-gap: var(--s-3);",
-      "FAQ Container": "flex-direction: column;",
-      "FAQ Eyebrow": "color: var(--ink-muted);",
-      "FAQ H2": "margin-top: var(--s-2); margin-bottom: var(--s-8); max-width: 16ch;",
+      "Services Container": "position: relative; z-index: 2; flex-direction: column;",
+      "Services Head": "flex-direction: column; row-gap: 32px; margin-bottom: 64px; max-width: 62rem;",
+      "Services Head Title": "flex-direction: column;",
+      "Services H2": "max-width: 18ch;",
+      "Services Head Intro": "flex-direction: column; align-items: flex-start; row-gap: 16px;",
+      "Services Lede": "max-width: 34ch;",
+      "Services Cards": "flex-direction: row; flex-wrap: wrap; row-gap: 24px; column-gap: 24px;",
+      "Service Google Ads": "--pc-bg: var(--pc-a-bg); --pc-band: var(--pc-a-band); --pc-rule: var(--pc-a-rule);",
+      "Service Google Ads Foot": "flex-direction: row;",
+      "Service Google Ads Arrow": "color: var(--pc-rule); font-size: 1.25rem;",
+      "Service Meta Ads": "--pc-bg: var(--pc-b-bg); --pc-band: var(--pc-b-band); --pc-rule: var(--pc-b-rule);",
+      "Service Meta Ads Foot": "flex-direction: row;",
+      "Service Meta Ads Arrow": "color: var(--pc-rule); font-size: 1.25rem;",
+      "Service SEO": "--pc-bg: var(--pc-c-bg); --pc-band: var(--pc-c-band); --pc-rule: var(--pc-c-rule);",
+      "Service SEO Foot": "flex-direction: row;",
+      "Service SEO Arrow": "color: var(--pc-rule); font-size: 1.25rem;",
+      "Service Website": "--pc-bg: var(--pc-d-bg); --pc-band: var(--pc-d-band); --pc-rule: var(--pc-d-rule);",
+      "Service Website Foot": "flex-direction: row;",
+      "Service Website Arrow": "color: var(--pc-rule); font-size: 1.25rem;",
+      "Terms Container": "position: relative; z-index: 2; flex-direction: column;",
+      "Terms Head": "flex-direction: column; row-gap: 32px; margin-bottom: 64px; max-width: 62rem;",
+      "Terms Head Title": "flex-direction: column;",
+      "Terms H2": "max-width: 18ch;",
+      "Terms Stack": "flex-direction: column; border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);",
+      "Clause blue": "flex-direction: column; row-gap: 12px;padding-top: 24px; padding-bottom: 24px;border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong); @media(--laptop) { flex-direction: row; align-items: flex-start; column-gap: 32px; }",
+      "Clause blue Term": "flex-grow: 0; flex-shrink: 0; flex-basis: 40%;",
+      "Clause blue Bar": "flex-grow: 0; flex-shrink: 0; flex-basis: 56px; height: 3px; background-color: var(--blue); border-top-width: 0; margin-top: 8px;",
+      "Clause blue Note": "flex-grow: 1; flex-shrink: 1; flex-basis: 40%;",
+      "Clause mint": "flex-direction: column; row-gap: 12px;padding-top: 24px; padding-bottom: 24px;border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong); @media(--laptop) { flex-direction: row; align-items: flex-start; column-gap: 32px; }",
+      "Clause mint Term": "flex-grow: 0; flex-shrink: 0; flex-basis: 40%;",
+      "Clause mint Bar": "flex-grow: 0; flex-shrink: 0; flex-basis: 56px; height: 3px; background-color: var(--tone-mint); border-top-width: 0; margin-top: 8px;",
+      "Clause mint Note": "flex-grow: 1; flex-shrink: 1; flex-basis: 40%;",
+      "Clause lavender": "flex-direction: column; row-gap: 12px;padding-top: 24px; padding-bottom: 24px;border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong); @media(--laptop) { flex-direction: row; align-items: flex-start; column-gap: 32px; }",
+      "Clause lavender Term": "flex-grow: 0; flex-shrink: 0; flex-basis: 40%;",
+      "Clause lavender Bar": "flex-grow: 0; flex-shrink: 0; flex-basis: 56px; height: 3px; background-color: var(--tone-lavender); border-top-width: 0; margin-top: 8px;",
+      "Clause lavender Note": "flex-grow: 1; flex-shrink: 1; flex-basis: 40%;",
+      "Clause rose": "flex-direction: column; row-gap: 12px;padding-top: 24px; padding-bottom: 24px;border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong); @media(--laptop) { flex-direction: row; align-items: flex-start; column-gap: 32px; }",
+      "Clause rose Term": "flex-grow: 0; flex-shrink: 0; flex-basis: 40%;",
+      "Clause rose Bar": "flex-grow: 0; flex-shrink: 0; flex-basis: 56px; height: 3px; background-color: var(--pink-hot); border-top-width: 0; margin-top: 8px;",
+      "Clause rose Note": "flex-grow: 1; flex-shrink: 1; flex-basis: 40%;",
+      "Terms Tiles": "flex-direction: row; flex-wrap: wrap; row-gap: 12px; column-gap: 12px; margin-top: 64px; max-width: 1100px;",
+      "Tile 1": "flex-grow: 1; flex-shrink: 1; flex-basis: 220px;",
+      "Tile 2": "flex-grow: 1; flex-shrink: 1; flex-basis: 220px;",
+      "Tile 3": "flex-grow: 1; flex-shrink: 1; flex-basis: 220px;",
+      "Tile 4": "flex-grow: 1; flex-shrink: 1; flex-basis: 220px;",
+      "Area Container": "position: relative; z-index: 2; flex-direction: column;",
+      "Area Counties": "color: var(--ink-muted); margin-top: 8px; margin-bottom: 32px;",
+      "Area Pills": "flex-direction: row; flex-wrap: wrap; row-gap: 12px; column-gap: 12px;",
+      "FAQ Container": "position: relative; z-index: 2; flex-direction: column;",
+      "FAQ Head": "flex-direction: column; row-gap: 32px; margin-bottom: 64px; max-width: 62rem;",
+      "FAQ Head Title": "flex-direction: column;",
+      "FAQ H2": "max-width: 18ch;",
       "FAQ List": "flex-direction: column; max-width: 860px;",
-      "FAQ 1 Row": "flex-direction: column; row-gap: var(--s-2);",
-      "FAQ 2 Row": "flex-direction: column; row-gap: var(--s-2);",
-      "FAQ 3 Row": "flex-direction: column; row-gap: var(--s-2);",
-      "FAQ 4 Row": "flex-direction: column; row-gap: var(--s-2);",
-      "FAQ 5 Row": "flex-direction: column; row-gap: var(--s-2);",
-      "Founder Section": "flex-direction: row; flex-wrap: wrap; align-items: center;",
-      "Founder Container": "flex-direction: row; flex-wrap: wrap; align-items: center; row-gap: var(--s-7); column-gap: var(--s-7);",
-      "Founder Portrait": "flex-grow: 0; flex-shrink: 0; flex-basis: 280px; position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-top-left-radius: 18px; border-top-right-radius: 18px; border-bottom-right-radius: 18px; border-bottom-left-radius: 18px;border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);border-right-width: 1px; border-right-style: solid; border-right-color: var(--rule-strong);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong);border-left-width: 1px; border-left-style: solid; border-left-color: var(--rule-strong);",
+      "FAQ 1": "flex-direction: column; row-gap: 8px;",
+      "FAQ 2": "flex-direction: column; row-gap: 8px;",
+      "FAQ 3": "flex-direction: column; row-gap: 8px;",
+      "FAQ 4": "flex-direction: column; row-gap: 8px;",
+      "FAQ 5": "flex-direction: column; row-gap: 8px;",
+      "FAQ 6": "flex-direction: column; row-gap: 8px;",
+      "Founder Container": "position: relative; z-index: 2; flex-direction: column; row-gap: 48px; column-gap: 48px; @media(--laptop) { flex-direction: row; align-items: center; }",
+      "Founder Portrait": "flex-grow: 0; flex-shrink: 0; flex-basis: 300px; max-width: 320px; position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-top-left-radius: 18px;border-top-right-radius: 18px;border-bottom-right-radius: 18px;border-bottom-left-radius: 18px;border-top-width: 1px; border-top-style: solid; border-top-color: var(--rule-strong);border-right-width: 1px; border-right-style: solid; border-right-color: var(--rule-strong);border-bottom-width: 1px; border-bottom-style: solid; border-bottom-color: var(--rule-strong);border-left-width: 1px; border-left-style: solid; border-left-color: var(--rule-strong);",
       "Founder Photo": "width: 100%; height: 100%; object-fit: cover;",
-      "Founder Photo Caption": "position: absolute; left: 0; bottom: 0; background-color: var(--paper); padding-top: 6px; padding-right: 10px; padding-bottom: 6px; padding-left: 10px;",
-      "Founder Copy": "flex-grow: 1; flex-shrink: 1; flex-basis: 480px; flex-direction: column; row-gap: var(--s-5);",
-      "Founder Quote": "font-size: 1.0625rem; line-height: 1.5; max-width: 52ch;",
-      "Founder Stats": "flex-direction: row; flex-wrap: wrap; row-gap: var(--s-6); column-gap: var(--s-6);",
-      "Founder Stat years in marketing": "flex-direction: column; row-gap: 4px;",
-      "Founder Stat accounts managed": "flex-direction: column; row-gap: 4px;",
-      "Founder Stat budget managed": "flex-direction: column; row-gap: 4px;",
-      "Founder Signoff": "color: var(--ink-muted);",
-      "Final CTA Section": "flex-direction: row; background-color: var(--night); overflow: hidden; padding-top: var(--s-9); padding-bottom: var(--s-9);",
-      "CTA Container": "flex-direction: column; align-items: center; text-align: center; row-gap: var(--s-5);",
-      "CTA Eyebrow": "color: var(--mint);",
-      "CTA H2": "color: var(--paper); max-width: 20ch;",
-      "CTA Lede": "color: rgba(238,238,238,0.72);",
-      "CTA Button Row": "flex-direction: row; flex-wrap: wrap; justify-content: center; row-gap: var(--s-3); column-gap: var(--s-3);",
-      "CTA Call Phone": "color: var(--paper); border-top-color: rgba(238,238,238,0.3); border-right-color: rgba(238,238,238,0.3); border-bottom-color: rgba(238,238,238,0.3); border-left-color: rgba(238,238,238,0.3);"
+      "Founder Copy": "flex-grow: 1; flex-shrink: 1; flex-basis: 55%; flex-direction: column; align-items: flex-start; row-gap: 24px;",
+      "Founder Quote": "font-size: 1.0625rem; line-height: 1.5; max-width: 52ch; @media(--laptop) { font-size: 1.3125rem; }",
+      "Founder Sig": "color: var(--ink-muted); font-size: 0.875rem;",
+      "Book": "position: relative; background-color: #000000; color: var(--paper); overflow: hidden; padding-top: 96px; padding-bottom: 96px;",
+      "Book Container": "position: relative; z-index: 2; flex-direction: column; row-gap: 48px; column-gap: 48px; @media(--laptop) { flex-direction: row; align-items: flex-start; }",
+      "Book Copy": "flex-grow: 1; flex-shrink: 1; flex-basis: 42%; flex-direction: column; align-items: flex-start; row-gap: 24px;",
+      "Book H2": "color: var(--paper); max-width: 14ch;",
+      "Book List": "flex-direction: column; row-gap: 12px;",
+      "Book Point 1": "color: rgba(238,238,238,0.82);",
+      "Book Point 2": "color: rgba(238,238,238,0.82);",
+      "Book Point 3": "color: rgba(238,238,238,0.82);",
+      "Book Call": "color: var(--paper); border-top-color: rgba(238,238,238,0.3); border-right-color: rgba(238,238,238,0.3); border-bottom-color: rgba(238,238,238,0.3); border-left-color: rgba(238,238,238,0.3);",
+      "Book Form Slot": "flex-grow: 1; flex-shrink: 1; flex-basis: 52%; width: 100%; min-height: 640px; background-color: var(--paper); border-top-left-radius: var(--r-sm);border-top-right-radius: var(--r-sm);border-bottom-right-radius: var(--r-sm);border-bottom-left-radius: var(--r-sm);"
     },
     "classes": {
-      "Location Hero": [
-        "section"
+      "Hero Grid": [
+        "grid-field"
       ],
       "Hero Container": [
         "container"
@@ -1204,33 +1426,80 @@
       "Hero Breadcrumb": [
         "data-nano"
       ],
-      "Hero Lead": [
-        "h1"
-      ],
-      "Hero Eyebrow": [
-        "eyebrow"
+      "Crumb Home": [
+        "data-nano"
       ],
       "Hero H1": [
-        "h1"
+        "hero-h1"
       ],
       "Hero Lede": [
         "lede"
       ],
-      "Hero Book Call": [
+      "Hero Book": [
         "btn"
       ],
-      "Hero Call Phone": [
+      "Hero Call": [
         "btn",
         "btn-ghost"
       ],
+      "Hero Plate": [
+        "plate"
+      ],
+      "Hero Plate Grid": [
+        "grid-field"
+      ],
+      "Plate Row Market": [
+        "plate-row"
+      ],
+      "Plate Key Market": [
+        "data-nano"
+      ],
+      "Plate Value Market": [
+        "data-nano"
+      ],
+      "Plate Row Counties": [
+        "plate-row"
+      ],
+      "Plate Key Counties": [
+        "data-nano"
+      ],
+      "Plate Value Counties": [
+        "data-nano"
+      ],
+      "Plate Row Areas served": [
+        "plate-row"
+      ],
+      "Plate Key Areas served": [
+        "data-nano"
+      ],
+      "Plate Value Areas served": [
+        "data-nano"
+      ],
+      "Plate Row Time zone": [
+        "plate-row"
+      ],
+      "Plate Key Time zone": [
+        "data-nano"
+      ],
+      "Plate Value Time zone": [
+        "data-nano"
+      ],
+      "Plate Row Plans from": [
+        "plate-row"
+      ],
+      "Plate Key Plans from": [
+        "data-nano"
+      ],
+      "Plate Value Plans from": [
+        "data-nano"
+      ],
       "Hero Rail": [
-        "container",
         "data-nano"
       ],
       "Proof Container": [
         "container"
       ],
-      "Proof Eyebrow": [
+      "Proof Label": [
         "data-nano"
       ],
       "Stat years in marketing N": [
@@ -1254,15 +1523,11 @@
         "stat-k",
         "data-nano"
       ],
-      "Stat money-back guarantee N": [
-        "stat-n"
-      ],
-      "Stat money-back guarantee K": [
-        "stat-k",
-        "data-nano"
-      ],
-      "Services Section": [
+      "Services": [
         "section"
+      ],
+      "Services Grid": [
+        "grid-field"
       ],
       "Services Container": [
         "container"
@@ -1273,7 +1538,7 @@
       "Services Lede": [
         "lede"
       ],
-      "Services Audit CTA": [
+      "Services CTA": [
         "btn",
         "btn-ghost"
       ],
@@ -1281,6 +1546,7 @@
         "pc"
       ],
       "Service Google Ads Flag": [
+        "pc-flag",
         "data-nano"
       ],
       "Service Google Ads Band": [
@@ -1364,35 +1630,70 @@
       "Service Website Desc": [
         "pc-desc"
       ],
-      "Feature 1": [
-        "feature-tile"
-      ],
-      "Feature 2": [
-        "feature-tile"
-      ],
-      "Feature 3": [
-        "feature-tile"
-      ],
-      "Feature 4": [
-        "feature-tile"
-      ],
-      "Full Pricing Link": [
-        "btn",
-        "btn-ghost"
-      ],
-      "Service Area Section": [
+      "Terms": [
         "section",
-        "section-tight",
         "section-raised"
       ],
-      "Service Area Container": [
+      "Terms Grid": [
+        "grid-field"
+      ],
+      "Terms Container": [
         "container"
       ],
-      "Service Area Eyebrow": [
-        "data-nano"
+      "Terms H2": [
+        "h2"
       ],
-      "Service Area H2": [
+      "Clause blue Term": [
+        "clause-term"
+      ],
+      "Clause blue Note": [
+        "clause-note"
+      ],
+      "Clause mint Term": [
+        "clause-term"
+      ],
+      "Clause mint Note": [
+        "clause-note"
+      ],
+      "Clause lavender Term": [
+        "clause-term"
+      ],
+      "Clause lavender Note": [
+        "clause-note"
+      ],
+      "Clause rose Term": [
+        "clause-term"
+      ],
+      "Clause rose Note": [
+        "clause-note"
+      ],
+      "Tile 1": [
+        "feature-tile"
+      ],
+      "Tile 2": [
+        "feature-tile"
+      ],
+      "Tile 3": [
+        "feature-tile"
+      ],
+      "Tile 4": [
+        "feature-tile"
+      ],
+      "Area": [
+        "section",
+        "section-tight"
+      ],
+      "Area Grid": [
+        "grid-field"
+      ],
+      "Area Container": [
+        "container"
+      ],
+      "Area H2": [
         "h3"
+      ],
+      "Area Counties": [
+        "data-nano"
       ],
       "Area Round Rock": [
         "pill"
@@ -1418,19 +1719,20 @@
       "Area Buda": [
         "pill"
       ],
-      "FAQ Section": [
-        "section"
+      "FAQ": [
+        "section",
+        "section-raised"
+      ],
+      "FAQ Grid": [
+        "grid-field"
       ],
       "FAQ Container": [
         "container"
       ],
-      "FAQ Eyebrow": [
-        "data-nano"
-      ],
       "FAQ H2": [
         "h2"
       ],
-      "FAQ 1 Row": [
+      "FAQ 1": [
         "faq-row"
       ],
       "FAQ 1 Q": [
@@ -1439,7 +1741,7 @@
       "FAQ 1 A": [
         "faq-a"
       ],
-      "FAQ 2 Row": [
+      "FAQ 2": [
         "faq-row"
       ],
       "FAQ 2 Q": [
@@ -1448,7 +1750,7 @@
       "FAQ 2 A": [
         "faq-a"
       ],
-      "FAQ 3 Row": [
+      "FAQ 3": [
         "faq-row"
       ],
       "FAQ 3 Q": [
@@ -1457,7 +1759,7 @@
       "FAQ 3 A": [
         "faq-a"
       ],
-      "FAQ 4 Row": [
+      "FAQ 4": [
         "faq-row"
       ],
       "FAQ 4 Q": [
@@ -1466,7 +1768,7 @@
       "FAQ 4 A": [
         "faq-a"
       ],
-      "FAQ 5 Row": [
+      "FAQ 5": [
         "faq-row"
       ],
       "FAQ 5 Q": [
@@ -1475,63 +1777,37 @@
       "FAQ 5 A": [
         "faq-a"
       ],
-      "Founder Section": [
-        "section",
-        "section-raised"
+      "FAQ 6": [
+        "faq-row"
+      ],
+      "FAQ 6 Q": [
+        "faq-q"
+      ],
+      "FAQ 6 A": [
+        "faq-a"
+      ],
+      "Founder": [
+        "section"
+      ],
+      "Founder Grid": [
+        "grid-field"
       ],
       "Founder Container": [
         "container"
       ],
-      "Founder Photo Caption": [
-        "data-nano"
-      ],
       "Founder H2": [
         "h2"
       ],
-      "Founder Stat years in marketing N": [
-        "stat-n"
-      ],
-      "Founder Stat years in marketing K": [
-        "stat-k",
-        "data-nano"
-      ],
-      "Founder Stat accounts managed N": [
-        "stat-n"
-      ],
-      "Founder Stat accounts managed K": [
-        "stat-k",
-        "data-nano"
-      ],
-      "Founder Stat budget managed N": [
-        "stat-n"
-      ],
-      "Founder Stat budget managed K": [
-        "stat-k",
-        "data-nano"
-      ],
-      "Founder Signoff": [
-        "data-nano"
-      ],
-      "Founder Book CTA": [
+      "Founder CTA": [
         "btn"
       ],
-      "CTA Container": [
+      "Book Container": [
         "container"
       ],
-      "CTA Eyebrow": [
-        "data-nano"
-      ],
-      "CTA H2": [
+      "Book H2": [
         "h2"
       ],
-      "CTA Lede": [
-        "lede"
-      ],
-      "CTA Book Call": [
-        "btn",
-        "btn-paper"
-      ],
-      "CTA Call Phone": [
+      "Book Call": [
         "btn",
         "btn-ghost"
       ]

@@ -62,22 +62,29 @@ Then `elementor/create-preview-link` and eyeball it before publishing — this J
 been round-tripped through a real Elementor instance, so that first look is the actual
 verification step, not a formality.
 
+### Two manual steps after import
+
+The payload's `manual_steps` array carries these machine-readably; they are the only things
+the composition tool cannot place itself.
+
+1. **The booking form.** Drop an Elementor **HTML widget** inside the `Book Form Slot` div and
+   paste the iframe from `manual_steps[0].html` (the real GoHighLevel form). There is no atomic
+   iframe element, so this is the sanctioned V3 fallback per `docs/elementor-authoring.md` §1a
+   rather than faking an embed out of atomic parts. Without it the section renders an empty
+   paper panel.
+2. **The FAQ, optionally.** The six questions render as always-visible Q&A because `<details>`
+   has no atomic equivalent. If you want click-to-expand, replace the FAQ rows with Elementor
+   Pro's Accordion widget. Same six questions and answers either way.
+
 ### What's deliberately not in here
 
-- **The FAQ is always-visible Q&A, not a click-to-expand accordion.** `<details>` (used in
-  the HTML prototype) has no atomic Elementor equivalent in the released widget set.
-  Per the "atomic first, mature V3/Pro widget where V4 has no equivalent" policy
-  (`docs/elementor-authoring.md` §1a), the click-to-expand version is Elementor Pro's native
-  Accordion widget — same five questions/answers, dropped in by hand since the composition
-  tool's XML only understands `e-*` atomic tags and named site-part/component references.
 - **The nav and footer are not in this composition.** They're shared sitewide chrome and
   belong in Elementor's Theme Builder header/footer, not duplicated per location page.
-- **The 8 nearby-area pills link to sibling location pages that don't exist yet**
-  (`/locations/round-rock-tx/` etc.). This is the interlinking *pattern* from
-  `docs/elementor-authoring.md` §7, not a claim those pages are live — swap for a
-  dynamic-tag repeater over the location taxonomy once the CPT exists.
-- **Two FAQ answers and the hero/CTA copy are Austin-specific text**, not dynamic tags bound
-  to post fields — this is a concrete, finished page for one city, not yet the templated
-  version. Converting the city-specific strings to dynamic tags against the `location` CPT
-  fields (`docs/elementor-authoring.md` §7) is the mechanical next step once that CPT is
-  built on the live site — a decision for that build, not something to fabricate here.
+- **The nearby-area pills are plain text, not links.** The sibling location pages do not
+  exist, and shipping 8 links that 404 on a page whose whole argument is "we tell you the
+  truth" is worse than shipping none. They become buttons with dynamic permalinks once the
+  location CPT ships (`docs/elementor-authoring.md` §7).
+- **City-specific strings are literal text**, not dynamic tags bound to post fields. This is a
+  finished page for one city, not yet the templated version. Which strings are the local ones
+  is documented in `design/location-pages/README.md`; converting them to dynamic tags against
+  the `location` CPT is the mechanical next step once that CPT exists on the live site.

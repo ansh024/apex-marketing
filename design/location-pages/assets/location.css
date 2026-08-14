@@ -1,17 +1,36 @@
-/* Apex Marketing — location page composition layer.
-   Sits on top of apex-design-system.css. Every component class here
-   (apex-*) is verbatim from the design system; everything prefixed `loc-`
-   is page composition — grid, section chrome, breakpoints — hand-built to
-   the same numeric rules as the homepage (see docs/design.md §4), because
-   the design-system package intentionally ships components only and
-   leaves page composition to be built per page, same as ui_kits/website
-   does with inline grid styles.
+/* Apex Marketing - location page composition layer.
+   Sits on top of apex-design-system.css. Every component class (apex-*) is
+   verbatim from the design system; everything prefixed `loc-` is page
+   composition - grid, section chrome, breakpoints - built to the same numeric
+   rules as the homepage (docs/design.md §4), because the design-system package
+   ships components only and leaves page composition per page.
 
-   No JavaScript. No canvas, no GSAP, no scroll-scrub — this is the "calm,
-   pure-Elementor" version of the brand (docs/design.md §9): everything in
-   this file is expressible in Elementor's atomic style schema. */
+   No JavaScript. Everything here is expressible in Elementor's atomic style
+   schema, per the "calm, pure-Elementor" decision in docs/design.md §9.
 
-/* ---- shared section chrome, matches homepage .sec exactly ---------- */
+   Accessibility fixes applied after the impeccable/taste review are marked A11Y. */
+
+/* ---- A11Y: nano type floors at 12px on small screens.
+   homepage.css:830 does this and the packaged design system dropped it, which
+   left 28 text runs at 11px on mobile. Restore the documented floor. --------- */
+@media (max-width: 767px) {
+  :root { --t-nano: 0.75rem; }
+}
+
+/* ---- A11Y: the design system scopes :focus-visible to a/button/[tabindex],
+   so <summary> fell through to the Chromium default ring. Add summary, and
+   pair the pink ring with an ink hairline: pink-hot on paper is 2.85:1, under
+   the 3:1 WCAG 1.4.11 floor for focus indicators, so the ink ring carries the
+   contrast while pink keeps the brand's "focus is annotation" rule. ---------- */
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--pink-hot);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 1px var(--ink);
+  border-radius: var(--r-sm);
+}
+summary:focus-visible { outline: 2px solid var(--pink-hot); outline-offset: 3px; }
+
+/* ---- shared section chrome, matches homepage .sec ------------------ */
 .loc-sec {
   position: relative;
   background: var(--paper);
@@ -21,9 +40,10 @@
 .loc-sec--tight { padding-block: var(--s-8); }
 .loc-sec__body { position: relative; z-index: 2; }
 .loc-grid-field { z-index: 1; }
+.loc-sec--raised { background: var(--paper-raised); }
 
-/* section head: 12-col grid, title 7/8, intro 4 with a deliberate gap
-   column — identical split to the homepage services/industries heads */
+/* section head: 12-col, title 7-8 / intro 4, with the deliberate gap column.
+   Identical split to the homepage's services and industries heads. */
 .loc-sec__head {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -41,33 +61,56 @@
   gap: var(--s-4);
   padding-top: var(--s-2);
 }
-.loc-sec__head--wide .loc-sec__head-intro { grid-column: 9 / span 4; }
 .loc-sec__head-intro .apex-lede { max-width: 34ch; }
+.loc-sec__head .apex-h2 { max-width: 16ch; }
+.loc-sec__head--wide .apex-h2 { max-width: 20ch; }
 
-/* ---- breadcrumb — a slim data-voice line, not a generic bar -------- */
+/* ---- breadcrumb ---------------------------------------------------- */
 .loc-crumb {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--ink-muted);
+  gap: 4px;
   flex-wrap: wrap;
+  color: var(--ink-muted);
+}
+/* A11Y: these were 17px tall, 39% of the 44px minimum. */
+.loc-crumb a,
+.loc-crumb span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 4px;
 }
 .loc-crumb a { color: var(--ink-muted); }
 .loc-crumb a:hover { color: var(--blue); }
-.loc-crumb span[aria-hidden] { opacity: 0.5; }
+.loc-crumb .is-sep { opacity: 0.45; }
 .loc-crumb .is-current { color: var(--ink); }
 
-/* ---- hero — flat paper, no relief canvas, no black handover -------- */
+/* ---- A11Y: nav touch targets (brand was 23.6px, CTA 40.6px, links 39px) */
+.apex-nav__brand { min-height: 44px; display: inline-flex; align-items: center; }
+.apex-nav__pill .apex-btn--sm { min-height: 44px; }
+/* Scoped to the width where the links actually render: the design system hides
+   them below 900px, and an unscoped `display:inline-flex` here would load after
+   that rule and un-hide them, overflowing the pill on mobile. */
+@media (min-width: 900px) {
+  .apex-nav__link { min-height: 44px; display: inline-flex; align-items: center; }
+}
+
+/* ══ HERO ═══════════════════════════════════════════════════════════
+   Flat paper, construction grid, no relief canvas and no black handover.
+   The right-hand columns carry the survey plate rather than sitting empty:
+   this is the brand's annotation drum doing its actual job (design.md §6),
+   and every value on the plate is checkable. ═══════════════════════ */
 .loc-hero { position: relative; background: var(--paper); overflow: hidden; }
 .loc-hero__body {
   position: relative;
   z-index: 2;
-  padding-block: clamp(120px, 20vh, 200px) var(--s-8);
+  padding-block: clamp(112px, 17vh, 168px) var(--s-8);
 }
 .loc-hero__cols {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: var(--s-6);
+  gap: var(--s-7);
   align-items: start;
 }
 .loc-hero__lead {
@@ -75,8 +118,46 @@
   display: flex;
   flex-direction: column;
   gap: var(--s-5);
+  align-items: flex-start;
 }
-.loc-hero__cta-row { display: flex; gap: var(--s-3); flex-wrap: wrap; align-items: center; margin-top: var(--s-2); }
+/* Hero headline runs at the homepage's own scale. design.md §3: do not
+   time-shy the display sizes down. */
+.loc-hero__h1 {
+  font-size: clamp(2.9rem, 1rem + 6.2vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.048em;
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  .loc-hero__h1 { font-size: clamp(2.465rem, 0.85rem + 5.27vw, 5.95rem); }
+}
+.loc-hero__cta-row { display: flex; gap: var(--s-3); flex-wrap: wrap; align-items: center; }
+
+/* the survey plate - annotation drum, real values only.
+   The crosshair lives on the OUTER wrapper: .apex-plate sets overflow:hidden,
+   which clips a mark placed inside it. */
+.loc-plate {
+  grid-column: 9 / span 4;
+  position: relative;
+  margin-top: var(--s-2);
+}
+.loc-plate__inner { position: relative; }
+.loc-plate__mark { inset-block-start: 0; inset-inline-start: 0; width: 1px; height: 1px; z-index: 3; }
+.loc-plate__body { position: relative; z-index: 1; padding: var(--s-5) var(--s-5) var(--s-4); display: flex; flex-direction: column; }
+.loc-plate__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--s-4);
+  padding-block: var(--s-3);
+  border-bottom: var(--hair) solid var(--rule);
+}
+.loc-plate__row:last-child { border-bottom: 0; }
+.loc-plate__k { color: var(--ink-muted); }
+.loc-plate__v { color: var(--ink); text-align: right; }
+
+/* the rail carries the plate index, like the homepage's hero__idx - it is
+   structure, not a decorative strip */
 .loc-hero__rail {
   margin-top: var(--s-8);
   display: flex;
@@ -88,8 +169,10 @@
   border-top: var(--hair) solid var(--rule-strong);
   color: var(--ink-muted);
 }
+.loc-hero__idx { display: flex; gap: var(--s-4); }
+.loc-hero__idx b { font-weight: 400; color: var(--ink); }
 
-/* ---- proof strip — a compact band between hero and services -------- */
+/* ══ TRACK RECORD ══════════════════════════════════════════════════ */
 .loc-proof {
   position: relative;
   background: var(--paper-raised);
@@ -104,12 +187,54 @@
   justify-content: space-between;
 }
 .loc-proof__stats { display: flex; gap: var(--s-7); flex-wrap: wrap; }
-.loc-proof__eyebrow { color: var(--ink-muted); max-width: 22ch; }
+.loc-proof__note { color: var(--ink-muted); max-width: 30ch; }
 
-/* ---- services grid — apex-pc plates, this is just the flex wrapper - */
+/* ══ SERVICES ══════════════════════════════════════════════════════ */
 .loc-services__grid { display: flex; flex-wrap: wrap; gap: var(--s-5); }
+/* A11Y: paper on blue is 4.47:1, under AA for this 11px label. White is
+   5.19:1 and passes. */
+.apex-pc__flag { color: #FFFFFF; }
 
-/* ---- feature-tile strip — identical grid to Pricing.jsx's guarantee - */
+/* ══ TERMS - the ruled clause stack, static (no dwell timer, no JS) ══ */
+.loc-terms { border-top: var(--hair) solid var(--rule-strong); }
+.loc-clause {
+  position: relative;
+  border-bottom: var(--hair) solid var(--rule-strong);
+  padding-block: var(--s-6);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--s-6);
+  align-items: start;
+}
+.loc-clause__term {
+  grid-column: 1 / span 5;
+  font-size: clamp(1.2rem, 0.95rem + 1vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.032em;
+  line-height: 1.14;
+  color: var(--ink);
+}
+.loc-clause__note {
+  grid-column: 7 / span 5;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--ink-muted);
+  max-width: 46ch;
+}
+/* the tone bar is the annotation: one hairline per clause, in that clause's
+   accent, sitting in the gap column */
+.loc-clause__bar {
+  grid-column: 6 / span 1;
+  height: 3px;
+  margin-top: 0.7em;
+  background: var(--tab-accent, var(--pink-hot));
+}
+.loc-clause[data-tone="blue"] { --tab-accent: var(--blue); }
+.loc-clause[data-tone="mint"] { --tab-accent: var(--tone-mint-accent); }
+.loc-clause[data-tone="lavender"] { --tab-accent: var(--tone-lav-accent); }
+.loc-clause[data-tone="rose"] { --tab-accent: var(--pink-hot); }
+
+/* ══ FEATURE TILES + SERVICE AREA ══════════════════════════════════ */
 .loc-feature-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -117,18 +242,29 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  max-width: 1100px; /* homepage.css:624 caps this; without it the tiles strand */
 }
-.loc-feature-grid + .loc-pricing-link { margin-top: var(--s-6); text-align: center; }
-
-/* ---- service area — nearby-city pills, IndustryPill component ------ */
+/* A11Y: the design system's tile clamp floors at 0.72rem (11.5px). Hold 12px,
+   same reasoning as the nano floor above. */
+.apex-feature-tile { font-size: clamp(0.75rem, 0.67rem + 0.18vw, 0.84rem); }
 .loc-areas { display: flex; flex-wrap: wrap; gap: var(--s-3); }
-
-/* ---- FAQ — native <details>, styled to the Clause visual language -- */
-.loc-faq { border-top: var(--hair) solid var(--rule-strong); max-width: 860px; }
-.loc-faq__item {
-  position: relative;
-  border-bottom: var(--hair) solid var(--rule-strong);
+/* Not links: the sibling location pages do not exist yet, so these are
+   plain pills. They become <a> when the location CPT ships. */
+.loc-areas span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  white-space: nowrap;
+  border: var(--hair) solid var(--rule-strong);
+  border-radius: var(--r-pill);
+  background: var(--paper-raised);
+  color: var(--ink);
 }
+
+/* ══ FAQ ═══════════════════════════════════════════════════════════ */
+.loc-faq { border-top: var(--hair) solid var(--rule-strong); max-width: 860px; }
+.loc-faq__item { position: relative; border-bottom: var(--hair) solid var(--rule-strong); }
 .loc-faq__item summary {
   list-style: none;
   cursor: pointer;
@@ -137,7 +273,7 @@
   justify-content: space-between;
   gap: var(--s-4);
   padding-block: var(--s-5);
-  transition: color var(--d-fast) var(--e-out);
+  min-height: 44px;
 }
 .loc-faq__item summary::-webkit-details-marker { display: none; }
 .loc-faq__item summary:hover .loc-faq__q { color: var(--blue); }
@@ -149,14 +285,13 @@
   color: var(--ink);
   transition: color var(--d-fast) var(--e-out);
 }
+/* A11Y: was --ink-faint at 2.96:1, under the 3:1 floor for UI glyphs. */
 .loc-faq__toggle {
   flex: none;
-  font-family: var(--font-data);
   font-size: 1.25rem;
   line-height: 1;
-  color: var(--ink-faint);
-  transform: rotate(0deg);
-  transition: transform var(--d-mid) var(--e-out);
+  color: var(--ink-muted);
+  transition: transform var(--d-mid) var(--e-out), color var(--d-mid) var(--e-out);
 }
 .loc-faq__item[open] .loc-faq__toggle { transform: rotate(45deg); color: var(--pink-hot); }
 .loc-faq__a {
@@ -167,30 +302,41 @@
   line-height: 1.55;
 }
 
-/* ---- final CTA band — night surface, not the full-bleed ticket ----- */
-.loc-cta {
-  position: relative;
-  background: var(--night);
-  color: var(--paper);
-  overflow: hidden;
-  padding-block: clamp(var(--s-8), 9vw, var(--s-10));
-}
-.loc-cta__body {
+/* ══ BOOK - the real form, not a dead button ═══════════════════════ */
+.loc-book { position: relative; background: #000000; color: var(--paper); overflow: hidden; padding-block: clamp(var(--s-8), 9vw, var(--s-10)); }
+.loc-book__cols {
   position: relative;
   z-index: 2;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--s-5);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--s-7);
+  align-items: start;
 }
-.loc-cta__body .apex-h2 { max-width: 20ch; color: var(--paper); }
-.loc-cta__body .apex-lede { color: rgba(238, 238, 238, 0.72); max-width: 44ch; }
-.loc-cta__row { display: flex; gap: var(--s-3); flex-wrap: wrap; justify-content: center; }
-.loc-cta .apex-btn--ghost { border-color: rgba(238, 238, 238, 0.3); color: var(--paper); }
-.loc-cta .apex-btn--ghost:hover { background: var(--paper); color: var(--night); border-color: var(--paper); }
+.loc-book__copy { grid-column: 1 / span 5; display: flex; flex-direction: column; gap: var(--s-5); align-items: flex-start; }
+.loc-book__copy .apex-h2 { color: var(--paper); max-width: 14ch; }
+.loc-book__list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
+.loc-book__list li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 10px;
+  color: rgba(238, 238, 238, 0.82);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+.loc-book__list li::before { content: "\2713"; color: var(--mint); font-weight: 700; }
+.loc-book__form { grid-column: 7 / span 6; position: relative; }
+.loc-book__frame {
+  width: 100%;
+  min-height: 640px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: var(--paper);
+  display: block;
+}
+.loc-book__fallback { margin-top: var(--s-3); color: rgba(238, 238, 238, 0.72); }
+.loc-book__fallback a { color: var(--mint); text-decoration: underline; text-underline-offset: 4px; }
 
-/* ---- founder section — same 12-col split as the homepage ----------- */
+/* ══ FOUNDER ═══════════════════════════════════════════════════════ */
 .loc-founder__cols {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -200,36 +346,54 @@
 .loc-founder__portrait { grid-column: 1 / span 4; }
 .loc-founder__copy { grid-column: 6 / span 7; display: flex; flex-direction: column; gap: var(--s-5); align-items: flex-start; }
 .loc-founder__quote { font-size: clamp(1.0625rem, 1rem + 0.5vw, 1.3125rem); line-height: 1.5; max-width: 52ch; }
+/* A11Y: this is a sentence, not a label. The data voice is for facts and
+   labels; setting a 65-character sentence in tracked uppercase is what the
+   detector flags as all-caps-body. */
+.loc-founder__sig { color: var(--ink-muted); font-size: var(--t-small); }
 
-/* ---- footer — identical structure to SiteFooter.jsx ----------------- */
-.loc-foot { background: var(--blue); color: var(--paper); padding: var(--s-8) 0 0; overflow: hidden; }
+/* ══ FOOTER ════════════════════════════════════════════════════════
+   A11Y: paper (#EEEEEE) on --blue is 4.47:1 and every alpha below that
+   failed AA (down to 2.56:1 on the legal line). White on --blue is 5.19:1
+   and passes, so hierarchy here comes from size and weight, never alpha. */
+.loc-foot { background: var(--blue); color: #FFFFFF; padding: var(--s-8) 0 var(--s-6); overflow: hidden; }
 .loc-foot__grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.4fr; gap: var(--s-6); }
-.loc-foot__grid > div { display: flex; flex-direction: column; gap: 10px; }
-.loc-foot__grid a { color: rgba(238, 238, 238, 0.78); font-size: 0.9375rem; min-height: 44px; display: flex; align-items: center; }
-.loc-foot__grid a:hover { color: var(--paper); }
-.loc-foot__k { color: var(--mint); margin-bottom: 4px; }
-.loc-foot__brand p { color: rgba(238, 238, 238, 0.66); max-width: 30ch; }
+.loc-foot__grid > div { display: flex; flex-direction: column; gap: 6px; }
+.loc-foot__grid a {
+  color: #FFFFFF;
+  font-size: 0.9375rem;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.loc-foot__grid a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.loc-foot__k { color: #FFFFFF; font-weight: 700; margin-bottom: 2px; }
+.loc-foot__brand p { color: #FFFFFF; max-width: 32ch; font-size: var(--t-small); line-height: 1.5; }
 .loc-foot__legal {
   display: flex;
   justify-content: space-between;
   gap: var(--s-5);
   flex-wrap: wrap;
-  margin-top: var(--s-5);
+  margin-top: var(--s-6);
   padding-top: var(--s-4);
-  border-top: var(--hair) solid rgba(238, 238, 238, 0.22);
-  color: rgba(238, 238, 238, 0.62);
+  border-top: var(--hair) solid rgba(255, 255, 255, 0.28);
+  color: #FFFFFF;
+  font-size: var(--t-small);
 }
-.loc-foot__band { margin-top: var(--s-3); text-align: center; }
+/* The homepage band morphs between two words. A static concatenation
+   ("APEXMARKETING") overflowed its box at every width and clipped mid-letter,
+   so the static version carries the wordmark alone, which fits. */
+.loc-foot__band { margin-top: var(--s-7); text-align: center; }
 .loc-foot__band span {
   display: block;
-  width: 100%;
-  color: var(--paper);
-  font-size: clamp(4.2rem, 14.4vw, 13.2rem);
-  letter-spacing: -0.075em;
-  line-height: 0.82;
+  color: #FFFFFF;
+  font-size: clamp(3.5rem, 15vw, 10rem);
+  letter-spacing: var(--tr-mark);
+  line-height: 1;
+  padding-bottom: 0.06em;
+  padding-inline-start: var(--tr-mark);
 }
 
-/* ---- skip link -------------------------------------------------------*/
+/* ---- skip link ---------------------------------------------------- */
 .loc-skip { position: absolute; left: -9999px; }
 .loc-skip:focus {
   left: var(--gutter);
@@ -237,28 +401,42 @@
   z-index: 99;
   background: var(--ink);
   color: var(--paper);
-  padding: 10px 16px;
+  padding: 12px 18px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   border-radius: var(--r-pill);
 }
 
-/* ══ RESPONSIVE — same breakpoints and collapse strategy as homepage.css,
-   §4: overriding grid-column alone is not enough, 12 tracks carry 11
-   gaps, so grids drop to flex column entirely below 1024px. ══════════ */
+/* ══ RESPONSIVE - same breakpoints and collapse strategy as homepage.css.
+   design.md §4: overriding grid-column alone is not enough, 12 tracks carry
+   11 gaps, so the grids drop to flex column entirely. ═════════════════ */
 @media (max-width: 1023px) {
-  .loc-sec__head, .loc-hero__cols, .loc-founder__cols {
+  .loc-sec__head,
+  .loc-hero__cols,
+  .loc-founder__cols,
+  .loc-book__cols,
+  .loc-clause {
     display: flex;
     flex-direction: column;
     gap: var(--s-5);
   }
+  .loc-clause { gap: var(--s-3); padding-block: var(--s-5); }
+  .loc-clause__bar { width: 56px; height: 3px; margin-top: 0; }
+  .loc-clause__note { max-width: 60ch; }
+  .loc-plate { margin-top: var(--s-4); max-width: 420px; }
   .loc-founder__portrait { max-width: 320px; }
   .loc-proof__row { flex-direction: column; align-items: flex-start; gap: var(--s-5); }
+  .loc-book__frame { min-height: 700px; }
+  .loc-feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 899px) {
   .loc-foot__grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 767px) {
-  .loc-feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .loc-hero__rail { flex-direction: column; align-items: flex-start; }
+  .loc-hero__rail { flex-direction: column; align-items: flex-start; gap: var(--s-2); }
+  .loc-hero__idx { display: none; } /* the index needs the width to read as one */
   .loc-founder__portrait { max-width: 240px; }
   .loc-foot__grid { grid-template-columns: 1fr; }
+  .loc-feature-grid { grid-template-columns: 1fr; max-width: 360px; }
 }
