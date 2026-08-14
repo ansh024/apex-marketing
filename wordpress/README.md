@@ -98,7 +98,10 @@ lower version because WordPress may not recognize it as an available update.
   need to self-host those.
 - **Founder photo** still points at `https://apex-marketing.ai/wp-content/uploads/...` — swap
   this for your real Media Library URL in `templates/template-apex-landing.php`.
-- **FAQ placeholder**: "Do you work with competing practices in my city?" still has a
-  `[PLACEHOLDER]` answer — same as the original build, needs a real answer before launch.
+- ~~**FAQ placeholder**: "Do you work with competing practices in my city?"~~ Resolved: no
+  blanket exclusivity by default, decided case-by-case on the audit call. Same policy now
+  answers this question on both the landing template and the Austin location page
+  (`design/location-pages/austin-tx.html`) — keep any future page's answer to this question
+  consistent with it rather than re-deciding per page.
 - The plugin enqueues its CSS/JS **only** on pages using the Apex Landing template, so it
   won't affect the rest of your site's performance or styling.

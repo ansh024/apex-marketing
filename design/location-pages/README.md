@@ -58,14 +58,10 @@ Location pages go live through the normal Elementor page/template path (see
   The proof strip reuses the same honest, sitewide figures the homepage already publishes
   (10+ years, 1000+ accounts, $10M+ managed, 60-day guarantee), reframed as "why Austin
   businesses work with Apex" rather than inventing Austin-specific numbers that don't exist.
-- **The "competing businesses" FAQ answer here is deliberately soft — flag before reusing
-  it elsewhere.** `wordpress/README.md` describes this question as an unfilled
-  `[PLACEHOLDER]`, but `template-apex-landing.php`'s own FAQ already answers it, and more
-  strongly than this page does: *"No, we never engage in a conflict of interest and do not
-  work with a competitor in your target location, ever."* That's a real, existing promise to
-  a specific vertical (that template is medical/plastic-surgery-flavored copy — see its
-  "surgical candidates," "case mix" language). This location page's answer
-  ("no blanket exclusivity by default... raise it on the audit call") is written for general
-  local businesses and contradicts that stronger claim. **Do not copy this page's wording
-  onto the landing template, or vice versa, without deciding which promise the business
-  actually intends to keep** — that's a policy call, not a copy-consistency fix.
+- **The "competing businesses" FAQ answer is now the confirmed policy, not a draft.** This
+  page originally contradicted `template-apex-landing.php`'s own FAQ, which promised
+  category exclusivity outright. Confirmed with the business: no blanket exclusivity by
+  default, decided case-by-case on the audit call. `template-apex-landing.php` has been
+  updated to match (in its own practice-focused voice) and `wordpress/README.md`'s
+  placeholder note is closed out. Any future page answering this question should match this
+  wording rather than re-deriving it.
