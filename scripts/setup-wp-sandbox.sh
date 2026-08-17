@@ -23,7 +23,8 @@ set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SANDBOX="${WP_SANDBOX_DIR:-/tmp/apex-wp-sandbox}"
-WP_VERSION="${WP_VERSION:-6.9.7}"
+# Matches the Apex staging site. Override with WP_VERSION when testing an upgrade.
+WP_VERSION="${WP_VERSION:-7.0.4}"
 PORT="${WP_SANDBOX_PORT:-8080}"
 WP_DIR="$SANDBOX/wp"
 WP_CLI="$SANDBOX/wp-cli.phar"

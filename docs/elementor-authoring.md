@@ -535,6 +535,33 @@ All 7 element types the template uses (`e-div-block` ×31, `e-flexbox` ×75, `e-
 `e-heading` ×29, `e-button` ×5, `e-image` ×5, `e-divider` ×4) exist in Elementor 4.0.0. The XML
 structure parses. So the *vocabulary* is right; only the value encoding is wrong.
 
+### The style schema is shorthand-keyed, and this inverts a rule above
+
+§2 and §9 say "longhand CSS only (`padding-top`, not `padding`)". **That is correct for the
+`build-composition` CSS path and exactly backwards for the native document format.** The native
+style schema has no `padding-top`, no `row-gap`, no `flex-grow`, no `border-top-width`, no
+`background-color`, and no `top`/`right`/`bottom`/`left`. It has `padding` and `margin` taking
+`{block-start, inline-end, block-end, inline-start}`, `gap` taking `{row, column}`, `flex` taking
+`{flexGrow, flexShrink, flexBasis}`, `border-width` and `border-radius` taking logical objects,
+`background`, and logical insets. Values are also logical: `text-align` rejects `left`/`right` and
+wants `start`/`end`, and `align-items` has no `baseline`.
+
+Both rules are right in their own context. Know which format you are writing.
+
+### Prop-type keys are version-dependent
+
+`border-width` → `border-width-v2` and `border-radius` → `border-radius-v2` between 4.0 and 4.2.
+The location template validated clean on 4.0.0 and then failed 23 elements on 4.2 from identical
+input. **Validate against the version you are importing into**; validating against the wrong one
+is worse than not validating, because it produces false confidence. `scripts/elementor_native.py`
+keeps these as named constants.
+
+### Integral numbers must be ints, not floats
+
+`{"size": 1.0}` is rejected where `{"size": 1}` is accepted, and a size with an empty unit is
+always invalid — so `0` needs `px`, `line-height: 1.45` needs `em`, and `opacity: 0.05` becomes
+`5%`. Full list of the nine surprises in `docs/converter-plan.md`.
+
 ### What the sandbox could not do
 
 Atomic elements render through Twig, which Elementor ships prefixed as `ElementorDeps\Twig` via

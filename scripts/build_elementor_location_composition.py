@@ -23,11 +23,15 @@ in elementor/elementor @ main, 2026-08-13.
 Run: python3 scripts/build_elementor_location_composition.py
 """
 import json
+import re
 import xml.dom.minidom as minidom
 from pathlib import Path
 
+import elementor_native
+
 REPO_ROOT = Path(__file__).resolve().parent.parent
 OUT_PATH = REPO_ROOT / "elementor-templates" / "location-page.json"
+NATIVE_PATH = REPO_ROOT / "elementor-templates" / "location-page-native.json"
 
 # --------------------------------------------------------------------------
 # Longhand-only CSS helpers. The MCP guidance is explicit that shorthands can
@@ -807,6 +811,140 @@ def collect(node, cfg, sty, cls):
         collect(c, cfg, sty, cls)
 
 
+def build_native(tree):
+    """
+    Emit the same tree as a native Elementor template.
+
+    The composition payload above targets `build-composition`, which ships only
+    in Elementor's unreleased modules/mcp, so no real site can import it. This
+    produces the document format Elementor does import. See docs/converter-plan.md.
+    """
+    variables = {v["label"]: v for v in GLOBAL_VARIABLES}
+
+    # The service cards theme themselves with --pc-bg/--pc-band/--pc-rule, read by
+    # shared global classes. The style schema has no custom properties, and a
+    # shared class cannot hold a per-card colour, so tone-dependent declarations
+    # are lifted out of the global classes and re-emitted as element-local styles
+    # with the card's own palette variable substituted in.
+    tone_re = re.compile(r"--pc-bg:\s*var\(--pc-([a-z])-bg\)")
+
+    split_tone = elementor_native.split_tone_dependent
+
+    # Global classes, with tone-dependent declarations removed.
+    native_classes, class_tone_css = {}, {}
+    for label, css in GLOBAL_CLASSES.items():
+        flat = " ".join(css.split())
+        indep, dep = split_tone(flat)
+        native_classes[label] = indep
+        if dep:
+            class_tone_css[label] = dep
+
+    content, problems = [], []
+
+    def convert(node, tone):
+        el_id = elementor_native.stable_id(node.cid)
+
+        own_tone = tone
+        if node.style:
+            m = tone_re.search(node.style)
+            if m:
+                own_tone = m.group(1)
+
+        # Element style = its own style, plus any tone-dependent declarations
+        # inherited from the global classes it references.
+        pieces = []
+        for label in node.classes:
+            if label in class_tone_css:
+                pieces.append(class_tone_css[label])
+        if node.style:
+            _, own_dep = split_tone(node.style)
+            own_indep = split_tone(node.style)[0]
+            if own_indep:
+                pieces.append(own_indep)
+            # The card's own --pc-* declarations are pure indirection; once the
+            # tone is known they carry no value of their own.
+            del own_dep
+
+        css = "; ".join(p for p in pieces if p)
+        if own_tone:
+            css = css.replace("var(--pc-bg)", "var(--pc-%s-bg)" % own_tone)
+            css = css.replace("var(--pc-band)", "var(--pc-%s-band)" % own_tone)
+            css = css.replace("var(--pc-rule)", "var(--pc-%s-rule)" % own_tone)
+
+        styles, class_refs = {}, list(node.classes)
+        if css.strip():
+            style_id = elementor_native.local_style_id(el_id, node.cid)
+            try:
+                block = elementor_native.compile_style(
+                    css, style_id, "local", variables, node.cid)
+            except elementor_native.UnmappableCSS as exc:
+                problems.append(str(exc))
+                block = None
+            if block:
+                styles[style_id] = block
+                class_refs.append(style_id)
+
+        settings = {}
+        if class_refs:
+            settings["classes"] = {"$$type": "classes", "value": class_refs}
+
+        for key, value in node.config.items():
+            if key == "tag":
+                settings["tag"] = {"$$type": "string", "value": value}
+            elif key in ("title", "paragraph", "text"):
+                settings[key] = {
+                    "$$type": "html-v3",
+                    "value": {
+                        "content": {"$$type": "string", "value": value["content"]},
+                        "children": value.get("children", []),
+                    },
+                }
+            elif key == "link":
+                settings["link"] = {
+                    "$$type": "link",
+                    "value": {
+                        "destination": {"$$type": "url", "value": value["destination"]},
+                        "isTargetBlank": {"$$type": "boolean", "value": value.get("isTargetBlank", False)},
+                    },
+                }
+            elif key == "image":
+                settings["image"] = {
+                    "$$type": "image",
+                    "value": {
+                        "src": {"$$type": "image-src", "value": {
+                            "id": None,
+                            "url": {"$$type": "url", "value": value["src"]["url"]},
+                        }},
+                        "size": {"$$type": "string", "value": value.get("size", "full")},
+                    },
+                }
+            else:
+                problems.append("%s: unhandled setting %r" % (node.cid, key))
+
+        out = {"id": el_id, "settings": settings, "elements": [], "isInner": False}
+        if node.tag in ("e-div-block", "e-flexbox"):
+            out["elType"] = node.tag
+        else:
+            out["elType"] = "widget"
+            out["widgetType"] = node.tag
+        if styles:
+            out["styles"] = styles
+
+        out["elements"] = [convert(c, own_tone) for c in node.children]
+        return out
+
+    for n in tree:
+        content.append(convert(n, None))
+
+    if problems:
+        raise SystemExit(
+            "Cannot express %d declaration(s) in the Elementor style schema:\n  %s"
+            % (len(problems), "\n  ".join(sorted(set(problems))[:40]))
+        )
+
+    return content, native_classes, variables
+
+
 def main():
     tree = build_tree()
     xml_structure = "".join(render_xml(n) for n in tree)
@@ -882,6 +1020,76 @@ def main():
     print(f"Wrote {OUT_PATH.relative_to(REPO_ROOT)}: {len(ids)} elements, "
           f"{len(GLOBAL_VARIABLES)} variables, {len(GLOBAL_CLASSES)} classes. "
           f"No em-dashes. All class refs resolved.")
+
+    # ---- native template, the one a real site can actually import ----
+    content, native_classes, variables = build_native(tree)
+
+    def count(nodes):
+        return sum(1 + count(n["elements"]) for n in nodes)
+
+    native_count = count(content)
+    if native_count != len(ids):
+        raise SystemExit(
+            f"Native emitter lost elements: {len(ids)} in, {native_count} out.")
+
+    compiled_classes = []
+    for label, css in native_classes.items():
+        if not css.strip():
+            continue
+        block = elementor_native.compile_style(
+            css, f"g-{elementor_native.stable_id('class', label)}", label,
+            variables, f"global class `{label}`")
+        if block:
+            compiled_classes.append(block)
+
+    native = {
+        "version": "0.4",
+        "title": "Apex location page",
+        "type": "page",
+        "_readme": (
+            "Native Elementor template. Import via Templates > Saved Templates > Import. "
+            "Generated by scripts/build_elementor_location_composition.py and validated "
+            "with scripts/validate-elementor-template.php against a real Elementor. "
+            "Regenerate rather than hand-editing. Header, footer and nav are Theme Builder "
+            "parts and are deliberately not included."
+        ),
+        "manual_steps": payload["manual_steps"] + [
+            {
+                "target": "grid-field global class",
+                "why": ("The 5%-opacity construction grid is a repeating two-axis "
+                        "linear-gradient. The style schema's gradient overlay has no "
+                        "background-size, so a gradient fills its box once and draws a "
+                        "single line instead of a grid."),
+                "action": ("Optional, purely decorative. To restore it: upload one 220x220 "
+                           "PNG of a single grid cell (a 1px ink line on the top and left "
+                           "edges, transparent elsewhere), then on the `grid-field` global "
+                           "class add a Background image overlay with repeat=repeat and a "
+                           "custom size of 220x220. The image overlay shape does support "
+                           "repeat and a scaled size, so this reproduces the original exactly."),
+            },
+        ],
+        "content": content,
+        "global_classes": {
+            "items": {b["id"]: b for b in compiled_classes},
+            "order": [b["id"] for b in compiled_classes],
+        },
+        "global_variables": {
+            elementor_native.variable_id(v["label"]): {
+                "id": elementor_native.variable_id(v["label"]),
+                "label": v["label"],
+                "type": "global-color-variable" if v["type"] == "color" else "global-size-variable",
+                "value": v["value"],
+            }
+            for v in GLOBAL_VARIABLES
+        },
+    }
+
+    NATIVE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    NATIVE_PATH.write_text(json.dumps(native, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Wrote {NATIVE_PATH.relative_to(REPO_ROOT)}: {native_count} elements, "
+          f"{len(compiled_classes)} global classes, {len(GLOBAL_VARIABLES)} variables.")
+    print("  Now validate it:  wp eval-file scripts/validate-elementor-template.php -- "
+          f"{NATIVE_PATH.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":
