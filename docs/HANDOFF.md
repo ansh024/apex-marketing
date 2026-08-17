@@ -29,8 +29,11 @@ Work through that branch and push there.
   regenerate rather than hand-editing, the script validates ids, XML and class refs and fails the
   build if an em-dash reaches the copy.
 - **`wordpress/apex-landing-page/includes/location-cpt.php`**: the `apex_location` CPT, the
-  `apex_service_area` taxonomy and the template helpers. Run `php scripts/test-location-cpt.php`
-  to exercise the logic without a WordPress install.
+  `apex_service_area` taxonomy and the template helpers. **Verified against a real WordPress
+  6.9.7**, not just stubs. Two harnesses, both documented in `docs/local-testing.md`:
+  `php scripts/test-location-cpt.php` for the logic with WordPress stubbed, and
+  `./scripts/setup-wp-sandbox.sh` to build a throwaway install (core from the GitHub mirror,
+  SQLite instead of MySQL, no Docker) and run `scripts/test-location-integration.php` in it.
 - **`docs/design.md`, `docs/elementor-authoring.md`**: the reference docs.
 
 ## Please install and use these two skills
@@ -140,7 +143,11 @@ is a content problem for the business, not a design problem to solve in the repo
 
 **Needs a human on the live site (unreachable from a sandbox):**
 3. Elementor version is 4.0.x.
-4. The `e_opt_in_v4` experiment is enabled. Do it on staging first, it changes the editor sitewide.
+4. ~~Enable the `e_opt_in_v4` experiment.~~ **Probably already on.** Measured on a real 4.0.8
+   build: `e_opt_in_v4`, `e_opt_in_v4_page` and `e_atomic_elements` all default to **active**. The
+   earlier "default off" claim came from an older branch. Still worth confirming, because a site
+   upgraded from 3.x can carry a stored option that overrides the default — but expect "already
+   on", and it is no longer a blocker to plan around.
 5. Whether a staging site exists.
 6. Whether the kit already has Theme Builder header/footer parts, and whether global class or
    variable labels would collide (import merges by label).
@@ -154,10 +161,23 @@ is a content problem for the business, not a design problem to solve in the repo
    do not vary by city, so they are template content, not fields. Model documented in
    `docs/elementor-authoring.md` §7. **Not yet run against a real WordPress install**, so first
    activation is the real test; rewrite rules flush on activation.
-8. Get the Austin page into Elementor, either by transcribing from `location-page.json` or by
-   submitting it if `elementor/build-composition` has shipped. Two manual steps either way, both
-   listed in the payload's `manual_steps` array: the GoHighLevel booking form as an HTML widget,
-   and optionally the FAQ as a Pro Accordion.
+8. **Convert `location-page.json` to native Elementor document JSON.** This replaced the old item 8
+   on 2026-08-17, when the payload was first tested against a real Elementor 4.0.8 and found to be
+   **not importable as it stands**. It holds plain `element_config` (`{"tag":"header"}`) because it
+   targets the `build-composition` API, and `modules/mcp` is confirmed absent from the 4.0.8 tag,
+   so that API cannot be called on the live site. The element *vocabulary* is correct — all 7 types
+   it uses exist in 4.0.0 — only the value encoding is wrong.
+
+   The good news is this is now verifiable rather than guesswork. `docs/elementor-authoring.md` §11
+   has the exact shapes, established by running Elementor's own validators: heading text is nested
+   `html-v3` (a plain `string` is **invalid** and the element silently vanishes), and the style
+   variant shape this repo already guessed is correct. Build the converter to emit native JSON and
+   push every element through `Props_Parser` and `Style_Parser` before writing the file, the same
+   way the current generator validates ids and XML. `scripts/setup-wp-sandbox.sh` plus the Elementor
+   build in `docs/local-testing.md` §3 gives you those validators locally.
+
+   Two manual steps remain either way, both in the payload's `manual_steps`: the GoHighLevel
+   booking form as an HTML widget, and optionally the FAQ as a Pro Accordion.
 9. Build the Theme Builder header and footer once, from the homepage's nav pill and footer.
    Location pages currently carry their own copies for the standalone prototype only.
 10. Convert the city-specific strings to dynamic tags once the CPT exists. Which strings are local

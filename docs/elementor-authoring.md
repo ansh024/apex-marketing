@@ -24,11 +24,19 @@ Two things follow, and they set the whole plan:
 **Atomic elements are real and shipping.** `modules/atomic-widgets` is present in every `v4.0.x`
 tag. This is not a beta-channel-only feature.
 
-**They are off by default.** They are gated behind the experiment `e_opt_in_v4`
-(`modules/atomic-opt-in/`), whose declared default is `Experiments_Manager::STATE_INACTIVE`.
-Until someone opts in on the site, `e-heading` / `e-div-block` / etc. are not registered, and a
-template JSON containing them imports as empty elements. **This is the single most likely way to
-waste a day.**
+**They are ON by default in 4.0.x.** This corrects what this document said until 2026-08-17, which
+was read from an older branch. Measured on a real Elementor 4.0.8 build (see §11):
+
+```
+e_atomic_elements    default=active  state=default  active=YES
+e_opt_in_v4          default=active  state=default  active=YES
+e_opt_in_v4_page     default=active  state=default  active=YES
+```
+
+The caveat that matters: that reading is from a **fresh** install. A site upgraded from 3.x can
+carry a stored `elementor_experiment-e_opt_in_v4` option that overrides the default, so the state
+still has to be confirmed on the live site — but the expected answer is now "already on", not
+"someone must switch it on". Check it, don't assume it in either direction.
 
 **Elementor's own MCP server is coming but is not in a release yet.** `modules/mcp` exists only on
 `main`. When it ships it is the best authoring path by a wide margin (see §5) — worth knowing it's
@@ -146,12 +154,22 @@ Containers are `elType: "e-div-block"` / `"e-flexbox"`. Widgets are `elType: "wi
 
 ### Element inventory in released 4.0.x
 
+Enumerated from a running Elementor 4.0.8, not read from source. This is the whole list:
+
 ```
-containers   e-div-block   e-flexbox
-content      e-heading   e-paragraph   e-button   e-image   e-svg   e-divider
-media        e-youtube   e-self-hosted-video
-composite    e-form   e-tabs
+elements (elType)   e-div-block   e-flexbox
+                    e-tabs   e-tabs-menu   e-tab   e-tabs-content-area   e-tab-content
+widgets             e-heading   e-paragraph   e-button   e-image   e-svg   e-divider
+                    e-youtube   e-self-hosted-video   e-component
 ```
+
+**There is no `e-form`.** This document claimed one until 2026-08-17; it does not exist in 4.0.x.
+Any form is a Pro widget or an HTML embed. The booking form on the location page was already
+handled as an HTML-widget manual step, so nothing built depends on the wrong claim.
+
+Note the split: the `e-tabs` family are **elements** (`elType`), while everything on the second
+group is a **widget** (`elType: "widget"` plus `widgetType`). Getting that backwards is a silent
+drop, not an error.
 
 Props per element (from each `define_props_schema()`):
 
@@ -460,6 +478,70 @@ DSL rather than hand-typed JSON, specifically so 141 elements' worth of configur
 strings and class references can be validated (uniqueness, XML well-formedness, every referenced
 class actually defined) before anything is written — the generator catches the kind of mistake
 hand-typing would only surface as a silently-dropped style.
+
+---
+
+## 11. Measured against a real Elementor, 2026-08-17
+
+Everything above this section was read from source. This section was **run**. A throwaway
+WordPress was built in-sandbox (`scripts/setup-wp-sandbox.sh`) and Elementor 4.0.8 was compiled
+from the GitHub tag and activated in it, which finally allowed the §10 ambiguity to be settled by
+asking Elementor instead of reasoning about it.
+
+### The §10 ambiguity is resolved, and the answer is not what was assumed
+
+Elementor's own regression fixture (`tests/elements-regression/tests/templates/atomic/e_heading.json`)
+plus its live validators give the exact shape. Running `Props_Parser` from
+`Elementor\Modules\AtomicWidgets\Parsers` against an `e-heading`:
+
+| Settings shape tried | Verdict |
+|---|---|
+| `title` as `{"$$type":"string","value":"…"}` | **INVALID** — `title: invalid_value` |
+| `title` as `{"$$type":"html-v3","value":{"content":{"$$type":"string","value":"…"},"children":[]}}` | **VALID** |
+
+So heading text is a nested `html-v3` structure, not a string. And critically, **settings fail
+hard** exactly as §2 warned: the invalid version does not render as an unstyled heading, the
+element vanishes from the document entirely with nothing in the log.
+
+The **style** shape this project guessed was right. `Style_Parser` accepts variants with raw,
+unwrapped `{size, unit}` inside a `size` prop:
+
+```
+{"id":"e-bbbb2222-2222222","label":"local","type":"class","variants":[
+  {"meta":{"breakpoint":"desktop","state":null},
+   "props":{"color":{"$$type":"color","value":"#FF3D77"},
+            "font-size":{"$$type":"size","value":{"size":64,"unit":"px"}}}}]}
+```
+→ `VALID`. Local style ids follow `e-<elementId>-<hash>` and the id must also appear in that
+element's `classes` value.
+
+### The payload as it stands cannot be imported into 4.0.x
+
+This is the finding that matters most, and it is a real gap in the deliverable, not a doc nit.
+`location-page.json` holds plain `element_config` (`{"tag":"header"}`). Elementor's validator
+requires `{"$$type":"string","value":"header"}`. Nothing bridges that on a released Elementor:
+`modules/mcp` is confirmed **absent** from the 4.0.8 tag, so `build-composition` — the thing that
+was going to do the type-wrapping — cannot be called on the live site.
+
+The §10 reasoning for choosing that format was sound at the time (no live Elementor, styles fail
+soft, don't ship a guess). It is now obsolete, because the guess can be checked. **The payload
+needs a converter to native document JSON, validated element-by-element through
+`Props_Parser` and `Style_Parser`.** That converter is the next build step, and the validators
+make it verifiable rather than hopeful.
+
+### Verified against the live registry
+
+All 7 element types the template uses (`e-div-block` ×31, `e-flexbox` ×75, `e-paragraph` ×77,
+`e-heading` ×29, `e-button` ×5, `e-image` ×5, `e-divider` ×4) exist in Elementor 4.0.0. The XML
+structure parses. So the *vocabulary* is right; only the value encoding is wrong.
+
+### What the sandbox could not do
+
+Atomic elements render through Twig, which Elementor ships prefixed as `ElementorDeps\Twig` via
+php-scoper, generated from a package on `composer.elementor.com`. That host is denied by this
+environment's egress policy, so `vendor_prefixed/` is empty in a from-source build and rendered
+markup comes back empty. Validation, registration and CSS-schema checks all work without it;
+**final visual rendering has to happen on a real site.**
 
 ---
 
