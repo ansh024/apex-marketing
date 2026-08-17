@@ -78,6 +78,35 @@ Once the `location` CPT exists (`docs/elementor-authoring.md` §7) this stops be
 hand-edited files and becomes one dynamic template. This file is the reference design that
 template renders, not a pattern to hand-copy indefinitely.
 
+## Making the page different from the homepage
+
+The first version was, structurally, the homepage with a city word inserted. The critique's
+sharpest question was: *if you deleted every instance of "Austin," what would remain that a
+Cedar Park visitor couldn't get from the homepage?* The answer was eight suburb pills.
+
+**That is an information problem, not a layout problem**, and it cannot be designed around.
+Restyling makes the page look different while it stays the same page underneath, and
+near-duplicate content across twenty city pages is what local SEO punishes.
+
+So the page now differs by what it *contains*:
+
+| Added, and not on the homepage | Why it belongs here |
+|---|---|
+| **First 30 days** | The homepage never says what actually happens after the call. This is the biggest gap for cold local traffic, and it is sitewide truth, so it needs no invented local detail. |
+| **Three things to ask whoever runs your ads now** | Objection handling for a local buyer choosing between an agency and the operator across town. Every answer is checkable; the challenge is to verify, not to disparage. |
+| **Coverage by county** | Was eight pills. Grouped under Travis, Williamson and Hays it properly answers "do you serve me", which is the number one question on this page type. |
+
+| Removed or folded | Why |
+|---|---|
+| **Standalone founder section** | Identical on every page, and the homepage does it better. Folded into the booking section as a byline and portrait, where "who will I be talking to" is actually useful, at the moment of decision. The critique noted reassurance was entirely absent there. |
+
+**The ceiling, stated plainly.** The four strongest possible differentiators are all blocked on
+data that does not exist yet: a live account count in the metro, a named local client who
+consents, a real market CPL or cost per appointment, or one local testimonial. Any **one** of
+those is worth more than every section above, and none of them can be invented. Until one
+exists, these pages have a hard ceiling on how different they can be, and that is a content
+problem to solve with the business, not a design problem to solve here.
+
 ## What the design review changed
 
 Reviewed with the `impeccable` (dual-agent critique) and `taste-skill` (anti-slop) skills.

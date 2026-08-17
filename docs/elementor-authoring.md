@@ -48,6 +48,43 @@ close, not worth waiting for.
   or loop grids) uses a mature V3/Pro widget instead of being faked in atomic markup. Falling back
   to a real widget is always better than an HTML widget.
 
+## 1b. Site architecture: kit, not a custom theme
+
+Decided 2026-08-14, after the question came up of whether the site needs a whole new theme
+given the design is changing sitewide.
+
+**The design system lives in the Elementor kit, not in a custom theme and not in per-page CSS.**
+
+| Layer | Where it lives |
+|---|---|
+| Design system (colour, type, spacing, components) | Elementor **kit**: global variables + global classes |
+| Header / footer | Theme Builder parts, built once |
+| Location pages | One `single-location` template over the `location` CPT |
+| Other pages | Elementor pages using the same global classes |
+| **Homepage** | **Stays a plugin PHP template. Documented exception.** |
+
+A custom theme was considered and rejected. Its one real advantage is putting the design
+system in a single place, and the kit already does that: the tokens map onto global variables
+and classes cleanly (with the `clamp()` caveat in §10). Its cost is real, though, which is that
+it puts the design system somewhere that needs a developer to change. That cuts directly
+against the goal of the client adding cities and editing copy without one.
+
+**The homepage is a deliberate exception, and it has a price.** Its canvas relief, hero sweep,
+GSAP scroll work and halftone footer cannot be expressed in the atomic style schema (§6), so it
+stays a hand-coded plugin template with its own CSS. The costs, stated so nobody rediscovers
+them:
+
+- The homepage and the kit are two systems that must be kept visually in sync **by hand**. If a
+  brand colour changes, it changes in two places.
+- The homepage stays developer-only. It is not client-editable.
+- `apex-landing-page.php:205-217` dequeues every stylesheet except its own allowlist on those
+  templates, including the kit's. **That hack is load-bearing for the exception.** It is scoped
+  to `is_page()` plus those three templates, so location pages and the CPT are unaffected, but
+  it must never be widened.
+
+If the homepage is ever ported into Elementor, that dequeue is the first thing to delete, and
+the canvas work either goes away or becomes a scoped enhancement layer the template opts into.
+
 ## 2. The atomic data model
 
 This is the part every third-party tutorial gets wrong. Atomic elements do **not** use the flat

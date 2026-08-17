@@ -283,6 +283,13 @@ GLOBAL_CLASSES = {
         + radius("var(--r-pill)") + borders(color="var(--rule-strong)")
         + " background-color: var(--paper-raised); color: var(--ink);"
     ),
+    "step-when": "color: var(--blue-deep);",
+    "step-what": "font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.15; "
+                 "@media(--laptop) { font-size: 1.5rem; }",
+    "step-note": "color: var(--ink-muted); font-size: 1rem; line-height: 1.55; max-width: 52ch;",
+    "ask-q": "font-size: 1.125rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.2; "
+             "@media(--laptop) { font-size: 1.5rem; }",
+    "ask-a": "color: var(--ink-muted); font-size: 1rem; line-height: 1.55;",
     "faq-row": border("top", color="var(--rule-strong)") + box("padding", top="24px", bottom="24px"),
     "faq-q": "font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; "
              "@media(--laptop) { font-size: 1.375rem; }",
@@ -329,6 +336,40 @@ CLAUSES = [
      "One number, walked through by a real person every month. Impressions and reach are not reported, because they are not the point."),
     ("rose", "var(--pink-hot)", "60 days, or every dollar back.",
      "In writing. No fine print, no qualifying conditions, no minimum spend threshold."),
+]
+
+
+STEPS = [
+    ("Days 1 to 3", "Audit and access.",
+     "We map your offer, current spend and buying cycle. You give us access to the ad accounts "
+     "and analytics you already own. Nothing is spent yet."),
+    ("Week 1", "Build.",
+     "Tracking and call tracking go in. The landing page goes up. Campaigns are built around "
+     "your highest-value services, not a template."),
+    ("Week 2", "Live.",
+     "Campaigns run. We watch cost per booked appointment daily and adjust. You have one "
+     "contact, and they answer the phone."),
+    ("Day 30", "First report.",
+     "One number, walked through by a real person. If it is not working, you leave. There is "
+     "no notice period to serve."),
+]
+
+ASK = [
+    ("var(--ink)", "Do I own the accounts?",
+     "With us, yes. Ads, analytics, CRM and domain are in your name. If you leave, they leave "
+     "with you, already set up."),
+    ("var(--blue)", "What number do you report?",
+     "Booked appointments. One number, every month, walked through by a person. Impressions "
+     "and reach are not reported, because they are not the point."),
+    ("var(--pink-hot)", "What happens if I want out?",
+     "You leave. Month to month, no notice period, no termination fee. Inside 60 days, you get "
+     "every dollar back."),
+]
+
+COVERAGE = [
+    ("Travis County", ["Austin", "Pflugerville"]),
+    ("Williamson County", ["Round Rock", "Cedar Park", "Georgetown", "Leander"]),
+    ("Hays County", ["San Marcos", "Kyle", "Buda"]),
 ]
 
 TILES = ["Month-to-month terms", "Free audit and consultation",
@@ -526,7 +567,48 @@ def build_tree():
              ]),
     ])
 
-    # ---- IV. TERMS -------------------------------------------------------
+    # ---- IV. FIRST 30 DAYS -----------------------------------------------
+    # Not on the homepage. Dated labels, so the structure carries real
+    # information (a timeline) rather than generic step enumeration.
+    step_rows = [
+        flex(f"Step {when}",
+             style="flex-direction: column; " + gap(row="8px")
+                   + box("padding", top="24px", bottom="24px")
+                   + border("bottom", color="var(--rule-strong)")
+                   + " @media(--laptop) { flex-direction: row; align-items: baseline; column-gap: 32px; }",
+             children=[
+                 para(f"Step {when} When", when, classes=["data-nano", "step-when"],
+                      style="flex-grow: 0; flex-shrink: 0; flex-basis: 14%;"),
+                 heading(f"Step {when} What", what, tag_attr="h3", classes=["step-what"],
+                         style="flex-grow: 0; flex-shrink: 0; flex-basis: 22%;"),
+                 para(f"Step {when} Note", note, classes=["step-note"],
+                      style="flex-grow: 1; flex-shrink: 1; flex-basis: 50%;"),
+             ])
+        for when, what, note in STEPS
+    ]
+    first30 = div("First30", tag_attr="section", classes=["section"], children=[
+        grid_field("First30 Grid"),
+        flex("First30 Container", classes=["container"],
+             style="position: relative; z-index: 2; flex-direction: column;",
+             children=[
+                 section_head("First30", "Your first 30 days, in order.",
+                              "No onboarding portal. No kickoff deck. Four things happen, in this order."),
+                 flex("First30 Steps",
+                      style="flex-direction: column; " + border("top", color="var(--rule-strong)"),
+                      children=step_rows),
+                 flex("First30 Ask", style="flex-direction: column; margin-top: 32px; " + gap(row="8px"),
+                      children=[
+                          para("First30 Ask Key", "What we need from you", classes=["data-nano"],
+                               style="color: var(--ink);"),
+                          para("First30 Ask Note",
+                               "Account access, a monthly budget, and someone who answers the phone "
+                               "when a lead comes in.",
+                               style="color: var(--ink-muted); font-size: 1rem; line-height: 1.55; max-width: 72ch;"),
+                      ]),
+             ]),
+    ])
+
+    # ---- V. TERMS --------------------------------------------------------
     clause_rows = []
     for tone, accent, term, note in CLAUSES:
         clause_rows.append(
@@ -562,19 +644,61 @@ def build_tree():
              ]),
     ])
 
-    # ---- V. SERVICE AREA -------------------------------------------------
-    # Plain text, not links: the sibling location pages do not exist yet.
-    # They become buttons with dynamic permalinks once the location CPT ships.
-    area = div("Area", tag_attr="section", classes=["section", "section-tight"], children=[
+    # ---- VI. THREE QUESTIONS ---------------------------------------------
+    # Ruled columns, not cards: cards would repeat the services grid, and
+    # section-layout repetition is what makes a page read as templated.
+    ask = div("Ask", tag_attr="section", classes=["section"], children=[
+        grid_field("Ask Grid"),
+        flex("Ask Container", classes=["container"],
+             style="position: relative; z-index: 2; flex-direction: column;",
+             children=[
+                 section_head("Ask", "Three things to ask whoever runs your ads now.",
+                              "Ask us the same three. Our answers are on this page."),
+                 flex("Ask Items",
+                      style="flex-direction: column; " + gap(row="32px", col="48px")
+                            + " @media(--laptop) { flex-direction: row; }",
+                      children=[
+                          flex(f"Ask {i}",
+                               style=f"flex-direction: column; flex-grow: 1; flex-shrink: 1; flex-basis: 33%; "
+                                     f"border-top-width: 3px; border-top-style: solid; border-top-color: {accent}; "
+                                     + box("padding", top="16px"),
+                               children=[
+                                   heading(f"Ask {i} Q", q, tag_attr="h3", classes=["ask-q"],
+                                           style="margin-bottom: 12px;"),
+                                   para(f"Ask {i} A", a, classes=["ask-a"]),
+                               ])
+                          for i, (accent, q, a) in enumerate(ASK, 1)
+                      ]),
+             ]),
+    ])
+
+    # ---- VII. SERVICE AREA -----------------------------------------------
+    # Grouped by county so it answers "do you serve me" properly. Plain text,
+    # not links: the sibling location pages do not exist yet. They become
+    # buttons with dynamic permalinks once the location CPT ships.
+    area = div("Area", tag_attr="section", classes=["section", "section-tight", "section-raised"], children=[
         grid_field("Area Grid"),
         flex("Area Container", classes=["container"],
              style="position: relative; z-index: 2; flex-direction: column;",
              children=[
-                 heading("Area H2", "Also serving the greater Austin area.", classes=["h3"]),
-                 para("Area Counties", "Travis, Williamson and Hays counties", classes=["data-nano"],
-                      style="color: var(--ink-muted); margin-top: 8px; margin-bottom: 32px;"),
-                 flex("Area Pills", style="flex-direction: row; flex-wrap: wrap; " + gap(row="12px", col="12px"),
-                      children=[para(f"Area {n}", n, classes=["pill"]) for n in NEARBY]),
+                 heading("Area H2", "Where we work in Central Texas.", classes=["h3"],
+                         style="margin-bottom: 32px;"),
+                 flex("Area Cols",
+                      style="flex-direction: column; " + gap(row="24px", col="32px")
+                            + " @media(--laptop) { flex-direction: row; }",
+                      children=[
+                          flex(f"County {county}",
+                               style="flex-direction: column; flex-grow: 1; flex-shrink: 1; flex-basis: 33%; "
+                                     + gap(row="12px"),
+                               children=[
+                                   para(f"County {county} Key", county, classes=["data-nano"],
+                                        style="color: var(--ink-muted);"),
+                                   flex(f"County {county} Pills",
+                                        style="flex-direction: row; flex-wrap: wrap; " + gap(row="12px", col="12px"),
+                                        children=[para(f"Area {n}", n, classes=["pill"]) for n in towns]),
+                               ])
+                          for county, towns in COVERAGE
+                      ]),
              ]),
     ])
 
@@ -597,38 +721,7 @@ def build_tree():
              ]),
     ])
 
-    # ---- VII. FOUNDER ----------------------------------------------------
-    founder = div("Founder", tag_attr="section", classes=["section"], children=[
-        grid_field("Founder Grid"),
-        flex("Founder Container", classes=["container"],
-             style="position: relative; z-index: 2; flex-direction: column; " + gap(row="48px", col="48px")
-                   + " @media(--laptop) { flex-direction: row; align-items: center; }",
-             children=[
-                 div("Founder Portrait",
-                     style="flex-grow: 0; flex-shrink: 0; flex-basis: 300px; max-width: 320px; position: relative; "
-                           "aspect-ratio: 4 / 5; overflow: hidden; " + radius("18px") + borders(),
-                     children=[image("Founder Photo", NATHAN, "Nathan, founder of Apex Marketing",
-                                     style="width: 100%; height: 100%; object-fit: cover;")]),
-                 flex("Founder Copy",
-                      style="flex-grow: 1; flex-shrink: 1; flex-basis: 55%; flex-direction: column; "
-                            "align-items: flex-start; " + gap(row="24px"),
-                      children=[
-                          heading("Founder H2", "Why I built Apex Marketing.", classes=["h2"]),
-                          para("Founder Quote",
-                               "“I’ve managed over 1,000 ad accounts, and the story is almost always "
-                               "the same: a recycled playbook, vanity metrics, and a contract you can’t "
-                               "escape. So I made one rule. We report on the only number that matters. "
-                               "Appointments booked. Not impressions. Not clicks.”",
-                               style="font-size: 1.0625rem; line-height: 1.5; max-width: 52ch; "
-                                     "@media(--laptop) { font-size: 1.3125rem; }"),
-                          para("Founder Sig", "Nathan, founder of Apex Marketing. Most clients just call me Nate.",
-                               style="color: var(--ink-muted); font-size: 0.875rem;"),
-                          button("Founder CTA", "Book a call directly with Nathan", "#book", classes=["btn"]),
-                      ]),
-             ]),
-    ])
-
-    # ---- VIII. BOOK ------------------------------------------------------
+    # ---- IX. BOOK --------------------------------------------------------
     # The form itself is an Elementor HTML widget (see README): there is no
     # atomic iframe element, and this is the sanctioned V3 fallback rather
     # than faking an embed out of atomic parts.
@@ -655,6 +748,26 @@ def build_tree():
                                               para("Book Point 3", "You leave with a specific timeline and a number, whether or not you hire us.",
                                                    style="color: rgba(238,238,238,0.82);"),
                                           ]),
+                                     # The founder appears HERE rather than in a standalone
+                                     # section: a cold visitor needs to know who they will
+                                     # talk to at the moment they decide, and the standalone
+                                     # version duplicated the homepage exactly.
+                                     flex("Book Who",
+                                          style="flex-direction: row; align-items: center; " + gap(col="16px")
+                                                + box("padding", top="24px")
+                                                + border("top", color="rgba(238,238,238,0.22)"),
+                                          children=[
+                                              image("Book Who Photo", NATHAN, "Nathan, founder of Apex Marketing",
+                                                    style="flex-grow: 0; flex-shrink: 0; width: 56px; height: 56px; "
+                                                          "border-top-left-radius: 50%; border-top-right-radius: 50%; "
+                                                          "border-bottom-right-radius: 50%; border-bottom-left-radius: 50%; "
+                                                          "object-fit: cover; object-position: center 18%;"),
+                                              para("Book Who Note",
+                                                   "You will be talking to Nathan, who founded Apex and has run over "
+                                                   "1,000 ad accounts. Not a sales rep.",
+                                                   style="color: rgba(238,238,238,0.82); font-size: 0.875rem; "
+                                                         "line-height: 1.5; max-width: 40ch;"),
+                                          ]),
                                      button("Book Call", "Call (855) 740-9608", "tel:+18557409608",
                                             classes=["btn", "btn-ghost"],
                                             style="color: var(--paper); border-top-color: rgba(238,238,238,0.3); "
@@ -668,7 +781,7 @@ def build_tree():
                         ]),
                ])
 
-    return [hero, proof, services, terms, area, faq, founder, book]
+    return [hero, proof, services, first30, terms, ask, area, faq, book]
 
 
 # --------------------------------------------------------------------------

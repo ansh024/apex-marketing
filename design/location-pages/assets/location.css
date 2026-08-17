@@ -234,6 +234,104 @@ summary:focus-visible { outline: 2px solid var(--pink-hot); outline-offset: 3px;
 .loc-clause[data-tone="lavender"] { --tab-accent: var(--tone-lav-accent); }
 .loc-clause[data-tone="rose"] { --tab-accent: var(--pink-hot); }
 
+/* ══ FIRST 30 DAYS ═════════════════════════════════════════════════
+   A dated sequence, so the labels carry real information (a timeline)
+   rather than generic "Step 1 / Step 2" enumeration. The rule is one
+   ruled row per stage, the date in the data voice, the verb as the head. */
+.loc-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: var(--hair) solid var(--rule-strong);
+}
+.loc-step {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--s-6);
+  align-items: baseline;
+  padding-block: var(--s-5);
+  border-bottom: var(--hair) solid var(--rule-strong);
+}
+.loc-step__when { grid-column: 1 / span 2; color: var(--blue-deep); }
+.loc-step__what {
+  grid-column: 3 / span 3;
+  font-size: clamp(1.0625rem, 0.95rem + 0.5vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.loc-step__note {
+  grid-column: 7 / span 6;
+  color: var(--ink-muted);
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 52ch;
+}
+/* The label is the data voice; the sentence after it is not. Setting a
+   130-character sentence in tracked uppercase is what the detector flags as
+   all-caps-body, and design.md reserves the data voice for facts and labels. */
+.loc-steps__ask {
+  margin-top: var(--s-6);
+  color: var(--ink-muted);
+  max-width: 72ch;
+  font-size: 1rem;
+  line-height: 1.55;
+}
+.loc-steps__ask-k { display: block; color: var(--ink); margin-bottom: var(--s-2); }
+
+/* ══ THREE QUESTIONS ═══════════════════════════════════════════════
+   Not cards: three ruled columns. Cards would make this look like the
+   services grid, and section-layout repetition is what makes a page read
+   as templated. */
+.loc-ask {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-7);
+}
+.loc-ask__item {
+  border-top: 3px solid var(--ink);
+  padding-top: var(--s-4);
+}
+.loc-ask__item:nth-child(2) { border-top-color: var(--blue); }
+.loc-ask__item:nth-child(3) { border-top-color: var(--pink-hot); }
+.loc-ask__q {
+  font-size: clamp(1.125rem, 1rem + 0.6vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: var(--s-3);
+}
+.loc-ask__a { color: var(--ink-muted); font-size: 1rem; line-height: 1.55; }
+
+/* ══ COVERAGE BY COUNTY ════════════════════════════════════════════ */
+.loc-coverage {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--s-6);
+}
+.loc-coverage__col { display: flex; flex-direction: column; gap: var(--s-3); }
+.loc-coverage__k { color: var(--ink-muted); }
+
+/* ══ WHO YOU TALK TO (folded into the booking section) ═════════════ */
+.loc-who {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  padding-top: var(--s-5);
+  border-top: var(--hair) solid rgba(238, 238, 238, 0.22);
+}
+.loc-who__img {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 18%;
+}
+.loc-who__note { color: rgba(238, 238, 238, 0.82); font-size: var(--t-small); line-height: 1.5; max-width: 40ch; }
+.loc-who__call { color: var(--mint); }
+.loc-who__call a { color: var(--mint); text-decoration: underline; text-underline-offset: 4px; }
+
 /* ══ FEATURE TILES + SERVICE AREA ══════════════════════════════════ */
 .loc-feature-grid {
   display: grid;
@@ -424,6 +522,10 @@ summary:focus-visible { outline: 2px solid var(--pink-hot); outline-offset: 3px;
   .loc-clause { gap: var(--s-3); padding-block: var(--s-5); }
   .loc-clause__bar { width: 56px; height: 3px; margin-top: 0; }
   .loc-clause__note { max-width: 60ch; }
+  .loc-step { display: flex; flex-direction: column; gap: var(--s-2); padding-block: var(--s-5); }
+  .loc-step__note { max-width: 60ch; }
+  .loc-ask { grid-template-columns: 1fr; gap: var(--s-6); }
+  .loc-coverage { grid-template-columns: 1fr; gap: var(--s-5); }
   .loc-plate { margin-top: var(--s-4); max-width: 420px; }
   .loc-founder__portrait { max-width: 320px; }
   .loc-proof__row { flex-direction: column; align-items: flex-start; gap: var(--s-5); }
