@@ -332,12 +332,45 @@ Working field list, to be confirmed against the design references:
 | Contact | map data, phone, address / service-area |
 | SEO | title, meta description, canonical, schema fields |
 
-Two of these need a shape decision before the template is built, because they're repeaters rather
-than single values: **services** and **nearby areas** (and FAQs, if they vary by city). Repeating
-content in Elementor is either a loop over a related CPT/taxonomy, an ACF repeater, or a fixed
-number of discrete fields. Cheapest that still scales is usually a taxonomy for service areas plus
-a shared FAQ set with optional per-city overrides — but this depends on how different the cities
-really are, which the references should settle.
+### The content model, as built
+
+`wordpress/apex-landing-page/includes/location-cpt.php` registers this. The repeater question
+resolved smaller than expected once the finished Austin design was audited: **almost nothing on
+the page is per-city.**
+
+Sitewide, lives in the template, **not** a field: the four service cards, the terms clauses, the
+track-record stats, the first-30-days timeline, the three questions, FAQ items 2 to 6, pricing,
+the founder byline. So "services" and "FAQs" are not repeaters at all — they do not vary. Making
+them per-city fields would invite exactly the per-city rewording that reads as machine-written.
+
+Genuinely per-city:
+
+| Field | Type | Notes |
+|---|---|---|
+| `apex_city` | post meta | "Austin" |
+| `apex_state` | post meta | "Texas", used in schema |
+| `apex_state_abbr` | post meta | "TX" |
+| `apex_timezone` | post meta | "Central" |
+| `apex_hero_h1` | post meta | optional override |
+| `apex_hero_lede` | post meta | optional override |
+| coverage | **taxonomy** | `apex_service_area`, hierarchical |
+
+**Coverage is a hierarchical taxonomy, not an ACF repeater.** Counties are parent terms, towns are
+children. That is native WordPress, needs no ACF licence, is readable by Elementor Pro's loop and
+dynamic tags, and gives term archives and cross-city interlinking for free.
+
+Everything else is *derived*, so it cannot drift out of sync with the taxonomy:
+`apex_location_areas_count()`, `apex_location_counties()`, and
+`apex_location_coverage_sentence()` (which generates the first FAQ answer). The hero headline and
+lede fall back to the brand's two-sentence negation pattern when no override is set, so a location
+created with only a city name still reads correctly.
+
+SEO title and meta description are deliberately **not** fields. Yoast is already a dependency and
+owns them.
+
+Covered by `scripts/test-location-cpt.php` (22 assertions, runs without WordPress). Two real bugs
+it caught: "Travis County and Williamson County **counties**" doubling the word, and the city's own
+county sorting last alphabetically on its own page.
 
 ---
 
