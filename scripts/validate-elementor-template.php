@@ -183,8 +183,86 @@ foreach ( $seen as $id => $n ) {
 	}
 }
 
+// ---------------------------------------------------------------------------
+// The global-class and variable snapshots. These are validated separately from
+// the elements and are all-or-nothing: ONE rejected class discards the entire
+// snapshot, so the page imports with every layout class missing while the
+// elements themselves validate perfectly. That exact failure happened here, and
+// checking only the elements reported success while it was broken.
+// ---------------------------------------------------------------------------
+
+$gc = $template['global_classes'] ?? null;
+if ( is_array( $gc ) ) {
+	$items = $gc['items'] ?? array();
+	$parse = \Elementor\Modules\GlobalClasses\Global_Classes_Parser::make()->parse( $gc );
+
+	if ( ! $parse->is_valid() ) {
+		fail( 'global_classes', 'snapshot rejected, so ALL ' . count( $items )
+			. ' classes would be dropped on import: ' . $parse->errors()->to_string() );
+
+		// Bisect so the message names the offending class rather than the batch.
+		foreach ( $items as $id => $item ) {
+			$one = \Elementor\Modules\GlobalClasses\Global_Classes_Parser::make()
+				->parse( array( 'items' => array( $id => $item ), 'order' => array( $id ) ) );
+			if ( ! $one->is_valid() ) {
+				fail( "global_classes > {$item['label']}", $one->errors()->to_string() );
+			}
+		}
+	}
+
+	// Every global class an element references must exist in the snapshot.
+	$declared = array_keys( $items );
+	$referenced = array();
+	$collect = function ( array $node ) use ( &$collect, &$referenced ) {
+		foreach ( ( $node['settings']['classes']['value'] ?? array() ) as $c ) {
+			if ( 0 === strpos( (string) $c, 'g-' ) ) {
+				$referenced[ $c ] = true;
+			}
+		}
+		foreach ( $node['elements'] ?? array() as $child ) {
+			$collect( $child );
+		}
+	};
+	foreach ( $content as $node ) {
+		$collect( $node );
+	}
+	foreach ( array_diff( array_keys( $referenced ), $declared ) as $missing ) {
+		fail( 'global_classes', "element references '$missing', which the snapshot does not define" );
+	}
+}
+
+$gv = $template['global_variables'] ?? null;
+if ( is_array( $gv ) ) {
+	if ( ! isset( $gv['data'] ) ) {
+		fail( 'global_variables', 'snapshot must be {data, watermark, version}; a bare map is ignored on import' );
+	} else {
+		// Every variable a style references must exist.
+		$declared_vars = array_keys( $gv['data'] );
+		$used = array();
+		$scan = function ( $value ) use ( &$scan, &$used ) {
+			if ( ! is_array( $value ) ) {
+				return;
+			}
+			$type = $value['$$type'] ?? null;
+			if ( in_array( $type, array( 'global-color-variable', 'global-size-variable' ), true ) ) {
+				$used[ $value['value'] ] = true;
+			}
+			foreach ( $value as $inner ) {
+				$scan( $inner );
+			}
+		};
+		$scan( $content );
+		$scan( $gc ?? array() );
+		foreach ( array_diff( array_keys( $used ), $declared_vars ) as $missing ) {
+			fail( 'global_variables', "a style references variable '$missing', which is not declared" );
+		}
+	}
+}
+
 WP_CLI::line( '' );
 WP_CLI::line( sprintf( '  %d elements, %d style blocks, %d variants', $GLOBALS['counts']['elements'], $GLOBALS['counts']['styles'], $GLOBALS['counts']['variants'] ) );
+WP_CLI::line( sprintf( '  %d global classes, %d global variables',
+	count( $gc['items'] ?? array() ), count( $gv['data'] ?? array() ) ) );
 ksort( $GLOBALS['by_type'] );
 foreach ( $GLOBALS['by_type'] as $type => $n ) {
 	WP_CLI::line( sprintf( '    %-16s %d', $type, $n ) );

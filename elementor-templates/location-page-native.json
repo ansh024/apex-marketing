@@ -43,7 +43,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "grid-field"
+                "g-5dd56928"
               ]
             },
             "tag": {
@@ -61,7 +61,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-7d79389c-7d79389"
               ]
             },
@@ -77,7 +77,7 @@
                 "classes": {
                   "$$type": "classes",
                   "value": [
-                    "data-nano",
+                    "g-b70dfe83",
                     "e-ab6d1d35-ab6d1d3"
                   ]
                 },
@@ -93,7 +93,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "data-nano",
+                        "g-b70dfe83",
                         "e-9c217bef-9c217be"
                       ]
                     },
@@ -429,7 +429,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "hero-h1"
+                            "g-f13d0d3e"
                           ]
                         },
                         "title": {
@@ -458,7 +458,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "lede"
+                            "g-9159add5"
                           ]
                         },
                         "paragraph": {
@@ -502,7 +502,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "btn"
+                                "g-63d14575"
                               ]
                             },
                             "text": {
@@ -540,8 +540,8 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "btn",
-                                "btn-ghost"
+                                "g-63d14575",
+                                "g-ef2feb2f"
                               ]
                             },
                             "text": {
@@ -680,7 +680,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "plate",
+                        "g-26159eba",
                         "e-ed3d096f-ed3d096"
                       ]
                     },
@@ -696,7 +696,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "grid-field",
+                            "g-5dd56928",
                             "e-df9c335d-df9c335"
                           ]
                         },
@@ -754,7 +754,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "plate-row",
+                                "g-2ad3bf8a",
                                 "e-d6b36eda-d6b36ed"
                               ]
                             },
@@ -770,7 +770,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-3913befd-3913bef"
                                   ]
                                 },
@@ -821,7 +821,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-ecdaa982-ecdaa98"
                                   ]
                                 },
@@ -901,7 +901,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "plate-row",
+                                "g-2ad3bf8a",
                                 "e-48f09ff8-48f09ff"
                               ]
                             },
@@ -917,7 +917,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-6bd77cbd-6bd77cb"
                                   ]
                                 },
@@ -968,7 +968,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-7d7e12dc-7d7e12d"
                                   ]
                                 },
@@ -1048,7 +1048,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "plate-row",
+                                "g-2ad3bf8a",
                                 "e-b578230a-b578230"
                               ]
                             },
@@ -1064,7 +1064,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-f16cdb1c-f16cdb1"
                                   ]
                                 },
@@ -1115,7 +1115,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-79102d94-79102d9"
                                   ]
                                 },
@@ -1195,7 +1195,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "plate-row",
+                                "g-2ad3bf8a",
                                 "e-7d051a86-7d051a8"
                               ]
                             },
@@ -1211,7 +1211,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-d2cdc17c-d2cdc17"
                                   ]
                                 },
@@ -1262,7 +1262,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-434e3582-434e358"
                                   ]
                                 },
@@ -1342,7 +1342,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "plate-row",
+                                "g-2ad3bf8a",
                                 "e-73331eda-73331ed"
                               ]
                             },
@@ -1358,7 +1358,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-6b6efbb1-6b6efbb"
                                   ]
                                 },
@@ -1409,7 +1409,7 @@
                                 "classes": {
                                   "$$type": "classes",
                                   "value": [
-                                    "data-nano",
+                                    "g-b70dfe83",
                                     "e-e2c36be8-e2c36be"
                                   ]
                                 },
@@ -1662,7 +1662,7 @@
                 "classes": {
                   "$$type": "classes",
                   "value": [
-                    "data-nano",
+                    "g-b70dfe83",
                     "e-178e0ebe-178e0eb"
                   ]
                 },
@@ -1993,7 +1993,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-96f1699c-96f1699"
               ]
             },
@@ -2009,7 +2009,7 @@
                 "classes": {
                   "$$type": "classes",
                   "value": [
-                    "data-nano",
+                    "g-b70dfe83",
                     "e-49b1b8ee-49b1b8e"
                   ]
                 },
@@ -2097,7 +2097,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "stat-n"
+                            "g-3321721f"
                           ]
                         },
                         "paragraph": {
@@ -2126,8 +2126,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "stat-k",
-                            "data-nano"
+                            "g-b206612d",
+                            "g-b70dfe83"
                           ]
                         },
                         "paragraph": {
@@ -2208,7 +2208,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "stat-n"
+                            "g-3321721f"
                           ]
                         },
                         "paragraph": {
@@ -2237,8 +2237,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "stat-k",
-                            "data-nano"
+                            "g-b206612d",
+                            "g-b70dfe83"
                           ]
                         },
                         "paragraph": {
@@ -2319,7 +2319,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "stat-n"
+                            "g-3321721f"
                           ]
                         },
                         "paragraph": {
@@ -2348,8 +2348,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "stat-k",
-                            "data-nano"
+                            "g-b206612d",
+                            "g-b70dfe83"
                           ]
                         },
                         "paragraph": {
@@ -2621,7 +2621,7 @@
         "classes": {
           "$$type": "classes",
           "value": [
-            "section"
+            "g-21cb4f43"
           ]
         },
         "tag": {
@@ -2636,7 +2636,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "grid-field"
+                "g-5dd56928"
               ]
             },
             "tag": {
@@ -2654,7 +2654,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-b513bf45-b513bf4"
               ]
             },
@@ -2700,7 +2700,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "h2",
+                            "g-89fec098",
                             "e-060989ee-060989e"
                           ]
                         },
@@ -2794,7 +2794,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "lede",
+                            "g-9159add5",
                             "e-adb552fd-adb552f"
                           ]
                         },
@@ -2848,8 +2848,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "btn",
-                            "btn-ghost"
+                            "g-63d14575",
+                            "g-ef2feb2f"
                           ]
                         },
                         "text": {
@@ -2999,7 +2999,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "pc",
+                        "g-5c5e4420",
                         "e-63b707f8-63b707f"
                       ]
                     },
@@ -3028,8 +3028,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-flag",
-                            "data-nano"
+                            "g-f13db0c8",
+                            "g-b70dfe83"
                           ]
                         },
                         "paragraph": {
@@ -3058,7 +3058,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-band",
+                            "g-09691d67",
                             "e-0992b023-0992b02"
                           ]
                         },
@@ -3074,7 +3074,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-title"
+                                "g-22ccf788"
                               ]
                             },
                             "title": {
@@ -3137,7 +3137,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-fig",
+                            "g-d45079d4",
                             "e-e8d4f864-e8d4f86"
                           ]
                         },
@@ -3153,7 +3153,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-image"
+                                "g-9c1b87b5"
                               ]
                             },
                             "image": {
@@ -3217,7 +3217,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-foot",
+                            "g-2766f85d",
                             "e-d8bda536-d8bda53"
                           ]
                         },
@@ -3233,7 +3233,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-desc"
+                                "g-aa02b196"
                               ]
                             },
                             "paragraph": {
@@ -3387,7 +3387,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "pc",
+                        "g-5c5e4420",
                         "e-17c0e0a1-17c0e0a"
                       ]
                     },
@@ -3416,7 +3416,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-band",
+                            "g-09691d67",
                             "e-de00527e-de00527"
                           ]
                         },
@@ -3432,7 +3432,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-title"
+                                "g-22ccf788"
                               ]
                             },
                             "title": {
@@ -3495,7 +3495,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-fig",
+                            "g-d45079d4",
                             "e-5dc3ed27-5dc3ed2"
                           ]
                         },
@@ -3511,7 +3511,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-image"
+                                "g-9c1b87b5"
                               ]
                             },
                             "image": {
@@ -3575,7 +3575,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-foot",
+                            "g-2766f85d",
                             "e-7c4a900f-7c4a900"
                           ]
                         },
@@ -3591,7 +3591,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-desc"
+                                "g-aa02b196"
                               ]
                             },
                             "paragraph": {
@@ -3745,7 +3745,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "pc",
+                        "g-5c5e4420",
                         "e-b6acdf5c-b6acdf5"
                       ]
                     },
@@ -3774,7 +3774,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-band",
+                            "g-09691d67",
                             "e-b0e03820-b0e0382"
                           ]
                         },
@@ -3790,7 +3790,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-title"
+                                "g-22ccf788"
                               ]
                             },
                             "title": {
@@ -3853,7 +3853,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-fig",
+                            "g-d45079d4",
                             "e-28c6bbc7-28c6bbc"
                           ]
                         },
@@ -3869,7 +3869,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-image"
+                                "g-9c1b87b5"
                               ]
                             },
                             "image": {
@@ -3933,7 +3933,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-foot",
+                            "g-2766f85d",
                             "e-e449146b-e449146"
                           ]
                         },
@@ -3949,7 +3949,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-desc"
+                                "g-aa02b196"
                               ]
                             },
                             "paragraph": {
@@ -4103,7 +4103,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "pc",
+                        "g-5c5e4420",
                         "e-7ef0feea-7ef0fee"
                       ]
                     },
@@ -4132,7 +4132,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-band",
+                            "g-09691d67",
                             "e-abcbd0de-abcbd0d"
                           ]
                         },
@@ -4148,7 +4148,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-title"
+                                "g-22ccf788"
                               ]
                             },
                             "title": {
@@ -4211,7 +4211,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-fig",
+                            "g-d45079d4",
                             "e-cbd26ff7-cbd26ff"
                           ]
                         },
@@ -4227,7 +4227,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-image"
+                                "g-9c1b87b5"
                               ]
                             },
                             "image": {
@@ -4291,7 +4291,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "pc-foot",
+                            "g-2766f85d",
                             "e-b1023813-b102381"
                           ]
                         },
@@ -4307,7 +4307,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pc-desc"
+                                "g-aa02b196"
                               ]
                             },
                             "paragraph": {
@@ -4534,7 +4534,7 @@
         "classes": {
           "$$type": "classes",
           "value": [
-            "section"
+            "g-21cb4f43"
           ]
         },
         "tag": {
@@ -4549,7 +4549,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "grid-field"
+                "g-5dd56928"
               ]
             },
             "tag": {
@@ -4567,7 +4567,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-c01d2df1-c01d2df"
               ]
             },
@@ -4613,7 +4613,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "h2",
+                            "g-89fec098",
                             "e-db018a52-db018a5"
                           ]
                         },
@@ -4707,7 +4707,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "lede",
+                            "g-9159add5",
                             "e-68b1b104-68b1b10"
                           ]
                         },
@@ -4888,8 +4888,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "data-nano",
-                            "step-when",
+                            "g-b70dfe83",
+                            "g-e305597e",
                             "e-2e143635-2e14363"
                           ]
                         },
@@ -4956,7 +4956,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "step-what",
+                            "g-702ff52a",
                             "e-ffbc91d2-ffbc91d"
                           ]
                         },
@@ -5023,7 +5023,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "step-note",
+                            "g-e38c238c",
                             "e-9e3d9b04-9e3d9b0"
                           ]
                         },
@@ -5230,8 +5230,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "data-nano",
-                            "step-when",
+                            "g-b70dfe83",
+                            "g-e305597e",
                             "e-91be009b-91be009"
                           ]
                         },
@@ -5298,7 +5298,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "step-what",
+                            "g-702ff52a",
                             "e-318aa2d8-318aa2d"
                           ]
                         },
@@ -5365,7 +5365,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "step-note",
+                            "g-e38c238c",
                             "e-10d6e677-10d6e67"
                           ]
                         },
@@ -5572,8 +5572,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "data-nano",
-                            "step-when",
+                            "g-b70dfe83",
+                            "g-e305597e",
                             "e-ec8bf4f6-ec8bf4f"
                           ]
                         },
@@ -5640,7 +5640,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "step-what",
+                            "g-702ff52a",
                             "e-73f71d3b-73f71d3"
                           ]
                         },
@@ -5707,7 +5707,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "step-note",
+                            "g-e38c238c",
                             "e-317b693d-317b693"
                           ]
                         },
@@ -5914,8 +5914,8 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "data-nano",
-                            "step-when",
+                            "g-b70dfe83",
+                            "g-e305597e",
                             "e-ceab5595-ceab559"
                           ]
                         },
@@ -5982,7 +5982,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "step-what",
+                            "g-702ff52a",
                             "e-1278ea18-1278ea1"
                           ]
                         },
@@ -6049,7 +6049,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "step-note",
+                            "g-e38c238c",
                             "e-ac40e239-ac40e23"
                           ]
                         },
@@ -6322,7 +6322,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "data-nano",
+                        "g-b70dfe83",
                         "e-e391906f-e391906"
                       ]
                     },
@@ -6530,8 +6530,8 @@
         "classes": {
           "$$type": "classes",
           "value": [
-            "section",
-            "section-raised"
+            "g-21cb4f43",
+            "g-6fdc309d"
           ]
         },
         "tag": {
@@ -6546,7 +6546,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "grid-field"
+                "g-5dd56928"
               ]
             },
             "tag": {
@@ -6564,7 +6564,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-d5472099-d547209"
               ]
             },
@@ -6610,7 +6610,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "h2",
+                            "g-89fec098",
                             "e-93608457-9360845"
                           ]
                         },
@@ -6775,7 +6775,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "clause-term",
+                            "g-243b2960",
                             "e-19572e19-19572e1"
                           ]
                         },
@@ -6955,7 +6955,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "clause-note",
+                            "g-2ce3f61f",
                             "e-807ae71e-807ae71"
                           ]
                         },
@@ -7162,7 +7162,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "clause-term",
+                            "g-243b2960",
                             "e-5642d252-5642d25"
                           ]
                         },
@@ -7342,7 +7342,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "clause-note",
+                            "g-2ce3f61f",
                             "e-ef220acf-ef220ac"
                           ]
                         },
@@ -7549,7 +7549,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "clause-term",
+                            "g-243b2960",
                             "e-fb72aa2b-fb72aa2"
                           ]
                         },
@@ -7729,7 +7729,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "clause-note",
+                            "g-2ce3f61f",
                             "e-f88776d8-f88776d"
                           ]
                         },
@@ -7936,7 +7936,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "clause-term",
+                            "g-243b2960",
                             "e-fbf41887-fbf4188"
                           ]
                         },
@@ -8116,7 +8116,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "clause-note",
+                            "g-2ce3f61f",
                             "e-a6b8c763-a6b8c76"
                           ]
                         },
@@ -8389,7 +8389,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "feature-tile",
+                        "g-40b316c5",
                         "e-c5fccd2d-c5fccd2"
                       ]
                     },
@@ -8456,7 +8456,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "feature-tile",
+                        "g-40b316c5",
                         "e-b7b26b4e-b7b26b4"
                       ]
                     },
@@ -8523,7 +8523,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "feature-tile",
+                        "g-40b316c5",
                         "e-5b034c00-5b034c0"
                       ]
                     },
@@ -8590,7 +8590,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "feature-tile",
+                        "g-40b316c5",
                         "e-bb7be065-bb7be06"
                       ]
                     },
@@ -8749,7 +8749,7 @@
         "classes": {
           "$$type": "classes",
           "value": [
-            "section"
+            "g-21cb4f43"
           ]
         },
         "tag": {
@@ -8764,7 +8764,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "grid-field"
+                "g-5dd56928"
               ]
             },
             "tag": {
@@ -8782,7 +8782,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-b743e919-b743e91"
               ]
             },
@@ -8828,7 +8828,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "h2",
+                            "g-89fec098",
                             "e-673c3747-673c374"
                           ]
                         },
@@ -8922,7 +8922,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "lede",
+                            "g-9159add5",
                             "e-ae33dce7-ae33dce"
                           ]
                         },
@@ -9103,7 +9103,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "ask-q",
+                            "g-00e25cf6",
                             "e-f0abce44-f0abce4"
                           ]
                         },
@@ -9162,7 +9162,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "ask-a"
+                            "g-c72a70f6"
                           ]
                         },
                         "paragraph": {
@@ -9304,7 +9304,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "ask-q",
+                            "g-00e25cf6",
                             "e-231b58ee-231b58e"
                           ]
                         },
@@ -9363,7 +9363,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "ask-a"
+                            "g-c72a70f6"
                           ]
                         },
                         "paragraph": {
@@ -9505,7 +9505,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "ask-q",
+                            "g-00e25cf6",
                             "e-4755c5e5-4755c5e"
                           ]
                         },
@@ -9564,7 +9564,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "ask-a"
+                            "g-c72a70f6"
                           ]
                         },
                         "paragraph": {
@@ -9784,9 +9784,9 @@
         "classes": {
           "$$type": "classes",
           "value": [
-            "section",
-            "section-tight",
-            "section-raised"
+            "g-21cb4f43",
+            "g-5d8fb226",
+            "g-6fdc309d"
           ]
         },
         "tag": {
@@ -9801,7 +9801,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "grid-field"
+                "g-5dd56928"
               ]
             },
             "tag": {
@@ -9819,7 +9819,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-3b4dc425-3b4dc42"
               ]
             },
@@ -9835,7 +9835,7 @@
                 "classes": {
                   "$$type": "classes",
                   "value": [
-                    "h3",
+                    "g-24129135",
                     "e-d99e8bec-d99e8be"
                   ]
                 },
@@ -9924,7 +9924,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "data-nano",
+                            "g-b70dfe83",
                             "e-486febf0-486febf"
                           ]
                         },
@@ -9990,7 +9990,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10019,7 +10019,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10156,7 +10156,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "data-nano",
+                            "g-b70dfe83",
                             "e-35591234-3559123"
                           ]
                         },
@@ -10222,7 +10222,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10251,7 +10251,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10280,7 +10280,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10309,7 +10309,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10446,7 +10446,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "data-nano",
+                            "g-b70dfe83",
                             "e-cc52c3da-cc52c3d"
                           ]
                         },
@@ -10512,7 +10512,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10541,7 +10541,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10570,7 +10570,7 @@
                             "classes": {
                               "$$type": "classes",
                               "value": [
-                                "pill"
+                                "g-986a3885"
                               ]
                             },
                             "paragraph": {
@@ -10785,8 +10785,8 @@
         "classes": {
           "$$type": "classes",
           "value": [
-            "section",
-            "section-raised"
+            "g-21cb4f43",
+            "g-6fdc309d"
           ]
         },
         "tag": {
@@ -10801,7 +10801,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "grid-field"
+                "g-5dd56928"
               ]
             },
             "tag": {
@@ -10819,7 +10819,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-8c45a583-8c45a58"
               ]
             },
@@ -10865,7 +10865,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "h2",
+                            "g-89fec098",
                             "e-1a605465-1a60546"
                           ]
                         },
@@ -11015,7 +11015,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "faq-row",
+                        "g-9a3447da",
                         "e-78090863-7809086"
                       ]
                     },
@@ -11031,7 +11031,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-q"
+                            "g-8e6079cb"
                           ]
                         },
                         "title": {
@@ -11060,7 +11060,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-a"
+                            "g-6fa8cbbe"
                           ]
                         },
                         "paragraph": {
@@ -11126,7 +11126,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "faq-row",
+                        "g-9a3447da",
                         "e-cfda99e6-cfda99e"
                       ]
                     },
@@ -11142,7 +11142,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-q"
+                            "g-8e6079cb"
                           ]
                         },
                         "title": {
@@ -11171,7 +11171,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-a"
+                            "g-6fa8cbbe"
                           ]
                         },
                         "paragraph": {
@@ -11237,7 +11237,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "faq-row",
+                        "g-9a3447da",
                         "e-1857e148-1857e14"
                       ]
                     },
@@ -11253,7 +11253,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-q"
+                            "g-8e6079cb"
                           ]
                         },
                         "title": {
@@ -11282,7 +11282,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-a"
+                            "g-6fa8cbbe"
                           ]
                         },
                         "paragraph": {
@@ -11348,7 +11348,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "faq-row",
+                        "g-9a3447da",
                         "e-8e61a525-8e61a52"
                       ]
                     },
@@ -11364,7 +11364,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-q"
+                            "g-8e6079cb"
                           ]
                         },
                         "title": {
@@ -11393,7 +11393,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-a"
+                            "g-6fa8cbbe"
                           ]
                         },
                         "paragraph": {
@@ -11459,7 +11459,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "faq-row",
+                        "g-9a3447da",
                         "e-d66986a1-d66986a"
                       ]
                     },
@@ -11475,7 +11475,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-q"
+                            "g-8e6079cb"
                           ]
                         },
                         "title": {
@@ -11504,7 +11504,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-a"
+                            "g-6fa8cbbe"
                           ]
                         },
                         "paragraph": {
@@ -11570,7 +11570,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "faq-row",
+                        "g-9a3447da",
                         "e-8c2e2028-8c2e202"
                       ]
                     },
@@ -11586,7 +11586,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-q"
+                            "g-8e6079cb"
                           ]
                         },
                         "title": {
@@ -11615,7 +11615,7 @@
                         "classes": {
                           "$$type": "classes",
                           "value": [
-                            "faq-a"
+                            "g-6fa8cbbe"
                           ]
                         },
                         "paragraph": {
@@ -11765,7 +11765,7 @@
             "classes": {
               "$$type": "classes",
               "value": [
-                "container",
+                "g-f9acd99a",
                 "e-b481683f-b481683"
               ]
             },
@@ -11796,7 +11796,7 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "h2",
+                        "g-89fec098",
                         "e-717ae5d4-717ae5d"
                       ]
                     },
@@ -12370,8 +12370,8 @@
                     "classes": {
                       "$$type": "classes",
                       "value": [
-                        "btn",
-                        "btn-ghost",
+                        "g-63d14575",
+                        "g-ef2feb2f",
                         "e-4b044d0a-4b044d0"
                       ]
                     },
@@ -12711,7 +12711,7 @@
     "items": {
       "g-f9acd99a": {
         "id": "g-f9acd99a",
-        "label": "container",
+        "label": "apex-container",
         "type": "class",
         "variants": [
           {
@@ -12754,12 +12754,18 @@
                 "$$type": "dimensions",
                 "value": {
                   "inline-start": {
-                    "$$type": "string",
-                    "value": "auto"
+                    "$$type": "size",
+                    "value": {
+                      "size": 0,
+                      "unit": "auto"
+                    }
                   },
                   "inline-end": {
-                    "$$type": "string",
-                    "value": "auto"
+                    "$$type": "size",
+                    "value": {
+                      "size": 0,
+                      "unit": "auto"
+                    }
                   }
                 }
               }
@@ -12823,7 +12829,7 @@
       },
       "g-f13d0d3e": {
         "id": "g-f13d0d3e",
-        "label": "hero-h1",
+        "label": "apex-hero-h1",
         "type": "class",
         "variants": [
           {
@@ -12893,7 +12899,7 @@
       },
       "g-89fec098": {
         "id": "g-89fec098",
-        "label": "h2",
+        "label": "apex-h2",
         "type": "class",
         "variants": [
           {
@@ -12963,7 +12969,7 @@
       },
       "g-24129135": {
         "id": "g-24129135",
-        "label": "h3",
+        "label": "apex-h3",
         "type": "class",
         "variants": [
           {
@@ -13018,7 +13024,7 @@
       },
       "g-9159add5": {
         "id": "g-9159add5",
-        "label": "lede",
+        "label": "apex-lede",
         "type": "class",
         "variants": [
           {
@@ -13073,7 +13079,7 @@
       },
       "g-ff424d74": {
         "id": "g-ff424d74",
-        "label": "emph",
+        "label": "apex-emph",
         "type": "class",
         "variants": [
           {
@@ -13103,7 +13109,7 @@
       },
       "g-c938f04f": {
         "id": "g-c938f04f",
-        "label": "data",
+        "label": "apex-data",
         "type": "class",
         "variants": [
           {
@@ -13136,7 +13142,7 @@
       },
       "g-b70dfe83": {
         "id": "g-b70dfe83",
-        "label": "data-nano",
+        "label": "apex-data-nano",
         "type": "class",
         "variants": [
           {
@@ -13184,7 +13190,7 @@
       },
       "g-63d14575": {
         "id": "g-63d14575",
-        "label": "btn",
+        "label": "apex-btn",
         "type": "class",
         "variants": [
           {
@@ -13385,7 +13391,7 @@
       },
       "g-ef2feb2f": {
         "id": "g-ef2feb2f",
-        "label": "btn-ghost",
+        "label": "apex-btn-ghost",
         "type": "class",
         "variants": [
           {
@@ -13479,7 +13485,7 @@
       },
       "g-21cb4f43": {
         "id": "g-21cb4f43",
-        "label": "section",
+        "label": "apex-section",
         "type": "class",
         "variants": [
           {
@@ -13553,7 +13559,7 @@
       },
       "g-6fdc309d": {
         "id": "g-6fdc309d",
-        "label": "section-raised",
+        "label": "apex-section-raised",
         "type": "class",
         "variants": [
           {
@@ -13577,7 +13583,7 @@
       },
       "g-5d8fb226": {
         "id": "g-5d8fb226",
-        "label": "section-tight",
+        "label": "apex-section-tight",
         "type": "class",
         "variants": [
           {
@@ -13611,7 +13617,7 @@
       },
       "g-5dd56928": {
         "id": "g-5dd56928",
-        "label": "grid-field",
+        "label": "apex-grid-field",
         "type": "class",
         "variants": [
           {
@@ -13665,7 +13671,7 @@
       },
       "g-26159eba": {
         "id": "g-26159eba",
-        "label": "plate",
+        "label": "apex-plate",
         "type": "class",
         "variants": [
           {
@@ -13759,7 +13765,7 @@
       },
       "g-2ad3bf8a": {
         "id": "g-2ad3bf8a",
-        "label": "plate-row",
+        "label": "apex-plate-row",
         "type": "class",
         "variants": [
           {
@@ -13858,7 +13864,7 @@
       },
       "g-3321721f": {
         "id": "g-3321721f",
-        "label": "stat-n",
+        "label": "apex-stat-n",
         "type": "class",
         "variants": [
           {
@@ -13913,7 +13919,7 @@
       },
       "g-b206612d": {
         "id": "g-b206612d",
-        "label": "stat-k",
+        "label": "apex-stat-k",
         "type": "class",
         "variants": [
           {
@@ -13932,7 +13938,7 @@
       },
       "g-5c5e4420": {
         "id": "g-5c5e4420",
-        "label": "pc",
+        "label": "apex-pc",
         "type": "class",
         "variants": [
           {
@@ -14056,7 +14062,7 @@
       },
       "g-09691d67": {
         "id": "g-09691d67",
-        "label": "pc-band",
+        "label": "apex-pc-band",
         "type": "class",
         "variants": [
           {
@@ -14141,7 +14147,7 @@
       },
       "g-22ccf788": {
         "id": "g-22ccf788",
-        "label": "pc-title",
+        "label": "apex-pc-title",
         "type": "class",
         "variants": [
           {
@@ -14189,7 +14195,7 @@
       },
       "g-d45079d4": {
         "id": "g-d45079d4",
-        "label": "pc-fig",
+        "label": "apex-pc-fig",
         "type": "class",
         "variants": [
           {
@@ -14219,7 +14225,7 @@
       },
       "g-9c1b87b5": {
         "id": "g-9c1b87b5",
-        "label": "pc-image",
+        "label": "apex-pc-image",
         "type": "class",
         "variants": [
           {
@@ -14259,7 +14265,7 @@
       },
       "g-2766f85d": {
         "id": "g-2766f85d",
-        "label": "pc-foot",
+        "label": "apex-pc-foot",
         "type": "class",
         "variants": [
           {
@@ -14372,7 +14378,7 @@
       },
       "g-aa02b196": {
         "id": "g-aa02b196",
-        "label": "pc-desc",
+        "label": "apex-pc-desc",
         "type": "class",
         "variants": [
           {
@@ -14412,7 +14418,7 @@
       },
       "g-f13db0c8": {
         "id": "g-f13db0c8",
-        "label": "pc-flag",
+        "label": "apex-pc-flag",
         "type": "class",
         "variants": [
           {
@@ -14495,7 +14501,7 @@
       },
       "g-243b2960": {
         "id": "g-243b2960",
-        "label": "clause-term",
+        "label": "apex-clause-term",
         "type": "class",
         "variants": [
           {
@@ -14554,7 +14560,7 @@
       },
       "g-2ce3f61f": {
         "id": "g-2ce3f61f",
-        "label": "clause-note",
+        "label": "apex-clause-note",
         "type": "class",
         "variants": [
           {
@@ -14594,7 +14600,7 @@
       },
       "g-40b316c5": {
         "id": "g-40b316c5",
-        "label": "feature-tile",
+        "label": "apex-feature-tile",
         "type": "class",
         "variants": [
           {
@@ -14745,7 +14751,7 @@
       },
       "g-986a3885": {
         "id": "g-986a3885",
-        "label": "pill",
+        "label": "apex-pill",
         "type": "class",
         "variants": [
           {
@@ -14883,7 +14889,7 @@
       },
       "g-e305597e": {
         "id": "g-e305597e",
-        "label": "step-when",
+        "label": "apex-step-when",
         "type": "class",
         "variants": [
           {
@@ -14902,7 +14908,7 @@
       },
       "g-702ff52a": {
         "id": "g-702ff52a",
-        "label": "step-what",
+        "label": "apex-step-what",
         "type": "class",
         "variants": [
           {
@@ -14957,7 +14963,7 @@
       },
       "g-e38c238c": {
         "id": "g-e38c238c",
-        "label": "step-note",
+        "label": "apex-step-note",
         "type": "class",
         "variants": [
           {
@@ -14997,7 +15003,7 @@
       },
       "g-00e25cf6": {
         "id": "g-00e25cf6",
-        "label": "ask-q",
+        "label": "apex-ask-q",
         "type": "class",
         "variants": [
           {
@@ -15052,7 +15058,7 @@
       },
       "g-c72a70f6": {
         "id": "g-c72a70f6",
-        "label": "ask-a",
+        "label": "apex-ask-a",
         "type": "class",
         "variants": [
           {
@@ -15085,7 +15091,7 @@
       },
       "g-9a3447da": {
         "id": "g-9a3447da",
-        "label": "faq-row",
+        "label": "apex-faq-row",
         "type": "class",
         "variants": [
           {
@@ -15160,7 +15166,7 @@
       },
       "g-8e6079cb": {
         "id": "g-8e6079cb",
-        "label": "faq-q",
+        "label": "apex-faq-q",
         "type": "class",
         "variants": [
           {
@@ -15215,7 +15221,7 @@
       },
       "g-6fa8cbbe": {
         "id": "g-6fa8cbbe",
-        "label": "faq-a",
+        "label": "apex-faq-a",
         "type": "class",
         "variants": [
           {
@@ -15296,257 +15302,261 @@
     ]
   },
   "global_variables": {
-    "e-gv-45b3345": {
-      "id": "e-gv-45b3345",
-      "label": "paper",
-      "type": "global-color-variable",
-      "value": "#EEEEEE"
+    "data": {
+      "e-gv-45b3345": {
+        "id": "e-gv-45b3345",
+        "label": "paper",
+        "type": "global-color-variable",
+        "value": "#EEEEEE"
+      },
+      "e-gv-6d9f28a": {
+        "id": "e-gv-6d9f28a",
+        "label": "paper-raised",
+        "type": "global-color-variable",
+        "value": "#F4F4F3"
+      },
+      "e-gv-bb06699": {
+        "id": "e-gv-bb06699",
+        "label": "paper-sunk",
+        "type": "global-color-variable",
+        "value": "#E4E4E2"
+      },
+      "e-gv-0aa56b5": {
+        "id": "e-gv-0aa56b5",
+        "label": "ink",
+        "type": "global-color-variable",
+        "value": "#000000"
+      },
+      "e-gv-88bc2eb": {
+        "id": "e-gv-88bc2eb",
+        "label": "ink-muted",
+        "type": "global-color-variable",
+        "value": "#55555A"
+      },
+      "e-gv-26627cc": {
+        "id": "e-gv-26627cc",
+        "label": "ink-faint",
+        "type": "global-color-variable",
+        "value": "#8A8A8F"
+      },
+      "e-gv-9579882": {
+        "id": "e-gv-9579882",
+        "label": "blue",
+        "type": "global-color-variable",
+        "value": "#015EFF"
+      },
+      "e-gv-0fdbad2": {
+        "id": "e-gv-0fdbad2",
+        "label": "blue-deep",
+        "type": "global-color-variable",
+        "value": "#0142B4"
+      },
+      "e-gv-45fa994": {
+        "id": "e-gv-45fa994",
+        "label": "pink",
+        "type": "global-color-variable",
+        "value": "#E086CB"
+      },
+      "e-gv-4ce3b50": {
+        "id": "e-gv-4ce3b50",
+        "label": "pink-hot",
+        "type": "global-color-variable",
+        "value": "#D45CB8"
+      },
+      "e-gv-0da47b0": {
+        "id": "e-gv-0da47b0",
+        "label": "mint",
+        "type": "global-color-variable",
+        "value": "#B8ECE2"
+      },
+      "e-gv-69120d2": {
+        "id": "e-gv-69120d2",
+        "label": "night",
+        "type": "global-color-variable",
+        "value": "#151A2C"
+      },
+      "e-gv-0249db2": {
+        "id": "e-gv-0249db2",
+        "label": "rule",
+        "type": "global-color-variable",
+        "value": "rgba(0,0,0,0.10)"
+      },
+      "e-gv-2b583d9": {
+        "id": "e-gv-2b583d9",
+        "label": "rule-strong",
+        "type": "global-color-variable",
+        "value": "rgba(0,0,0,0.22)"
+      },
+      "e-gv-1f1de11": {
+        "id": "e-gv-1f1de11",
+        "label": "tone-mint",
+        "type": "global-color-variable",
+        "value": "#198F7B"
+      },
+      "e-gv-db43b71": {
+        "id": "e-gv-db43b71",
+        "label": "tone-lavender",
+        "type": "global-color-variable",
+        "value": "#6354C7"
+      },
+      "e-gv-ed418e9": {
+        "id": "e-gv-ed418e9",
+        "label": "pc-a-bg",
+        "type": "global-color-variable",
+        "value": "#F6F8DC"
+      },
+      "e-gv-12164aa": {
+        "id": "e-gv-12164aa",
+        "label": "pc-a-band",
+        "type": "global-color-variable",
+        "value": "#EAF1A8"
+      },
+      "e-gv-2f293eb": {
+        "id": "e-gv-2f293eb",
+        "label": "pc-a-rule",
+        "type": "global-color-variable",
+        "value": "#A7B833"
+      },
+      "e-gv-0f18f91": {
+        "id": "e-gv-0f18f91",
+        "label": "pc-b-bg",
+        "type": "global-color-variable",
+        "value": "#FBEDF8"
+      },
+      "e-gv-44b4f92": {
+        "id": "e-gv-44b4f92",
+        "label": "pc-b-band",
+        "type": "global-color-variable",
+        "value": "#F5D6EE"
+      },
+      "e-gv-00ee152": {
+        "id": "e-gv-00ee152",
+        "label": "pc-b-rule",
+        "type": "global-color-variable",
+        "value": "#D86ABF"
+      },
+      "e-gv-0015b1c": {
+        "id": "e-gv-0015b1c",
+        "label": "pc-c-bg",
+        "type": "global-color-variable",
+        "value": "#EDF9EE"
+      },
+      "e-gv-5c07cdf": {
+        "id": "e-gv-5c07cdf",
+        "label": "pc-c-band",
+        "type": "global-color-variable",
+        "value": "#D8F1D9"
+      },
+      "e-gv-93f3b4f": {
+        "id": "e-gv-93f3b4f",
+        "label": "pc-c-rule",
+        "type": "global-color-variable",
+        "value": "#63AD6A"
+      },
+      "e-gv-f8da2d7": {
+        "id": "e-gv-f8da2d7",
+        "label": "pc-d-bg",
+        "type": "global-color-variable",
+        "value": "#EEF0FF"
+      },
+      "e-gv-4459cf6": {
+        "id": "e-gv-4459cf6",
+        "label": "pc-d-band",
+        "type": "global-color-variable",
+        "value": "#DDE1FF"
+      },
+      "e-gv-5f03dec": {
+        "id": "e-gv-5f03dec",
+        "label": "pc-d-rule",
+        "type": "global-color-variable",
+        "value": "#7587E8"
+      },
+      "e-gv-0edcfff": {
+        "id": "e-gv-0edcfff",
+        "label": "s-1",
+        "type": "global-size-variable",
+        "value": "4px"
+      },
+      "e-gv-f238789": {
+        "id": "e-gv-f238789",
+        "label": "s-2",
+        "type": "global-size-variable",
+        "value": "8px"
+      },
+      "e-gv-cb478b9": {
+        "id": "e-gv-cb478b9",
+        "label": "s-3",
+        "type": "global-size-variable",
+        "value": "12px"
+      },
+      "e-gv-7a9cf62": {
+        "id": "e-gv-7a9cf62",
+        "label": "s-4",
+        "type": "global-size-variable",
+        "value": "16px"
+      },
+      "e-gv-e271943": {
+        "id": "e-gv-e271943",
+        "label": "s-5",
+        "type": "global-size-variable",
+        "value": "24px"
+      },
+      "e-gv-4f158bf": {
+        "id": "e-gv-4f158bf",
+        "label": "s-6",
+        "type": "global-size-variable",
+        "value": "32px"
+      },
+      "e-gv-816f2f6": {
+        "id": "e-gv-816f2f6",
+        "label": "s-7",
+        "type": "global-size-variable",
+        "value": "48px"
+      },
+      "e-gv-993e6c7": {
+        "id": "e-gv-993e6c7",
+        "label": "s-8",
+        "type": "global-size-variable",
+        "value": "64px"
+      },
+      "e-gv-9174f02": {
+        "id": "e-gv-9174f02",
+        "label": "s-9",
+        "type": "global-size-variable",
+        "value": "96px"
+      },
+      "e-gv-59747f6": {
+        "id": "e-gv-59747f6",
+        "label": "hair",
+        "type": "global-size-variable",
+        "value": "1px"
+      },
+      "e-gv-b961269": {
+        "id": "e-gv-b961269",
+        "label": "r-sm",
+        "type": "global-size-variable",
+        "value": "2px"
+      },
+      "e-gv-f5e280b": {
+        "id": "e-gv-f5e280b",
+        "label": "r-pill",
+        "type": "global-size-variable",
+        "value": "999px"
+      },
+      "e-gv-4f15ac1": {
+        "id": "e-gv-4f15ac1",
+        "label": "container-max",
+        "type": "global-size-variable",
+        "value": "1560px"
+      },
+      "e-gv-1962533": {
+        "id": "e-gv-1962533",
+        "label": "font-voice",
+        "type": "global-size-variable",
+        "value": "Arimo, Arial, Helvetica, sans-serif"
+      }
     },
-    "e-gv-6d9f28a": {
-      "id": "e-gv-6d9f28a",
-      "label": "paper-raised",
-      "type": "global-color-variable",
-      "value": "#F4F4F3"
-    },
-    "e-gv-bb06699": {
-      "id": "e-gv-bb06699",
-      "label": "paper-sunk",
-      "type": "global-color-variable",
-      "value": "#E4E4E2"
-    },
-    "e-gv-0aa56b5": {
-      "id": "e-gv-0aa56b5",
-      "label": "ink",
-      "type": "global-color-variable",
-      "value": "#000000"
-    },
-    "e-gv-88bc2eb": {
-      "id": "e-gv-88bc2eb",
-      "label": "ink-muted",
-      "type": "global-color-variable",
-      "value": "#55555A"
-    },
-    "e-gv-26627cc": {
-      "id": "e-gv-26627cc",
-      "label": "ink-faint",
-      "type": "global-color-variable",
-      "value": "#8A8A8F"
-    },
-    "e-gv-9579882": {
-      "id": "e-gv-9579882",
-      "label": "blue",
-      "type": "global-color-variable",
-      "value": "#015EFF"
-    },
-    "e-gv-0fdbad2": {
-      "id": "e-gv-0fdbad2",
-      "label": "blue-deep",
-      "type": "global-color-variable",
-      "value": "#0142B4"
-    },
-    "e-gv-45fa994": {
-      "id": "e-gv-45fa994",
-      "label": "pink",
-      "type": "global-color-variable",
-      "value": "#E086CB"
-    },
-    "e-gv-4ce3b50": {
-      "id": "e-gv-4ce3b50",
-      "label": "pink-hot",
-      "type": "global-color-variable",
-      "value": "#D45CB8"
-    },
-    "e-gv-0da47b0": {
-      "id": "e-gv-0da47b0",
-      "label": "mint",
-      "type": "global-color-variable",
-      "value": "#B8ECE2"
-    },
-    "e-gv-69120d2": {
-      "id": "e-gv-69120d2",
-      "label": "night",
-      "type": "global-color-variable",
-      "value": "#151A2C"
-    },
-    "e-gv-0249db2": {
-      "id": "e-gv-0249db2",
-      "label": "rule",
-      "type": "global-color-variable",
-      "value": "rgba(0,0,0,0.10)"
-    },
-    "e-gv-2b583d9": {
-      "id": "e-gv-2b583d9",
-      "label": "rule-strong",
-      "type": "global-color-variable",
-      "value": "rgba(0,0,0,0.22)"
-    },
-    "e-gv-1f1de11": {
-      "id": "e-gv-1f1de11",
-      "label": "tone-mint",
-      "type": "global-color-variable",
-      "value": "#198F7B"
-    },
-    "e-gv-db43b71": {
-      "id": "e-gv-db43b71",
-      "label": "tone-lavender",
-      "type": "global-color-variable",
-      "value": "#6354C7"
-    },
-    "e-gv-ed418e9": {
-      "id": "e-gv-ed418e9",
-      "label": "pc-a-bg",
-      "type": "global-color-variable",
-      "value": "#F6F8DC"
-    },
-    "e-gv-12164aa": {
-      "id": "e-gv-12164aa",
-      "label": "pc-a-band",
-      "type": "global-color-variable",
-      "value": "#EAF1A8"
-    },
-    "e-gv-2f293eb": {
-      "id": "e-gv-2f293eb",
-      "label": "pc-a-rule",
-      "type": "global-color-variable",
-      "value": "#A7B833"
-    },
-    "e-gv-0f18f91": {
-      "id": "e-gv-0f18f91",
-      "label": "pc-b-bg",
-      "type": "global-color-variable",
-      "value": "#FBEDF8"
-    },
-    "e-gv-44b4f92": {
-      "id": "e-gv-44b4f92",
-      "label": "pc-b-band",
-      "type": "global-color-variable",
-      "value": "#F5D6EE"
-    },
-    "e-gv-00ee152": {
-      "id": "e-gv-00ee152",
-      "label": "pc-b-rule",
-      "type": "global-color-variable",
-      "value": "#D86ABF"
-    },
-    "e-gv-0015b1c": {
-      "id": "e-gv-0015b1c",
-      "label": "pc-c-bg",
-      "type": "global-color-variable",
-      "value": "#EDF9EE"
-    },
-    "e-gv-5c07cdf": {
-      "id": "e-gv-5c07cdf",
-      "label": "pc-c-band",
-      "type": "global-color-variable",
-      "value": "#D8F1D9"
-    },
-    "e-gv-93f3b4f": {
-      "id": "e-gv-93f3b4f",
-      "label": "pc-c-rule",
-      "type": "global-color-variable",
-      "value": "#63AD6A"
-    },
-    "e-gv-f8da2d7": {
-      "id": "e-gv-f8da2d7",
-      "label": "pc-d-bg",
-      "type": "global-color-variable",
-      "value": "#EEF0FF"
-    },
-    "e-gv-4459cf6": {
-      "id": "e-gv-4459cf6",
-      "label": "pc-d-band",
-      "type": "global-color-variable",
-      "value": "#DDE1FF"
-    },
-    "e-gv-5f03dec": {
-      "id": "e-gv-5f03dec",
-      "label": "pc-d-rule",
-      "type": "global-color-variable",
-      "value": "#7587E8"
-    },
-    "e-gv-0edcfff": {
-      "id": "e-gv-0edcfff",
-      "label": "s-1",
-      "type": "global-size-variable",
-      "value": "4px"
-    },
-    "e-gv-f238789": {
-      "id": "e-gv-f238789",
-      "label": "s-2",
-      "type": "global-size-variable",
-      "value": "8px"
-    },
-    "e-gv-cb478b9": {
-      "id": "e-gv-cb478b9",
-      "label": "s-3",
-      "type": "global-size-variable",
-      "value": "12px"
-    },
-    "e-gv-7a9cf62": {
-      "id": "e-gv-7a9cf62",
-      "label": "s-4",
-      "type": "global-size-variable",
-      "value": "16px"
-    },
-    "e-gv-e271943": {
-      "id": "e-gv-e271943",
-      "label": "s-5",
-      "type": "global-size-variable",
-      "value": "24px"
-    },
-    "e-gv-4f158bf": {
-      "id": "e-gv-4f158bf",
-      "label": "s-6",
-      "type": "global-size-variable",
-      "value": "32px"
-    },
-    "e-gv-816f2f6": {
-      "id": "e-gv-816f2f6",
-      "label": "s-7",
-      "type": "global-size-variable",
-      "value": "48px"
-    },
-    "e-gv-993e6c7": {
-      "id": "e-gv-993e6c7",
-      "label": "s-8",
-      "type": "global-size-variable",
-      "value": "64px"
-    },
-    "e-gv-9174f02": {
-      "id": "e-gv-9174f02",
-      "label": "s-9",
-      "type": "global-size-variable",
-      "value": "96px"
-    },
-    "e-gv-59747f6": {
-      "id": "e-gv-59747f6",
-      "label": "hair",
-      "type": "global-size-variable",
-      "value": "1px"
-    },
-    "e-gv-b961269": {
-      "id": "e-gv-b961269",
-      "label": "r-sm",
-      "type": "global-size-variable",
-      "value": "2px"
-    },
-    "e-gv-f5e280b": {
-      "id": "e-gv-f5e280b",
-      "label": "r-pill",
-      "type": "global-size-variable",
-      "value": "999px"
-    },
-    "e-gv-4f15ac1": {
-      "id": "e-gv-4f15ac1",
-      "label": "container-max",
-      "type": "global-size-variable",
-      "value": "1560px"
-    },
-    "e-gv-1962533": {
-      "id": "e-gv-1962533",
-      "label": "font-voice",
-      "type": "global-size-variable",
-      "value": "Arimo, Arial, Helvetica, sans-serif"
-    }
+    "watermark": 0,
+    "version": 1
   }
 }

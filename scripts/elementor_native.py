@@ -148,6 +148,30 @@ def local_style_id(element_id, cid):
     return "e-{}-{}".format(element_id, hashlib.sha1(cid.encode("utf-8")).hexdigest()[:7])
 
 
+# Global class labels are prefixed for two reasons: `container` is a reserved
+# name Elementor rejects outright, and import merges by label, so an unprefixed
+# `section` or `btn` would silently overwrite or adopt whatever the site already
+# has under that name.
+CLASS_PREFIX = "apex-"
+
+
+def global_class_label(label):
+    return label if label.startswith(CLASS_PREFIX) else CLASS_PREFIX + label
+
+
+def global_class_id(label):
+    """
+    Elements reference a global class by its ID, never by its label.
+
+    The importer builds its snapshot by collecting the strings in each
+    element's `settings.classes.value` and looking them up as keys in
+    `global_classes.items`. Emitting the human label there means the lookup
+    finds nothing and the whole class snapshot is silently discarded, which
+    imports the page with its layout classes missing.
+    """
+    return "g-{}".format(stable_id("class", label))
+
+
 def variable_id(label):
     return "e-gv-{}".format(hashlib.sha1(("var:" + label).encode("utf-8")).hexdigest()[:7])
 
@@ -191,7 +215,13 @@ def size_value(raw, variables):
         raise UnmappableCSS(
             "unitless size {!r} has no valid unit; give it one explicitly".format(raw))
 
-    if raw in ("auto", "none"):
+    if raw == "auto":
+        # `auto` is a size whose unit is "auto", not a string. A string here is
+        # rejected, and one rejected class invalidates the entire global-class
+        # snapshot, so every class is silently dropped on import.
+        return {"$$type": "size", "value": {"size": 0, "unit": "auto"}}
+
+    if raw == "none":
         return {"$$type": "string", "value": raw}
 
     raise UnmappableCSS("cannot express {!r} as a size".format(raw))

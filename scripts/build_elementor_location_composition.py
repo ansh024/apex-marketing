@@ -871,7 +871,7 @@ def build_native(tree):
             css = css.replace("var(--pc-band)", "var(--pc-%s-band)" % own_tone)
             css = css.replace("var(--pc-rule)", "var(--pc-%s-rule)" % own_tone)
 
-        styles, class_refs = {}, list(node.classes)
+        styles, class_refs = {}, [elementor_native.global_class_id(c) for c in node.classes]
         if css.strip():
             style_id = elementor_native.local_style_id(el_id, node.cid)
             try:
@@ -1037,7 +1037,8 @@ def main():
         if not css.strip():
             continue
         block = elementor_native.compile_style(
-            css, f"g-{elementor_native.stable_id('class', label)}", label,
+            css, elementor_native.global_class_id(label),
+            elementor_native.global_class_label(label),
             variables, f"global class `{label}`")
         if block:
             compiled_classes.append(block)
@@ -1073,14 +1074,23 @@ def main():
             "items": {b["id"]: b for b in compiled_classes},
             "order": [b["id"] for b in compiled_classes],
         },
+        # The variables snapshot is {data, watermark, version}, not a bare map.
+        # Elementor's own exporter builds exactly this shape, and the importer
+        # reads `global_variables` off the decoded file and hands it straight to
+        # the same merge code, so anything else is silently ignored.
         "global_variables": {
-            elementor_native.variable_id(v["label"]): {
-                "id": elementor_native.variable_id(v["label"]),
-                "label": v["label"],
-                "type": "global-color-variable" if v["type"] == "color" else "global-size-variable",
-                "value": v["value"],
-            }
-            for v in GLOBAL_VARIABLES
+            "data": {
+                elementor_native.variable_id(v["label"]): {
+                    "id": elementor_native.variable_id(v["label"]),
+                    "label": v["label"],
+                    "type": ("global-color-variable" if v["type"] == "color"
+                             else "global-size-variable"),
+                    "value": v["value"],
+                }
+                for v in GLOBAL_VARIABLES
+            },
+            "watermark": 0,
+            "version": 1,
         },
     }
 
