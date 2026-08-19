@@ -1,0 +1,334 @@
+/* Apex Marketing — design system
+   Verbatim concatenation of the apex-marketing-design skill bundle, in the
+   order styles.css imports them. Do not hand-edit — regenerate from the
+   design-system skill export if the brand tokens change.
+   Source: apex-marketing-design skill, uploaded 2026-08-13. */
+
+/* Apex Marketing — colour.
+   Two drums print the brand: BLUE draws, PINK annotates. Everything else is
+   stock, ink, or the single night inversion. */
+:root {
+  /* Stock & ink */
+  --paper:        #EEEEEE;
+  --paper-raised: #F4F4F3;
+  --paper-sunk:   #E4E4E2;
+  --ink:          #000000;
+  --ink-muted:    #55555A;
+  --ink-faint:    #8A8A8F;
+
+  /* The two drums */
+  --blue:      #015EFF;
+  --blue-deep: #0142B4;
+  --pink:      #E086CB;
+  --pink-hot:  #D45CB8;
+  --mint:      #B8ECE2;
+
+  /* Night — the one inversion */
+  --night:        #151A2C;
+  --night-raised: #1E2438;
+
+  /* Rules & construction grid */
+  --rule:        rgba(0, 0, 0, 0.10);
+  --rule-strong: rgba(0, 0, 0, 0.22);
+  --rule-night:  rgba(238, 238, 238, 0.12);
+  --grid-site:   0.05; /* @kind other */
+  --grid-plate:  0.085; /* @kind other */
+  --grid-active: 0.135; /* @kind other */
+
+  /* Semantic aliases */
+  --surface-page:    var(--paper);
+  --surface-plate:   var(--paper-raised);
+  --surface-sunk:    var(--paper-sunk);
+  --surface-invert:  var(--night);
+  --text-body:       var(--ink);
+  --text-secondary:  var(--ink-muted);
+  --text-quiet:      var(--ink-faint);
+  --text-on-invert:  var(--paper);
+  --text-on-invert-muted: rgba(238, 238, 238, 0.72);
+  --accent-draw:     var(--blue);
+  --accent-mark:     var(--pink-hot);
+  --accent-fill:     var(--mint);
+  --focus-ring:      var(--pink-hot);
+  --link:            var(--ink);
+  --link-hover:      var(--blue);
+}
+
+/* Usage rules, enforced by convention:
+   · --blue is never body copy on paper (4.47:1). Large text and UI only.
+   · --pink and --mint are never text on paper. Marks and fills only.
+   · On --night, paper / mint / pink are all valid text colours.
+   · No gradients on ink. Flat riso separation only. */
+
+/* Apex Marketing — type. One family, three roles.
+   voice = prose · data = facts, labels, all-caps micro · emph = the italic
+   emphasis device, ONE word per headline maximum. */
+:root {
+  --font-voice: "Arimo", Arial, Helvetica, sans-serif;
+  --font-data:  "Arimo", Arial, Helvetica, sans-serif;
+  --font-emph:  "Arimo", Arial, Helvetica, sans-serif;
+
+  --t-display: clamp(2.75rem, 1.2rem + 6.4vw, 7rem); /* @kind other */
+  --t-h1:      clamp(2.25rem, 1.1rem + 4.6vw, 5rem); /* @kind other */
+  --t-h2:      clamp(2.1rem, 1rem + 3.4vw, 4.25rem); /* @kind other */
+  --t-h3:      clamp(1.25rem, 1rem + 1.1vw, 1.75rem); /* @kind other */
+  --t-lede:    clamp(1.0625rem, 1rem + 0.55vw, 1.4375rem); /* @kind other */
+  --t-body:    clamp(1rem, 0.96rem + 0.2vw, 1.125rem); /* @kind other */
+  --t-small:   0.875rem; /* @kind other */
+  --t-micro:   0.75rem; /* @kind other */
+  --t-nano:    0.6875rem; /* @kind other */
+
+  --lh-tight: 0.98; /* @kind other */
+  --lh-snug:  1.15; /* @kind other */
+  --lh-body:  1.55; /* @kind other */
+  --tr-tight: -0.03em; /* @kind other */
+  --tr-wide:  0.14em; /* @kind other */
+  --tr-mark:  0.30em; /* @kind other */
+
+  --measure: 62ch; /* @kind other */
+
+  /* Semantic aliases */
+  --text-display-font: var(--font-voice);
+  --text-data-font:    var(--font-data);
+  --text-emph-font:    var(--font-emph);
+}
+
+/* Apex Marketing — space. A 4px-rooted ladder; sections use the top rungs. */
+:root {
+  --s-1: 4px;  --s-2: 8px;   --s-3: 12px; --s-4: 16px;
+  --s-5: 24px; --s-6: 32px;  --s-7: 48px; --s-8: 64px;
+  --s-9: 96px; --s-10: 128px; --s-11: 192px;
+
+  --gutter: clamp(20px, 4vw, 64px); /* @kind spacing */
+  --container: 1560px; /* @kind spacing */
+  --section-pad: clamp(96px, 11vh, 192px);
+  --grid-cell: clamp(120px, 13.75vw, 220px); /* @kind spacing */
+}
+
+/* Apex Marketing — form. This is a printed document: plates are near-square.
+   The pill radius belongs to nav and CTAs only. */
+:root {
+  --r-none: 0; /* @kind radius */
+  --r-sm:   2px;
+  --r-md:   16px;   /* pricing tiers */
+  --r-lg:   18px;   /* portrait frames */
+  --r-pill: 999px;
+  --hair:   1px;
+
+  --shadow-plate:  0 18px 44px -28px rgba(21, 26, 44, 0.5);
+  --shadow-tier:   0 28px 66px -40px rgba(1, 66, 180, 0.72);
+  --shadow-lift:   0 26px 60px -28px rgba(21, 26, 44, 0.75);
+  --shadow-ticket: 0 30px 30px rgba(0, 0, 0, 0.38);
+}
+
+/* Apex Marketing — motion. Two curves, three durations, one ambient loop.
+   Every effect honours prefers-reduced-motion, no exceptions. */
+:root {
+  --e-out:  cubic-bezier(0.22, 1, 0.36, 1); /* @kind other */
+  --e-io:   cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --d-fast: 160ms; /* @kind other */
+  --d-mid:  320ms; /* @kind other */
+  --d-slow: 640ms; /* @kind other */
+  --d-drift: 9s; /* @kind other */
+}
+
+/* Apex Marketing — service plate tone sets.
+   Each service card is one flat tonal family: ground, band, rule, accent,
+   hover. Three tonally distinct bands are what make it a card rather than a
+   bordered box. */
+:root {
+  --pc-a-bg: #F6F8DC; --pc-a-band: #EAF1A8; --pc-a-rule: #A7B833; --pc-a-accent: #687700; --pc-a-hover: #EEF4B7;
+  --pc-b-bg: #FBEDF8; --pc-b-band: #F5D6EE; --pc-b-rule: #D86ABF; --pc-b-accent: #A12A87; --pc-b-hover: #F7DFF1;
+  --pc-c-bg: #EDF9EE; --pc-c-band: #D8F1D9; --pc-c-rule: #63AD6A; --pc-c-accent: #237A31; --pc-c-hover: #DFF4E1;
+  --pc-d-bg: #EEF0FF; --pc-d-band: #DDE1FF; --pc-d-rule: #7587E8; --pc-d-accent: #354FC5; --pc-d-hover: #E2E5FF;
+
+  /* Clause (accordion) tones: accent + wash pairs */
+  --tone-blue-accent: var(--blue);     --tone-blue-wash: rgba(1, 94, 255, 0.10);
+  --tone-mint-accent: #198F7B;         --tone-mint-wash: rgba(184, 236, 226, 0.38);
+  --tone-lav-accent:  #6354C7;         --tone-lav-wash:  rgba(154, 143, 235, 0.18);
+  --tone-rose-accent: var(--pink-hot); --tone-rose-wash: rgba(224, 134, 203, 0.19);
+}
+
+/* Apex Marketing — base layer. Element defaults and the handful of global
+   classes the site is actually built from (grid field, plate, data voice). */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-voice); font-size: var(--t-body); line-height: var(--lh-body); -webkit-font-smoothing: antialiased; }
+img, canvas, svg { display: block; max-width: 100%; }
+h1, h2, h3, p, dl, dd, dt, figure, ul { margin: 0; }
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); }
+:where(a, button, [tabindex]):focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; border-radius: var(--r-sm); }
+
+.apex-container { width: 100%; margin-inline: auto; padding-inline: var(--gutter); max-width: var(--container); }
+
+/* The construction grid — structural rules, not a mesh. Pitch and opacity are
+   coupled: halve the pitch and the weight per line must come down too. */
+.apex-grid-field { position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(to right, var(--ink) var(--hair), transparent var(--hair)), linear-gradient(to bottom, var(--ink) var(--hair), transparent var(--hair)); background-size: var(--grid-cell) var(--grid-cell); opacity: var(--grid-site); }
+.apex-grid-field--plate { opacity: var(--grid-plate); }
+.apex-grid-field--night { background-image: linear-gradient(to right, var(--paper) var(--hair), transparent var(--hair)), linear-gradient(to bottom, var(--paper) var(--hair), transparent var(--hair)); }
+
+/* Type roles */
+.apex-display { font-size: var(--t-display); line-height: var(--lh-tight); letter-spacing: var(--tr-tight); font-weight: 600; }
+.apex-h1 { font-size: var(--t-h1); line-height: 0.9; letter-spacing: -0.048em; font-weight: 600; }
+.apex-h2 { font-size: var(--t-h2); line-height: 1.02; letter-spacing: -0.04em; font-weight: 600; text-wrap: balance; }
+.apex-h3 { font-size: var(--t-h3); line-height: var(--lh-snug); letter-spacing: var(--tr-tight); font-weight: 600; }
+.apex-lede { font-size: var(--t-lede); line-height: 1.5; color: var(--ink-muted); max-width: 48ch; }
+.apex-emph { font-family: var(--font-emph); font-style: italic; font-weight: 400; letter-spacing: 0; }
+.apex-data { font-family: var(--font-data); font-size: var(--t-micro); letter-spacing: var(--tr-wide); text-transform: uppercase; }
+.apex-data--nano { font-size: var(--t-nano); }
+.apex-data--case { text-transform: none; letter-spacing: 0.02em; }
+.apex-mark { font-family: var(--font-data); letter-spacing: var(--tr-mark); text-transform: uppercase; font-weight: 500; }
+.apex-tabular { font-variant-numeric: tabular-nums; }
+
+/* Plate — the recurring surface */
+.apex-plate { position: relative; background: var(--paper-raised); border: var(--hair) solid var(--rule-strong); border-radius: var(--r-sm); overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* Apex Marketing — component styles. Class names are the contract between the
+   React components and this stylesheet; values are lifted verbatim from the
+   production homepage. */
+
+/* ── Button ───────────────────────────────────────────────────────── */
+.apex-btn { position: relative; display: inline-flex; align-items: center; gap: var(--s-2); font-family: var(--font-data); font-size: var(--t-micro); letter-spacing: var(--tr-wide); text-transform: uppercase; padding: 14px 24px; border-radius: var(--r-pill); border: var(--hair) solid var(--ink); background: var(--ink); color: var(--paper); text-decoration: none; cursor: pointer; transition: background var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out), border-color var(--d-fast) var(--e-out); }
+.apex-btn:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+.apex-btn--ghost { background: transparent; color: var(--ink); border-color: var(--rule-strong); }
+.apex-btn--ghost:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.apex-btn--paper { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+.apex-btn--paper:hover { background: var(--pink); border-color: var(--pink); color: var(--ink); }
+.apex-btn--sm { padding: 10px 20px; }
+.apex-btn--block { width: 100%; justify-content: center; }
+.apex-btn[aria-disabled="true"] { opacity: 0.4; pointer-events: none; }
+
+/* ── Nav pill ─────────────────────────────────────────────────────── */
+.apex-nav { position: fixed; inset-block-start: var(--s-5); inset-inline: 0; z-index: 50; display: flex; justify-content: center; pointer-events: none; }
+.apex-nav__pill { pointer-events: auto; display: flex; align-items: center; gap: var(--s-6); padding: 6px 6px 6px var(--s-6); background: rgba(238,238,238,0.72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: var(--hair) solid var(--rule-strong); border-radius: var(--r-pill); }
+.apex-nav__brand { font-size: 0.95rem; margin-right: var(--s-3); text-decoration: none; }
+.apex-nav__link { text-decoration: none; opacity: 0.72; padding-block: 10px; transition: opacity var(--d-fast); }
+.apex-nav__link:hover { opacity: 1; color: var(--ink); }
+@media (max-width: 899px) { .apex-nav__link { display: none; } .apex-nav__pill { gap: var(--s-3); padding: 6px 6px 6px var(--s-4); } }
+
+/* ── Service plate ────────────────────────────────────────────────── */
+.apex-pc { position: relative; display: flex; flex-direction: column; flex: 1 1 calc(50% - var(--s-5)); min-width: 320px; border: var(--hair) solid var(--pc-rule); border-radius: var(--r-sm); overflow: hidden; text-decoration: none; color: inherit; background: var(--pc-bg); transition: background var(--d-mid) var(--e-out), border-color var(--d-mid) var(--e-out); }
+.apex-pc[data-tone="a"] { --pc-bg: var(--pc-a-bg); --pc-band: var(--pc-a-band); --pc-rule: var(--pc-a-rule); --pc-accent: var(--pc-a-accent); --pc-hover: var(--pc-a-hover); }
+.apex-pc[data-tone="b"] { --pc-bg: var(--pc-b-bg); --pc-band: var(--pc-b-band); --pc-rule: var(--pc-b-rule); --pc-accent: var(--pc-b-accent); --pc-hover: var(--pc-b-hover); }
+.apex-pc[data-tone="c"] { --pc-bg: var(--pc-c-bg); --pc-band: var(--pc-c-band); --pc-rule: var(--pc-c-rule); --pc-accent: var(--pc-c-accent); --pc-hover: var(--pc-c-hover); }
+.apex-pc[data-tone="d"] { --pc-bg: var(--pc-d-bg); --pc-band: var(--pc-d-band); --pc-rule: var(--pc-d-rule); --pc-accent: var(--pc-d-accent); --pc-hover: var(--pc-d-hover); }
+.apex-pc__flag { position: absolute; z-index: 2; top: 0; right: 0; background: var(--blue); color: var(--paper); padding: 6px 12px; border-radius: 0 var(--r-sm) 0 12px; }
+.apex-pc__band { position: relative; z-index: 1; padding: var(--s-5) var(--s-5) var(--s-4); background: var(--pc-band); border-bottom: var(--hair) solid var(--pc-rule); transition: background var(--d-mid) var(--e-out), border-color var(--d-mid) var(--e-out); }
+.apex-pc__title { font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem); font-weight: 600; letter-spacing: -0.03em; transition: color var(--d-mid) var(--e-out); }
+.apex-pc__fig { position: relative; z-index: 1; flex: 1; min-height: 240px; display: grid; place-items: center; overflow: hidden; background: var(--pc-bg); }
+.apex-pc__image { width: 100%; height: 100%; min-height: 240px; object-fit: cover; transition: transform 0.7s var(--e-out), filter 0.7s var(--e-out); }
+.apex-pc__foot { position: relative; z-index: 1; display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-4); padding: var(--s-4) var(--s-5) var(--s-5); background: var(--pc-band); border-top: var(--hair) solid var(--pc-rule); transition: background var(--d-mid) var(--e-out), border-color var(--d-mid) var(--e-out); }
+.apex-pc__desc { font-size: 1rem; line-height: 1.45; color: var(--ink-muted); max-width: 38ch; transition: color var(--d-mid) var(--e-out); }
+.apex-pc__arrow { font-size: 1.25rem; line-height: 1; color: var(--pc-accent); transition: transform var(--d-mid) var(--e-out), color var(--d-mid) var(--e-out); }
+.apex-pc:hover, .apex-pc:focus-visible { background: var(--pc-hover); border-color: var(--pc-accent); }
+.apex-pc:hover .apex-pc__band, .apex-pc:hover .apex-pc__foot { background: var(--pc-hover); border-color: var(--pc-accent); }
+.apex-pc:hover .apex-pc__title, .apex-pc:hover .apex-pc__desc, .apex-pc:hover .apex-pc__arrow { color: var(--pc-accent); }
+.apex-pc:hover .apex-pc__arrow { transform: translateX(5px); }
+.apex-pc:hover .apex-pc__image { transform: scale(1.025); filter: contrast(1.03); }
+@media (max-width: 767px) { .apex-pc { flex: 1 1 100%; min-width: 0; } }
+
+/* ── Pricing tier ─────────────────────────────────────────────────── */
+.apex-tier { position: relative; display: flex; flex-direction: column; min-width: 0; background: var(--paper-raised); border: var(--hair) solid var(--rule-strong); border-radius: var(--r-md); overflow: hidden; transition: border-color var(--d-mid) var(--e-out), box-shadow var(--d-mid) var(--e-out); }
+.apex-tier--hot { background: var(--night); color: var(--paper); border: 2px solid var(--blue); box-shadow: var(--shadow-tier); }
+.apex-tier__body { position: relative; z-index: 3; padding: var(--s-7) var(--s-6) var(--s-6); display: flex; flex-direction: column; align-items: stretch; height: 100%; gap: var(--s-3); text-align: center; }
+.apex-tier__flag { position: absolute; top: 0; right: 0; display: flex; align-items: center; gap: 6px; background: var(--blue); color: var(--paper); padding: 6px 12px; border-radius: 0 14px 0 12px; }
+.apex-tier__flag::before { content: "\2605"; font-size: 0.9rem; line-height: 1; }
+.apex-tier__name { color: var(--ink-muted); font-weight: 600; }
+.apex-tier--hot .apex-tier__name { color: var(--mint); }
+.apex-tier__price { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin-top: var(--s-4); color: var(--ink); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.apex-tier--hot .apex-tier__price { color: var(--paper); text-shadow: 0 1px 3px rgba(0,0,0,0.7); }
+.apex-tier__num { font-size: clamp(2.8rem, 4vw, 4rem); font-weight: 750; letter-spacing: -0.045em; line-height: 1; }
+.apex-tier__pitch { margin: 0 auto var(--s-1); color: var(--ink-muted); font-size: var(--t-small); line-height: 1.5; max-width: 32ch; }
+.apex-tier--hot .apex-tier__pitch { color: rgba(238,238,238,0.74); }
+.apex-tier__save { color: var(--blue-deep); }
+.apex-tier--hot .apex-tier__save { color: var(--mint); }
+.apex-tier__list { list-style: none; padding: 0; margin: var(--s-5) 0 0; display: flex; flex-direction: column; gap: var(--s-3); text-align: left; }
+.apex-tier__list li { display: grid; grid-template-columns: 18px minmax(0,1fr) auto; gap: 9px; align-items: start; font-size: 0.9375rem; line-height: 1.35; }
+.apex-tier__list li::before { content: "\2713"; color: var(--blue); font-weight: 700; }
+.apex-tier--hot .apex-tier__list li { color: var(--paper); }
+.apex-tier--hot .apex-tier__list li::before { color: var(--mint); }
+.apex-tier__list li span:last-child { color: var(--ink-muted); text-align: right; font-variant-numeric: tabular-nums; }
+.apex-tier--hot .apex-tier__list li span:last-child { color: rgba(238,238,238,0.62); }
+.apex-tier__list em { font-style: italic; font-family: var(--font-emph); }
+.apex-tier__cta { margin-top: auto; margin-block-start: var(--s-6); padding: 0 var(--s-5); align-self: stretch; justify-content: center; min-height: 48px; line-height: 1; }
+.apex-tier--hot .apex-tier__cta { background: var(--paper); border-color: var(--paper); color: var(--night); }
+.apex-tier--hot .apex-tier__cta:hover { background: var(--blue); border-color: var(--paper); color: var(--paper); box-shadow: 0 0 0 2px var(--night), 0 0 0 4px var(--paper); }
+
+/* ── Feature tile (included with every plan) ──────────────────────── */
+.apex-feature-tile { display: flex; align-items: center; gap: 0.65rem; min-height: 3.5rem; padding: 0.7rem 0.8rem; border: 1px solid rgba(1,94,255,0.24); background: var(--paper-raised); font-family: var(--font-data); font-size: clamp(0.72rem, 0.67rem + 0.18vw, 0.84rem); font-weight: 600; letter-spacing: 0.055em; line-height: 1.35; text-transform: uppercase; color: var(--ink); }
+.apex-feature-tile::before { flex: none; content: "\2713"; color: var(--blue); font-size: 1.05rem; font-weight: 700; }
+
+/* ── Clause (accordion row) ───────────────────────────────────────── */
+.apex-clause { position: relative; border-top: var(--hair) solid var(--rule-strong); }
+.apex-clause[data-tone="blue"] { --tab-accent: var(--tone-blue-accent); --tab-wash: var(--tone-blue-wash); }
+.apex-clause[data-tone="mint"] { --tab-accent: var(--tone-mint-accent); --tab-wash: var(--tone-mint-wash); }
+.apex-clause[data-tone="lavender"] { --tab-accent: var(--tone-lav-accent); --tab-wash: var(--tone-lav-wash); }
+.apex-clause[data-tone="rose"] { --tab-accent: var(--tone-rose-accent); --tab-wash: var(--tone-rose-wash); }
+.apex-clause__wash { position: absolute; inset: 0; z-index: 0; overflow: hidden; background: var(--tab-wash); opacity: 0; transition: opacity var(--d-mid) var(--e-out); }
+.apex-clause.is-on .apex-clause__wash { opacity: 1; }
+.apex-clause__hd { position: relative; z-index: 2; display: block; width: 100%; background: none; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; padding: var(--s-4) 0; transition: padding var(--d-mid) var(--e-out); }
+.apex-clause.is-on .apex-clause__hd { padding: var(--s-5) var(--s-3) var(--s-3); }
+.apex-clause__term { font-size: clamp(1.2rem, 0.95rem + 1vw, 1.9rem); font-weight: 600; letter-spacing: -0.032em; line-height: 1.14; color: var(--ink); }
+.apex-clause__hd:hover .apex-clause__term { color: var(--tab-accent); }
+.apex-clause__panel { position: relative; z-index: 2; display: grid; grid-template-rows: 0fr; transition: grid-template-rows var(--d-slow) var(--e-io); }
+.apex-clause.is-on .apex-clause__panel { grid-template-rows: 1fr; }
+.apex-clause__inner { overflow: hidden; min-height: 0; }
+.apex-clause__copy { padding: 0 var(--s-3) var(--s-6); max-width: 46ch; }
+.apex-clause__note { font-size: 1rem; line-height: 1.5; color: var(--ink-muted); }
+.apex-clause__go { display: inline-flex; align-items: center; gap: 8px; margin-top: var(--s-4); font-size: var(--t-small); font-weight: 500; color: var(--tab-accent); text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+.apex-clause__go span { transition: transform var(--d-fast) var(--e-out); }
+.apex-clause__go:hover { color: var(--tab-accent); }
+.apex-clause__go:hover span { transform: translateX(4px); }
+.apex-clause__bar { position: absolute; z-index: 3; left: 0; bottom: -1px; height: 3px; width: min(52%, 620px); opacity: 0; transition: opacity var(--d-fast) var(--e-out); }
+.apex-clause.is-on .apex-clause__bar { opacity: 1; }
+.apex-clause__bar i { display: block; height: 100%; background: var(--tab-accent); transform-origin: left; }
+
+/* ── Google partner badge ─────────────────────────────────────────── */
+.apex-partner-badge { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; padding: 6px 16px 6px 6px; background: var(--paper-raised); border: var(--hair) solid var(--rule-strong); border-radius: var(--r-sm); text-decoration: none; transition: border-color var(--d-fast) var(--e-out), background var(--d-fast) var(--e-out); }
+.apex-partner-badge:hover, .apex-partner-badge:focus-visible { border-color: var(--blue); background: #fff; }
+.apex-partner-badge img { height: 28px; width: auto; flex: none; }
+.apex-partner-badge span { font-family: var(--font-data); font-size: var(--t-micro); letter-spacing: var(--tr-wide); text-transform: uppercase; color: var(--ink); line-height: 1.35; }
+
+/* ── Portrait ─────────────────────────────────────────────────────── */
+.apex-portrait { position: relative; aspect-ratio: 4/5; border: var(--hair) solid var(--rule-strong); border-radius: var(--r-lg); overflow: hidden; background: var(--paper-raised); }
+.apex-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center 18%; }
+.apex-portrait__cap { position: absolute; left: 0; bottom: 0; background: var(--paper); padding: 6px 10px; color: var(--ink-muted); }
+
+/* ── Stat block ───────────────────────────────────────────────────── */
+.apex-stat { display: flex; flex-direction: column; gap: 4px; }
+.apex-stat__n { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.apex-stat__k { color: var(--ink-muted); }
+
+/* ── Industry pill ────────────────────────────────────────────────── */
+.apex-industry-pill { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 18px; white-space: nowrap; border: var(--hair) solid var(--rule-strong); border-radius: var(--r-pill); background: var(--paper-raised); color: var(--ink); text-decoration: none; transition: background var(--d-fast) var(--e-out), color var(--d-fast) var(--e-out), border-color var(--d-fast) var(--e-out); }
+.apex-industry-pill:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.apex-industry-pill--ink { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.apex-industry-pill--ink:hover { background: var(--blue); border-color: var(--blue); color: var(--paper); }
+
+/* ── Survey marks ─────────────────────────────────────────────────── */
+.apex-crosshair { position: absolute; pointer-events: none; }
+.apex-crosshair::before, .apex-crosshair::after { content: ""; position: absolute; background: var(--pink-hot); }
+.apex-crosshair::before { inset-inline-start: 50%; inset-block: -14px; width: var(--hair); transform: translateX(-50%); }
+.apex-crosshair::after { inset-block-start: 50%; inset-inline: -14px; height: var(--hair); transform: translateY(-50%); }
+.apex-annot { display: flex; flex-direction: column; gap: 2px; padding: var(--s-3) var(--s-4); background: rgba(238,238,238,0.86); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border: var(--hair) solid var(--rule-strong); border-radius: var(--r-sm); }
+.apex-annot__val { font-family: var(--font-voice); font-size: 1.375rem; font-weight: 500; letter-spacing: var(--tr-tight); line-height: 1; font-variant-numeric: tabular-nums; }
+
+/* ── Admit-one ticket ─────────────────────────────────────────────── */
+.apex-ticket { position: relative; display: block; width: min(889px, 100%); aspect-ratio: 741/425; color: #4C2045; container-type: inline-size; filter: drop-shadow(var(--shadow-ticket)); transition: filter 420ms var(--e-out); }
+.apex-ticket::before, .apex-ticket::after { content: ""; position: absolute; z-index: 5; left: 75.84%; width: 5.67cqw; aspect-ratio: 1; border-radius: 50%; background: #000; transform: translate(-50%,-50%); pointer-events: none; }
+.apex-ticket::before { top: 0; }
+.apex-ticket::after { top: 100%; }
+.apex-ticket:hover { filter: drop-shadow(0 42px 34px rgba(0,0,0,0.34)); }
+.apex-ticket__face { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(circle at 62% 30%, #F2B1E4 0 18%, #E086CB 46%, #B442A0 100%); }
+.apex-ticket__corner { position: absolute; z-index: 6; width: 6.2cqw; aspect-ratio: 1; border-radius: 50%; background: #000; pointer-events: none; }
+.apex-ticket__perf { position: absolute; z-index: 2; left: 75.84%; top: 0; bottom: 0; width: max(1px, 0.22cqw); background: repeating-linear-gradient(to bottom, rgba(76,32,69,0.48) 0 1.2cqw, transparent 1.2cqw 2.4cqw); }
+.apex-ticket__label { position: absolute; z-index: 2; left: 7.69%; top: 13.65%; font-size: 2.66cqw; line-height: 1.42; letter-spacing: 0.016em; text-transform: uppercase; white-space: pre-line; }
+.apex-ticket__name { position: absolute; z-index: 2; left: 7.69%; top: 43.5%; font-size: 5.7cqw; line-height: 1; letter-spacing: -0.01em; font-weight: 500; }
+.apex-ticket__footer { position: absolute; z-index: 2; left: 7.69%; top: 81.9%; font-size: 2.66cqw; line-height: 1; letter-spacing: 0.016em; text-transform: uppercase; white-space: nowrap; }
+.apex-ticket__watermark { position: absolute; z-index: 1; left: 75.84%; top: 0; width: 24.16%; height: 100%; display: grid; place-items: center; color: #F7D9EF; opacity: 0.6; font-size: 19.43cqw; line-height: 1; letter-spacing: -0.04em; font-weight: 700; pointer-events: none; }
+.apex-ticket__watermark span, .apex-ticket__stub { writing-mode: vertical-rl; }
+.apex-ticket__stub { position: absolute; z-index: 2; left: 75.84%; top: 0; width: 24.16%; height: 100%; display: grid; place-items: center; font-size: 7.5cqw; line-height: 1; font-weight: 500; text-transform: uppercase; white-space: nowrap; opacity: 0.88; }

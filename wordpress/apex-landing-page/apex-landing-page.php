@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Apex Marketing — Landing Page
  * Description: Adds the Apex Marketing landing page + thank-you page as selectable Page Templates for any active theme, with an embedded GoHighLevel lead form.
- * Version: 1.0.9
+ * Version: 1.1.0
  * Author: Apex Marketing
  * GitHub Plugin URI: ansh024/apex-marketing
  * Primary Branch: plugin-deploy
@@ -11,9 +11,33 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'APEX_LP_VERSION', '1.0.9' );
+define( 'APEX_LP_VERSION', '1.1.0' );
 define( 'APEX_LP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'APEX_LP_URL', plugin_dir_url( __FILE__ ) );
+
+/**
+ * The `location` custom post type and its service-area taxonomy.
+ *
+ * Location pages are built in Elementor, not here: this file only registers the content
+ * model an Elementor `single-apex_location` template renders. Deliberately NOT added to
+ * apex_lp_templates() below, because that list drives a stylesheet dequeue that would
+ * strip Elementor's own CSS. Both guards test is_page(), which is false for a CPT single,
+ * so the CPT route is clear of it. See docs/elementor-authoring.md §8.
+ */
+require_once APEX_LP_DIR . 'includes/location-cpt.php';
+
+/**
+ * Rewrite rules for the CPT and taxonomy only exist once their post type is registered,
+ * so register first and flush after. Flushing is expensive and only correct here, on
+ * activation, never on init.
+ */
+register_activation_hook( __FILE__, function () {
+	apex_register_location_post_type();
+	apex_register_service_area_taxonomy();
+	flush_rewrite_rules();
+} );
+
+register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
 
 /**
  * The templates this plugin makes available, keyed by the relative
