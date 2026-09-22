@@ -308,25 +308,23 @@ add_action( 'wp_enqueue_scripts', function () {
 	global $wp_styles;
 	if ( empty( $wp_styles->queue ) ) return;
 
-	$keep = array( 'apex-lp-fonts', 'apex-lp-main', 'apex-home-fonts', 'apex-home-main', 'apex-cases-fonts', 'apex-cases-main', 'apex-cases-footer', 'admin-bar' );
+	// Templates that borrow Elementor's header/footer keep every stylesheet.
+	//
+	// The dequeue below exists because these templates' CSS used to lose to
+	// Elementor's kit on bare selectors. That is no longer true: every
+	// template stylesheet is now scoped under its own body class
+	// (scripts/scope-css.py), so our rules outrank the kit by specificity and
+	// stripping anything is both unnecessary and actively harmful - the
+	// chrome's own styling lives in handles no allowlist reliably predicts
+	// (local-<template id>-frontend-*, hello-elementor*, base-desktop, the
+	// Elementor Google Font handles), and removing them renders the header
+	// and footer unstyled.
+	if ( apex_lp_uses_elementor_chrome() ) return;
 
-	// When an Elementor header/footer is rendering on this page its styles have
-	// to survive, kit included - the kit carries the Global Colors/Fonts the
-	// chrome is built on. That is the same CSS that corrupted these templates
-	// before, so the case-study stylesheet scopes its bare-element rules under
-	// .apex-cases-page / .apex-case-detail to stay ahead of it on specificity.
-	$elementor_chrome = apex_lp_uses_elementor_chrome();
-	$allow_prefixes   = array( 'elementor-', 'e-', 'widget-', 'swiper', 'font-awesome' );
+	$keep = array( 'apex-lp-fonts', 'apex-lp-main', 'apex-home-fonts', 'apex-home-main', 'apex-cases-fonts', 'apex-cases-main', 'apex-cases-footer', 'admin-bar' );
 
 	foreach ( (array) $wp_styles->queue as $handle ) {
 		if ( in_array( $handle, $keep, true ) ) continue;
-		if ( $elementor_chrome ) {
-			$allowed = false;
-			foreach ( $allow_prefixes as $prefix ) {
-				if ( 0 === strpos( $handle, $prefix ) ) { $allowed = true; break; }
-			}
-			if ( $allowed ) continue;
-		}
 		wp_dequeue_style( $handle );
 		wp_deregister_style( $handle );
 	}

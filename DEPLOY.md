@@ -112,6 +112,29 @@ prefers the field over the bundled file.
   It was throwing `elementorFrontendConfig is not defined`, which aborted the
   rest of the inline script queue and broke motion init on the landing page.
 
+## After deploying, verify the live site
+
+```bash
+bash scripts/live-smoke.sh
+```
+
+Read-only checks against production: status, PHP errors, the plugin
+stylesheet, the CSS scope class, and — the one that matters — that the
+Elementor chrome's **own** per-template stylesheets are present
+(`local-918-frontend-*` for the header, `local-1158-frontend-*` for the
+footer, plus `hello-elementor` and `base-desktop`).
+
+This exists because the local wp-env cannot reproduce the real chrome: the
+header and footer live in the production database, so a stub stands in
+locally. The stub does not generate those per-template stylesheets, which is
+how a CSS allowlist shipped that stripped them and left the header rendering
+as a giant unstyled wordmark. `elementor-post-918` being present is *not*
+sufficient — it survives even when the chrome is stripped bare.
+
+To reproduce the real chrome locally instead, export the header and footer
+from **Elementor → Templates → Theme Builder** as JSON and import them into
+the local site. That needs no database dump and carries no customer data.
+
 ## Editing model
 
 Fields are grouped into tabs and **every one falls back to the shipped copy**,
