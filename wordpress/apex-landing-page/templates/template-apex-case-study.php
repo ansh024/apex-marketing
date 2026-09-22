@@ -3,19 +3,12 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 $assets = APEX_LP_URL . 'assets/images/case-studies/';
 $client = apex_cs_field( 'case_client_name', 'GC Events Studio' );
-// The testimonial file is heavy enough to blow past a typical WordPress
-// upload limit, so the distributed zip ships without it. Prefer the ACF
-// field (a Media Library upload), then a bundled copy if one is actually
-// present, and otherwise fall back to the poster still on its own.
-$bundled_video = file_exists( APEX_LP_DIR . 'assets/images/case-studies/arthur-testimonial.mp4' )
-	? $assets . 'arthur-testimonial.mp4'
-	: '';
-$video  = apex_cs_media_url( apex_cs_field( 'case_video' ), $bundled_video );
+$video  = apex_cs_media_url( apex_cs_field( 'case_video' ), apex_cs_default_video_url() );
 $poster = apex_cs_media_url( apex_cs_field( 'case_video_poster' ), $assets . 'arthur-poster.jpg' );
 // Only fall back to the bundled caption file while the bundled video is in
 // use; a replacement video must bring its own track rather than inherit one
 // whose timings belong to a different recording.
-$captions   = apex_cs_media_url( apex_cs_field( 'case_captions' ), $video && $video === $bundled_video ? $assets . 'arthur-testimonial.en.vtt' : '' );
+$captions   = $video ? apex_cs_media_url( apex_cs_field( 'case_captions' ), apex_cs_default_captions_url() ) : '';
 $transcript = apex_cs_field( 'case_transcript', "Hi there. My name is Arthur. I am the president and CEO of GC Events. We produce events nationally all around the country, but mostly in LA and New York. We've been working with Apex Marketing and Nathan for at least three years now. Prior to Nathan, we would hire other agencies to handle our Google Ads, our Meta ads, and we just found that they didn't feel substantial or thorough in their reports to us. We weren't really exactly sure what was going on.\n\nAfter working with Nathan, he helped to take our revenue from about 600K to about 1 million per year. So it was definitely more than a 50% increase. He would check in with us and really report and let us know about the numbers that were working behind the scenes. Things like the impressions, the conversions, all of the clicks, all of the cost per conversions. We got a detailed understanding of all of the numbers and how they fit in with our budget and what types of revenue they were producing.\n\nI think Nathan and Apex Marketing, we just really appreciate working with them. They give you a sense that they genuinely care about your business doing better and not just giving you a report at the end of the day, but actually understanding your business, you know, doing things like reporting the negatives and just making the campaign more optimized. And that was important to me. I wanted to know that I could work with someone who actually is making progress along the way and making this campaign better.\n\nNathan and Apex, highly recommended. Honestly, again, without them, we would have never crossed that 1 million dollar in revenue mark. So thank you very much, Nathan. Appreciate you." );
 $before = array(
 	array( apex_cs_field( 'case_before_1_value', '$120+' ), apex_cs_field( 'case_before_1_label', 'Cost per lead' ) ),

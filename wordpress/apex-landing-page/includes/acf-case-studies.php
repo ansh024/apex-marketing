@@ -17,6 +17,34 @@ function apex_cs_media_url( $value, $default = '' ) {
 	return is_string( $value ) && '' !== $value ? $value : $default;
 }
 
+/**
+ * Default testimonial media.
+ *
+ * The distributed zip omits the 13.9MB mp4 (it pushed the upload past the
+ * host's limit), so the bundled copy only exists in the repo and in an rsync
+ * deploy. Everywhere else fall back to the Media Library copy. Both are
+ * filterable, and the per-page ACF fields still win over either.
+ */
+function apex_cs_default_video_url() {
+	$relative = 'assets/images/case-studies/arthur-testimonial.mp4';
+	$url = file_exists( APEX_LP_DIR . $relative )
+		? APEX_LP_URL . $relative
+		: content_url( '/uploads/2026/09/arthur-testimonial.mp4' );
+	return apply_filters( 'apex_cs_default_video_url', $url );
+}
+
+/**
+ * Captions always come from the bundled file, never the Media Library copy:
+ * the host serves .vtt from wp-content/uploads as application/octet-stream,
+ * and browsers refuse a <track> that is not text/vtt. The .htaccess beside
+ * the bundled file sets the type correctly.
+ */
+function apex_cs_default_captions_url() {
+	$relative = 'assets/images/case-studies/arthur-testimonial.en.vtt';
+	$url = file_exists( APEX_LP_DIR . $relative ) ? APEX_LP_URL . $relative : '';
+	return apply_filters( 'apex_cs_default_captions_url', $url );
+}
+
 function apex_cs_field_def( $key, $label, $name, $type = 'text', $extra = array() ) {
 	return array_merge( array(
 		'key' => $key, 'label' => $label, 'name' => $name, 'type' => $type,

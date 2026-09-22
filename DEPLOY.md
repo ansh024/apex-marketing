@@ -58,16 +58,26 @@ sneaks in.
 or WordPress treats it as a downgrade — the exact failure mode commit
 `b26199a` fixed.
 
-### The video is not in the zip
+### The video is not in the zip — and does not need to be
 
 `arthur-testimonial.mp4` is 13.9 MB and pushed the zip to 20 MB, past the
-host's upload limit — the upload truncated and WordPress reported
+host's upload limit. The upload truncated and WordPress reported
 *"Incompatible archive"*. The zip is now 5.7 MB without it.
 
-Upload `arthur-testimonial.mp4` and `arthur-testimonial.en.vtt` to the Media
-Library and set them on the GC Events page under **Client story → Testimonial
-video / Caption track**. Until then the page shows the poster still, with no
-play button and no caption track — never a broken player.
+It is already wired to the Media Library copy, so **no ACF editing is needed**:
+
+- **Video** — uses the bundled file when present (repo and rsync deploys),
+  otherwise `wp-content/uploads/2026/09/arthur-testimonial.mp4`, resolved with
+  `content_url()` so it is correct on any environment.
+- **Captions** — always the bundled `.vtt`, never the Media Library copy. The
+  host serves `.vtt` from `uploads/` as `application/octet-stream`, and
+  browsers refuse a `<track>` that is not `text/vtt`. A one-line `.htaccess`
+  ships beside the bundled file to set the type.
+
+Both defaults are filterable (`apex_cs_default_video_url`,
+`apex_cs_default_captions_url`) and the per-page ACF fields still win over
+either. If the video is ever unavailable the page shows the poster still with
+no play button and no orphaned track — never a broken player.
 
 ## Before you upload
 
