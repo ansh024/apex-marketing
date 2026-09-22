@@ -16,7 +16,6 @@ trap 'rm -rf "$STAGE"' EXIT
 
 mkdir -p "$OUT"
 rsync -a --quiet \
-  --include '.htaccess' \
   --exclude '.*' \
   --exclude '*.map' \
   --exclude '_proto/' \
@@ -26,7 +25,7 @@ rsync -a --quiet \
   "$SRC/" "$STAGE/apex-landing-page/"
 
 # Nothing dev-only should survive the copy.
-if find "$STAGE" -name '.*' -not -name '.' -not -name '..' -not -name '.htaccess' | grep -q .; then
+if find "$STAGE" -name '.*' -not -name '.' -not -name '..' | grep -q .; then
   echo "Refusing to build: dotfiles present in the staged plugin." >&2
   find "$STAGE" -name '.*' -not -name '.' -not -name '..' >&2
   exit 1

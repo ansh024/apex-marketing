@@ -69,14 +69,13 @@ It is already wired to the Media Library copy, so **no ACF editing is needed**:
 - **Video** — uses the bundled file when present (repo and rsync deploys),
   otherwise `wp-content/uploads/2026/09/arthur-testimonial.mp4`, resolved with
   `content_url()` so it is correct on any environment.
-- **Captions** — always the bundled `.vtt`, never the Media Library copy. The
-  host serves `.vtt` from `uploads/` as `application/octet-stream`, and
-  browsers refuse a `<track>` that is not `text/vtt`. A one-line `.htaccess`
-  ships beside the bundled file to set the type.
+- **Captions** — none ship. This video already has captions burned into the
+  picture, so a `<track>` would render a second set on top of them. The
+  *Caption track* field is still there for a case study whose video does not,
+  and the accessible transcript below the video is unconditional either way.
 
-Both defaults are filterable (`apex_cs_default_video_url`,
-`apex_cs_default_captions_url`) and the per-page ACF fields still win over
-either. If the video is ever unavailable the page shows the poster still with
+The video default is filterable (`apex_cs_default_video_url`) and the per-page
+ACF fields still win over it. If the video is ever unavailable the page shows the poster still with
 no play button and no orphaned track — never a broken player.
 
 ## Before you upload

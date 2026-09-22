@@ -1,3 +1,0 @@
-# Browsers only load a <track> served as text/vtt; some hosts default
-# .vtt to application/octet-stream, which silently disables captions.
-AddType text/vtt .vtt

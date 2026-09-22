@@ -33,18 +33,6 @@ function apex_cs_default_video_url() {
 	return apply_filters( 'apex_cs_default_video_url', $url );
 }
 
-/**
- * Captions always come from the bundled file, never the Media Library copy:
- * the host serves .vtt from wp-content/uploads as application/octet-stream,
- * and browsers refuse a <track> that is not text/vtt. The .htaccess beside
- * the bundled file sets the type correctly.
- */
-function apex_cs_default_captions_url() {
-	$relative = 'assets/images/case-studies/arthur-testimonial.en.vtt';
-	$url = file_exists( APEX_LP_DIR . $relative ) ? APEX_LP_URL . $relative : '';
-	return apply_filters( 'apex_cs_default_captions_url', $url );
-}
-
 function apex_cs_field_def( $key, $label, $name, $type = 'text', $extra = array() ) {
 	return array_merge( array(
 		'key' => $key, 'label' => $label, 'name' => $name, 'type' => $type,
@@ -116,7 +104,9 @@ add_action( 'acf/init', function () {
 		apex_cs_field_def( 'field_apex_csd_poster', 'Video poster', 'case_video_poster', 'image', array( 'return_format' => 'array', 'preview_size' => 'medium' ) ),
 		apex_cs_field_def( 'field_apex_csd_person', 'Client name in video', 'case_testimonial_name' ),
 		apex_cs_field_def( 'field_apex_csd_role', 'Client role', 'case_testimonial_role' ),
-		apex_cs_field_def( 'field_apex_csd_captions', 'Caption track (WebVTT)', 'case_captions', 'file', array( 'return_format' => 'array', 'mime_types' => 'vtt' ) ),
+		apex_cs_field_def( 'field_apex_csd_captions', 'Caption track (WebVTT)', 'case_captions', 'file', array(
+			'return_format' => 'array', 'mime_types' => 'vtt',
+			'instructions' => 'Optional. Leave empty when the video already has captions burned in, as the GC Events one does - a second set would double up on screen.' ) ),
 		apex_cs_field_def( 'field_apex_csd_transcript', 'Accessible transcript', 'case_transcript', 'textarea', array( 'rows' => 8, 'instructions' => 'Blank line between paragraphs. Shown under the video in a “Read the transcript” disclosure.' ) ),
 		apex_cs_field_def( 'field_apex_csd_quote', 'Featured quote', 'case_quote', 'textarea', array( 'rows' => 4 ) ),
 		apex_cs_field_def( 'field_apex_csd_chart_title', 'Chart heading', 'case_chart_title' ),

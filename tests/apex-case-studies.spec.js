@@ -64,16 +64,21 @@ test('testimonial ships captions and an accessible transcript', async ({ page })
   // optional either way.
   const hasVideo = await page.locator('.cs-client-story video').count();
   if (hasVideo) {
-    const track = page.locator('.cs-client-story video track[kind="captions"]');
-    await expect(track).toHaveAttribute('src', /\.vtt$/);
-    const vtt = await page.request.get(await track.getAttribute('src'));
-    expect(vtt.ok()).toBeTruthy();
-    expect(await vtt.text()).toMatch(/^WEBVTT/);
     await expect(page.locator('.cs-video__play')).toHaveCount(1);
+    // This video has captions burned into the picture, so no <track> ships by
+    // default - a second set would double up on screen. If one is ever added
+    // through the field it still has to be a real WebVTT file.
+    const track = page.locator('.cs-client-story video track[kind="captions"]');
+    if (await track.count()) {
+      const vtt = await page.request.get(await track.getAttribute('src'));
+      expect(vtt.ok()).toBeTruthy();
+      expect(await vtt.text()).toMatch(/^WEBVTT/);
+    }
   } else {
     // Poster still stands in, and no dead play button is offered.
     await expect(page.locator('.cs-video--poster img')).toHaveCount(1);
     await expect(page.locator('.cs-video__play')).toHaveCount(0);
+    await expect(page.locator('track[kind="captions"]')).toHaveCount(0);
   }
 
   await expect(page.locator('.cs-transcript summary')).toBeVisible();
