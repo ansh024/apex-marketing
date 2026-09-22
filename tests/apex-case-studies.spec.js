@@ -45,18 +45,37 @@ test('hero mounts the motion gradient and stays legible without WebGL', async ({
 test('detail renders the real testimonial and verified outcomes', async ({ page }) => {
   await page.goto('/case-studies/gc-events-studio/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('.cs-detail-hero h1')).toContainText('A clearer view of every lead.');
-  await expect(page.locator('.cs-client-story video')).toHaveAttribute('src', /arthur-testimonial\.mp4/);
+  // Player when a video is available, poster still when the zip shipped without it.
+  const video = page.locator('.cs-client-story video');
+  if (await video.count()) {
+    await expect(video).toHaveAttribute('src', /\.(mp4|webm)(\?|$)/);
+  } else {
+    await expect(page.locator('.cs-video--poster img')).toHaveCount(1);
+  }
   await expect(page.locator('.cs-outcome')).toContainText('~$1M');
   await expect(page.locator('.cs-outcome')).toContainText('Annual revenue');
 });
 
 test('testimonial ships captions and an accessible transcript', async ({ page }) => {
   await page.goto('/case-studies/gc-events-studio/', { waitUntil: 'domcontentloaded' });
-  const track = page.locator('.cs-client-story video track[kind="captions"]');
-  await expect(track).toHaveAttribute('src', /\.vtt$/);
-  const vtt = await page.request.get(await track.getAttribute('src'));
-  expect(vtt.ok()).toBeTruthy();
-  expect(await vtt.text()).toMatch(/^WEBVTT/);
+
+  // The distributed zip ships without the heavy mp4, so the player is only
+  // present when a video is actually available. The transcript is not
+  // optional either way.
+  const hasVideo = await page.locator('.cs-client-story video').count();
+  if (hasVideo) {
+    const track = page.locator('.cs-client-story video track[kind="captions"]');
+    await expect(track).toHaveAttribute('src', /\.vtt$/);
+    const vtt = await page.request.get(await track.getAttribute('src'));
+    expect(vtt.ok()).toBeTruthy();
+    expect(await vtt.text()).toMatch(/^WEBVTT/);
+    await expect(page.locator('.cs-video__play')).toHaveCount(1);
+  } else {
+    // Poster still stands in, and no dead play button is offered.
+    await expect(page.locator('.cs-video--poster img')).toHaveCount(1);
+    await expect(page.locator('.cs-video__play')).toHaveCount(0);
+  }
+
   await expect(page.locator('.cs-transcript summary')).toBeVisible();
   await expect(page.locator('.cs-transcript')).toContainText('My name is Arthur');
 });

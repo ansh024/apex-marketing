@@ -19,6 +19,7 @@ rsync -a --quiet \
   --exclude '.*' \
   --exclude '*.map' \
   --exclude '_proto/' \
+  --exclude '*.mp4' \
   --exclude 'node_modules/' \
   --exclude '__MACOSX/' \
   "$SRC/" "$STAGE/apex-landing-page/"
@@ -34,5 +35,5 @@ ZIP="$OUT/apex-landing-page-$VERSION.zip"
 rm -f "$ZIP"
 ( cd "$STAGE" && zip -qr "$OLDPWD/$ZIP" apex-landing-page )
 
-echo "Built $ZIP"
+echo "Built $ZIP (video excluded - upload it to the Media Library and set the case study's Testimonial video field)"
 unzip -l "$ZIP" | tail -1
