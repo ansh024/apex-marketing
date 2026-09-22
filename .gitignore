@@ -9,3 +9,12 @@ test-results
 .claude/settings.local.json
 wordpress/*.zip
 /*.zip
+
+# Local-only: Elementor + Pro are licensed and live outside the repo.
+# .wp-env.json stays CI-safe; this override mounts them for local work.
+.wp-env.override.json
+wp-download/
+dist/
+tmp/
+.firecrawl/
+design-research/prototypes/*.zip

@@ -1,6 +1,14 @@
 <?php
 /**
- * Apex Marketing - Landing Page template.
+ * Apex Marketing - Industry page template.
+ *
+ * A copy of the landing template that takes the site-wide Elementor header and
+ * footer instead of carrying its own, so industry pages stay replicable while
+ * template-apex-landing.php is left exactly as it is. Both share main.css,
+ * which is scoped to each template's body class (scripts/scope-css.py) so
+ * Elementor's kit cannot outrank it on pages that load Elementor's styles.
+ *
+ * Originally copied from template-apex-landing.php.
  * Selected via Page Attributes → Template → "Apex - Landing Page".
  * Deliberately bypasses the active theme's header.php/footer.php since this
  * is a fully self-contained, full-bleed design - but still calls wp_head()/
@@ -9,8 +17,8 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 $apex_img    = APEX_LP_URL . 'assets/images/';
-$apex_title  = get_the_title() ? get_the_title() . ' | Apex Marketing' : 'Apex Marketing - Appointments, Not Clicks | Marketing for Plastic & Cosmetic Surgeons';
-$apex_desc   = 'Omni-channel marketing campaigns built exclusively for plastic surgeons and med spas. Reported in booked appointments and backed by a 60-day money-back guarantee.';
+$apex_title  = apex_ind_field( 'ind_meta_title', get_the_title() ? get_the_title() . ' | Apex Marketing' : 'Apex Marketing - Appointments, Not Clicks' );
+$apex_desc   = apex_ind_field( 'ind_meta_desc', 'Omni-channel marketing campaigns built exclusively for plastic surgeons and med spas. Reported in booked appointments and backed by a 60-day money-back guarantee.' );
 $apex_url    = get_permalink();
 ?><!DOCTYPE html>
 <html class="no-js" <?php language_attributes(); ?>>
@@ -54,10 +62,11 @@ $apex_url    = get_permalink();
 <script>document.documentElement.classList.remove('no-js');</script>
 <?php wp_head(); ?>
 </head>
-<body <?php body_class( 'apex-landing-page' ); ?>>
+<body <?php body_class( 'apex-industry-page' ); ?>>
 <?php wp_body_open(); ?>
 
 <!-- ============ NAV ============ -->
+<?php if ( ! ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'header' ) ) ) : ?>
 <header class="nav" id="nav">
   <div class="nav__inner">
     <a class="nav__logo" href="#top" aria-label="Apex Marketing">
@@ -70,11 +79,12 @@ $apex_url    = get_permalink();
       <a href="#pricing">Pricing</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a class="btn btn--signal nav__cta cta-book" href="#book">Book A Free Strategy Call</a>
-    <a class="nav__phone" href="tel:+18557409608" aria-label="Call Apex Marketing at 855-740-9608">Call (855) 740-9608</a>
+    <a class="btn btn--signal nav__cta cta-book" href="#book"><?php echo esc_html( apex_ind_field( 'ind_cta_label', 'Book A Free Strategy Call' ) ); ?></a>
+    <a class="nav__phone" href="<?php echo esc_url( apex_ind_phone_href() ); ?>" aria-label="Call Apex Marketing at 855-740-9608">Call <?php echo esc_html( apex_ind_field( 'ind_phone', '(855) 740-9608' ) ); ?></a>
     <button class="nav__burger" id="burger" aria-label="Menu"><span></span><span></span></button>
   </div>
 </header>
+<?php endif; ?>
 <div class="mobile-menu" id="mobileMenu">
   <a href="#services">Services</a>
   <a href="#how">How It Works</a>
@@ -90,18 +100,19 @@ $apex_url    = get_permalink();
   <canvas id="heroGradient" class="hero__gradient" aria-hidden="true"></canvas>
   <div class="hero__grid">
     <div class="hero__copy">
-      <div class="hero__eyebrow reveal">Revenue Driven Marketing</div>
+      <div class="hero__eyebrow reveal"><?php echo esc_html( apex_ind_field( 'ind_hero_eyebrow', 'Revenue Driven Marketing' ) ); ?></div>
       <h1 class="hero__h1">
-        <span class="hero__em">Engineered</span> To Deliver Results
+        <span class="hero__em"><?php echo esc_html( apex_ind_field( 'ind_hero_em', 'Engineered' ) ); ?></span> <?php echo esc_html( apex_ind_field( 'ind_hero_rest', 'To Deliver Results' ) ); ?>
       </h1>
-      <p class="hero__sub reveal">Omni-Channel Marketing Campaigns Exclusively For Plastic Surgeons &amp; Med Spas</p>
-      <ul class="hero__trust reveal">
-        <li>No Long-Term Contracts</li>
-        <li>60-Day Money-back Guarantee</li>
-      </ul>
+      <p class="hero__sub reveal"><?php echo esc_html( apex_ind_field( 'ind_hero_sub', 'Omni-Channel Marketing Campaigns Exclusively For Plastic Surgeons & Med Spas' ) ); ?></p>
+      <ul class="hero__trust reveal"><?php
+      foreach ( apex_ind_rows( 'ind_trust', array( 'text' ), array(
+        array( 'text' => 'No Long-Term Contracts' ),
+        array( 'text' => '60-Day Money-back Guarantee' ),
+      ) ) as $trust ) : ?><li><?php echo esc_html( apex_ind_sub( $trust, 'text' ) ); ?></li><?php endforeach; ?></ul>
       <div class="hero__actions reveal">
         <a class="btn btn--signal btn--lg hero__primary cta-book" href="#book">Book A Free Strategy Call</a>
-        <a class="btn btn--call btn--lg hero__phone" href="tel:+18557409608">Call (855) 740-9608</a>
+        <a class="btn btn--call btn--lg hero__phone" href="<?php echo esc_url( apex_ind_phone_href() ); ?>">Call <?php echo esc_html( apex_ind_field( 'ind_phone', '(855) 740-9608' ) ); ?></a>
       </div>
     </div>
 
@@ -135,7 +146,7 @@ $apex_url    = get_permalink();
 
 <section class="services" id="services">
   <div class="container">
-    <h2 class="h2 reveal">One growth system. Built for one job:<br><em>qualified appointments on your calendar.</em></h2>
+    <h2 class="h2 reveal"><?php echo esc_html( apex_ind_field( 'ind_services_title', 'One growth system. Built for one job:' ) ); ?><br><em><?php echo esc_html( apex_ind_field( 'ind_services_em', 'qualified appointments on your calendar.' ) ); ?></em></h2>
     <div class="bento">
       <article class="bento__tile bento__tile--meta reveal" style="background-image:url('<?php echo esc_url( $apex_img . 'bento/meta-ads.webp' ); ?>')">
         <h3><span class="bento__logos" aria-hidden="true">
@@ -173,35 +184,26 @@ $apex_url    = get_permalink();
 
 <section class="pains" id="pains">
   <div class="pains__intro container">
-    <h2 class="h2 h2--light reveal">You've probably said these things<br><em>to yourself.</em></h2>
+    <h2 class="h2 h2--light reveal"><?php echo esc_html( apex_ind_field( 'ind_pains_title', 'You\'ve probably said these things' ) ); ?><br><em><?php echo esc_html( apex_ind_field( 'ind_pains_em', 'to yourself.' ) ); ?></em></h2>
   </div>
   <div class="pains__pin" id="painsPin">
     <div class="pains__track" id="painsTrack">
+      <?php
+      $pains = apex_ind_rows( 'ind_pain', array( 'quote', 'fix' ), array(
+        array( 'quote' => '"The leads were garbage."', 'fix' => 'We qualify before your staff ever dials. Campaigns built around surgical candidates, tracked all the way to appointments - not inquiries.' ),
+        array( 'quote' => '"My front desk became the agency\'s follow-up team."', 'fix' => 'CRM and follow-up automation included. Leads are nurtured and booked before they ever touch your front desk.' ),
+        array( 'quote' => '"I paid for clicks while one angry review sat on top of my profile."', 'fix' => 'We fix the profile before we scale the spend. GBP management and review strategy are part of the system - not an upsell.' ),
+        array( 'quote' => '"Twelve-month contract. Results stalled at month three."', 'fix' => 'Month-to-month only. If results stall, you walk - no penalty. Our retention has to be earned monthly.' ),
+        array( 'quote' => '"The agency owned my ad account, my site - even my reviews."', 'fix' => 'You own everything from day one. Ad accounts, website, profile, data. Fire us anytime and keep it all.' ),
+      ) );
+      $pain_total = count( $pains );
+      foreach ( $pains as $pain_i => $pain ) : ?>
       <article class="pain-card">
-        <span class="pain-card__idx">01 / 05</span>
-        <h3>"The leads were garbage."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>We qualify before your staff ever dials. Campaigns built around surgical candidates, tracked all the way to appointments - not inquiries.</p></div>
+        <span class="pain-card__idx"><?php printf( '%02d / %02d', $pain_i + 1, $pain_total ); ?></span>
+        <h3><?php echo esc_html( apex_ind_sub( $pain, 'quote' ) ); ?></h3>
+        <div class="pain-card__fix"><span>The Apex fix</span><p><?php echo esc_html( apex_ind_sub( $pain, 'fix' ) ); ?></p></div>
       </article>
-      <article class="pain-card">
-        <span class="pain-card__idx">02 / 05</span>
-        <h3>"My front desk became the agency's follow-up team."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>CRM and follow-up automation included. Leads are nurtured and booked before they ever touch your front desk.</p></div>
-      </article>
-      <article class="pain-card">
-        <span class="pain-card__idx">03 / 05</span>
-        <h3>"I paid for clicks while one angry review sat on top of my profile."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>We fix the profile before we scale the spend. GBP management and review strategy are part of the system - not an upsell.</p></div>
-      </article>
-      <article class="pain-card">
-        <span class="pain-card__idx">04 / 05</span>
-        <h3>"Twelve-month contract. Results stalled at month three."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>Month-to-month only. If results stall, you walk - no penalty. Our retention has to be earned monthly.</p></div>
-      </article>
-      <article class="pain-card">
-        <span class="pain-card__idx">05 / 05</span>
-        <h3>"The agency owned my ad account, my site - even my reviews."</h3>
-        <div class="pain-card__fix"><span>The Apex fix</span><p>You own everything from day one. Ad accounts, website, profile, data. Fire us anytime and keep it all.</p></div>
-      </article>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -210,8 +212,8 @@ $apex_url    = get_permalink();
   <div class="container">
     <div class="proof__head">
       <div>
-        <h2 class="h2 reveal">Reporting that reads like your practice,<br><em>not like an agency.</em></h2>
-        <p class="section-sub reveal">Simple Numbers Reported - How many leads? At what cost? How many booked? What are plans to scale &amp; optimise? No Fluff.</p>
+        <h2 class="h2 reveal"><?php echo esc_html( apex_ind_field( 'ind_proof_title', 'Reporting that reads like your practice,' ) ); ?><br><em><?php echo esc_html( apex_ind_field( 'ind_proof_em', 'not like an agency.' ) ); ?></em></h2>
+        <p class="section-sub reveal"><?php echo esc_html( apex_ind_field( 'ind_book_body', 'Simple Numbers Reported - How many leads? At what cost? How many booked? What are plans to scale &amp; optimise? No Fluff.' ) ); ?></p>
       </div>
       <figure class="proof__report reveal">
         <img src="<?php echo esc_url( $apex_img . 'report.webp' ); ?>" alt="A printed Apex monthly performance report on a desk" loading="lazy" decoding="async" width="1400" height="1045">
@@ -228,7 +230,7 @@ $apex_url    = get_permalink();
 
 <section class="pricing" id="pricing">
   <div class="container">
-    <h2 class="h2 reveal">Pick the package that fits <em>your practice.</em></h2>
+    <h2 class="h2 reveal"><?php echo esc_html( apex_ind_field( 'ind_pricing_title', 'Pick the package that fits' ) ); ?> <em><?php echo esc_html( apex_ind_field( 'ind_pricing_em', 'your practice.' ) ); ?></em></h2>
     <ul class="pricing__chips reveal">
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 8.5h-4.5a2 2 0 0 0 0 4H13a2 2 0 0 1 0 4H8.5M12 6.5v11M5 19 19 5"/></svg>No Hidden Fees</li>
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v3M17 3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/><path d="m8 15 2 2 5-5"/></svg>No Long-Term Contracts</li>
@@ -348,12 +350,16 @@ $apex_url    = get_permalink();
 <!-- ============ HOW IT WORKS ============ -->
 <section class="steps" id="how">
   <div class="container">
-    <h2 class="h2 reveal">From first call to campaigns live,<br><em>no surprises.</em></h2>
+    <h2 class="h2 reveal"><?php echo esc_html( apex_ind_field( 'ind_how_title', 'From first call to campaigns live,' ) ); ?><br><em><?php echo esc_html( apex_ind_field( 'ind_how_em', 'no surprises.' ) ); ?></em></h2>
     <ol class="steps__list">
-      <li class="step reveal"><span class="step__num"></span><h3>Book your free strategy call</h3><p>We audit your current digital presence, define your ideal patient or avatar, and identify your marketing goals. We recommend the best marketing channels to fit your goals.</p></li>
-      <li class="step reveal"><span class="step__num"></span><h3>Get a custom growth plan</h3><p>Within 48 hours of the discovery call, we provide a custom marketing plan with projections. Before we start, we set expectations for cost per lead, sales, and return on investment.</p></li>
-      <li class="step reveal"><span class="step__num"></span><h3>We launch &amp; optimize</h3><p>We adjust the custom marketing plan with you, align on the long-term plan, and set benchmarks. Once everyone is aligned, we execute and launch within one week.</p></li>
-      <li class="step reveal"><span class="step__num"></span><h3>Transparent reporting &amp; communications</h3><p>We report full-funnel indicators including cost per lead, qualification rate, cost per booking, sales, and return on investment. Recurring team meetings provide 100% transparency.</p></li>
+      <?php foreach ( apex_ind_rows( 'ind_how', array( 'title', 'body' ), array(
+        array( 'title' => 'Book your free strategy call', 'body' => 'We audit your current digital presence, define your ideal patient or avatar, and identify your marketing goals. We recommend the best marketing channels to fit your goals.' ),
+        array( 'title' => 'Get a custom growth plan', 'body' => 'Within 48 hours of the discovery call, we provide a custom marketing plan with projections. Before we start, we set expectations for cost per lead, sales, and return on investment.' ),
+        array( 'title' => 'We launch &amp; optimize', 'body' => 'We adjust the custom marketing plan with you, align on the long-term plan, and set benchmarks. Once everyone is aligned, we execute and launch within one week.' ),
+        array( 'title' => 'Transparent reporting &amp; communications', 'body' => 'We report full-funnel indicators including cost per lead, qualification rate, cost per booking, sales, and return on investment. Recurring team meetings provide 100% transparency.' ),
+      ) ) as $step ) : ?>
+      <li class="step reveal"><span class="step__num"></span><h3><?php echo esc_html( apex_ind_sub( $step, 'title' ) ); ?></h3><p><?php echo esc_html( apex_ind_sub( $step, 'body' ) ); ?></p></li>
+      <?php endforeach; ?>
     </ol>
   </div>
 </section>
@@ -361,14 +367,18 @@ $apex_url    = get_permalink();
 <!-- ============ FAQ ============ -->
 <section class="faq" id="faq">
   <div class="container container--narrow">
-    <h2 class="h2 reveal">Fair questions. <em>Straight answers.</em></h2>
-    <div class="faq__list">
-      <details class="faq__item reveal"><summary>How fast until we see results?</summary><p>Paid campaigns such as Google Ads, Meta Ads, and Local Service Ads typically produce leads from the first week of launch. SEO and Local SEO through Google Business Profile generally generate leads within a month. We recommend using all channels to accomplish your short-term and long-term marketing goals.</p></details>
-      <details class="faq__item reveal"><summary>You're month-to-month - doesn't that mean clients leave?</summary><p>The opposite. We're month-to-month because retention has to be earned with results, not contracts. Clients stay because appointments keep landing on the calendar - and if they ever don't, you should be free to go.</p></details>
-      <details class="faq__item reveal"><summary>We've run ads before - the leads couldn't qualify or no-showed. What's different?</summary><p>We optimize for qualified appointments, not form-fills. Campaigns are built around surgical candidates and your case mix, leads are qualified and nurtured through the CRM before your staff ever dials, and reporting is tied to appointments booked - so bad leads can't hide inside good-looking numbers.</p></details>
-      <details class="faq__item reveal"><summary>Will this add work for my front desk?</summary><p>No - it removes it. Follow-up automation and scheduling flows handle the chasing, so your coordinator talks to people who are already qualified and expecting the call.</p></details>
-      <details class="faq__item reveal"><summary>Do you work with competing practices in my city?</summary><p>No, we never engage in a conflict of interest and do not work with a competitor in your target location, ever.</p></details>
-      <details class="faq__item reveal"><summary>What does the 60-day guarantee actually cover?</summary><p>We provide projections and set expectations from day one. If we do not deliver the results, then you are entitled to your money back.</p></details>
+    <h2 class="h2 reveal"><?php echo esc_html( apex_ind_field( 'ind_faq_title', 'Fair questions.' ) ); ?><br><em><?php echo esc_html( apex_ind_field( 'ind_faq_em', 'Straight answers.' ) ); ?></em></h2>
+    <div class="faq__list"><?php
+    foreach ( apex_ind_rows( 'ind_faq', array( 'question', 'answer' ), array(
+      array( 'question' => 'How fast until we see results?', 'answer' => 'Paid campaigns such as Google Ads, Meta Ads, and Local Service Ads typically produce leads from the first week of launch. SEO and Local SEO through Google Business Profile generally generate leads within a month. We recommend using all channels to accomplish your short-term and long-term marketing goals.' ),
+      array( 'question' => 'You\'re month-to-month - doesn\'t that mean clients leave?', 'answer' => 'The opposite. We\'re month-to-month because retention has to be earned with results, not contracts. Clients stay because appointments keep landing on the calendar - and if they ever don\'t, you should be free to go.' ),
+      array( 'question' => 'We\'ve run ads before - the leads couldn\'t qualify or no-showed. What\'s different?', 'answer' => 'We optimize for qualified appointments, not form-fills. Campaigns are built around surgical candidates and your case mix, leads are qualified and nurtured through the CRM before your staff ever dials, and reporting is tied to appointments booked - so bad leads can\'t hide inside good-looking numbers.' ),
+      array( 'question' => 'Will this add work for my front desk?', 'answer' => 'No - it removes it. Follow-up automation and scheduling flows handle the chasing, so your coordinator talks to people who are already qualified and expecting the call.' ),
+      array( 'question' => 'Do you work with competing practices in my city?', 'answer' => 'No, we never engage in a conflict of interest and do not work with a competitor in your target location, ever.' ),
+      array( 'question' => 'What does the 60-day guarantee actually cover?', 'answer' => 'We provide projections and set expectations from day one. If we do not deliver the results, then you are entitled to your money back.' ),
+    ) ) as $faq ) : ?>
+      <details class="faq__item reveal"><summary><?php echo esc_html( apex_ind_sub( $faq, 'question' ) ); ?></summary><p><?php echo esc_html( apex_ind_sub( $faq, 'answer' ) ); ?></p></details>
+    <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -377,7 +387,7 @@ $apex_url    = get_permalink();
 <section class="book" id="book">
   <div class="container book__grid">
     <div class="book__copy">
-      <h2 class="h2 h2--light reveal">Book your free,<br><em>no-pressure</em> strategy call.</h2>
+      <h2 class="h2 h2--light reveal"><?php echo esc_html( apex_ind_field( 'ind_book_title', 'Book your free,' ) ); ?><br><em><?php echo esc_html( apex_ind_field( 'ind_book_em', 'no-pressure' ) ); ?></em> <?php echo esc_html( apex_ind_field( 'ind_book_suffix', 'strategy call.' ) ); ?></h2>
       <p class="book__sub reveal">Tell us about your practice. Nathan will come prepared with real ideas for your market - not a generic pitch.</p>
       <ul class="book__bullets reveal">
         <li>Free audit &amp; consultation</li>
@@ -398,6 +408,7 @@ $apex_url    = get_permalink();
 
 </main>
 
+<?php if ( ! ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'footer' ) ) ) : ?>
 <footer class="footer">
   <div class="container footer__inner">
     <a class="nav__logo nav__logo--footer" href="#top">Apex<span>Marketing</span></a>
@@ -406,6 +417,7 @@ $apex_url    = get_permalink();
     <small>© <?php echo esc_html( date( 'Y' ) ); ?> Apex Marketing. All rights reserved.</small>
   </div>
 </footer>
+<?php endif; ?>
 
 <a class="mobile-cta btn btn--signal cta-book" id="mobileCta" href="#book">Book a Free Strategy Call</a>
 

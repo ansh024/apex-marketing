@@ -6,6 +6,7 @@
   "testsEnvironment": false,
   "plugins": [
     "./wordpress/apex-landing-page",
+    "https://downloads.wordpress.org/plugin/advanced-custom-fields.latest-stable.zip",
     "https://downloads.wordpress.org/plugin/wordpress-seo.latest-stable.zip"
   ],
   "config": {

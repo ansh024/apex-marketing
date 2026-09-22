@@ -14,7 +14,12 @@ fi
 
 YOAST_SLUG="$("$WP_ENV_BIN" run cli wp plugin list --field=name | grep '^wordpress-seo' | head -1 | tr -d '\r')"
 [[ -n "$YOAST_SLUG" ]] || { echo "Yoast SEO was not mounted by wp-env." >&2; exit 1; }
-"$WP_ENV_BIN" run cli wp plugin activate apex-landing-page "$YOAST_SLUG" >/dev/null
+ACF_SLUG="$("$WP_ENV_BIN" run cli wp plugin list --field=name | grep '^advanced-custom-fields' | head -1 | tr -d '\r')"
+[[ -n "$ACF_SLUG" ]] || { echo "Advanced Custom Fields was not mounted by wp-env." >&2; exit 1; }
+"$WP_ENV_BIN" run cli wp plugin activate apex-landing-page "$YOAST_SLUG" "$ACF_SLUG" >/dev/null
+# Elementor must activate before Pro; Pro refuses otherwise.
+"$WP_ENV_BIN" run cli wp plugin activate elementor >/dev/null 2>&1 || true
+"$WP_ENV_BIN" run cli wp plugin activate elementor-pro >/dev/null 2>&1 || true
 "$WP_ENV_BIN" run cli wp option update blogname "Apex Marketing Local QA" >/dev/null
 "$WP_ENV_BIN" run cli wp option update permalink_structure '/%postname%/' >/dev/null
 
@@ -37,9 +42,23 @@ ensure_page 'Thank You' 'thank-you' 'templates/template-apex-thank-you.php' >/de
 # one-time manual WP admin step done on the real site, not part of the
 # pipeline. Provisioned at /apex-home/ so tests can reach it directly.
 ensure_page 'Apex Homepage' 'apex-home' 'templates/template-apex-homepage.php' >/dev/null
+ensure_page 'Industry' 'industry' 'templates/template-apex-industry.php' >/dev/null
+CASES_ID="$(ensure_page 'Case Studies' 'case-studies' 'templates/template-apex-case-studies.php')"
+GC_ID="$(ensure_page 'GC Events Studio' 'gc-events-studio' 'templates/template-apex-case-study.php')"
+"$WP_ENV_BIN" run cli wp post update "$GC_ID" --post_parent="$CASES_ID" >/dev/null
+"$WP_ENV_BIN" run cli wp post meta update "$CASES_ID" cs_featured_page "$GC_ID" >/dev/null
 "$WP_ENV_BIN" run cli wp option update show_on_front page >/dev/null
 "$WP_ENV_BIN" run cli wp option update page_on_front "$LANDING_ID" >/dev/null
 "$WP_ENV_BIN" run cli wp rewrite flush --hard >/dev/null
+
+# The real Elementor header/footer live in the production database, so local
+# gets a stand-in. Without it the case-study templates fall back to their own
+# chrome and the Elementor path goes untested.
+if "$WP_ENV_BIN" run cli wp plugin is-active elementor-pro >/dev/null 2>&1; then
+  cp "$(dirname "$0")/wp-local-elementor-chrome.php" wordpress/apex-landing-page/.local-chrome.php
+  "$WP_ENV_BIN" run cli wp eval-file wp-content/plugins/apex-landing-page/.local-chrome.php >/dev/null
+  rm -f wordpress/apex-landing-page/.local-chrome.php
+fi
 
 echo "Local WordPress ready: $WP_LOCAL_URL/"
 echo "Admin: $WP_LOCAL_URL/wp-admin/ (admin / password)"

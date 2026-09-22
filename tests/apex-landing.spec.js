@@ -24,6 +24,15 @@ test('renders the production landing-page structure', async ({ page }) => {
   await expect(page.locator('.proof__testimonials')).toHaveCount(0);
 });
 
+test('landing keeps its own header and footer, not the site chrome', async ({ page }) => {
+  // Deliberate: every other template hands its chrome to Elementor, this one
+  // does not. template-apex-industry.php is the copy that takes site chrome.
+  await expect(page.locator('header.nav#nav')).toHaveCount(1);
+  await expect(page.locator('footer.footer')).toHaveCount(1);
+  await expect(page.locator('.elementor-location-header')).toHaveCount(0);
+  await expect(page.locator('.elementor-location-footer')).toHaveCount(0);
+});
+
 test('keeps approved section order', async ({ page }) => {
   const pairs = [
     ['hero', 'services'],

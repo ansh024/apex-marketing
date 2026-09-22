@@ -18,7 +18,7 @@ $apex_img = APEX_LP_URL . 'assets/images/';
 <link rel="stylesheet" href="<?php echo esc_url( APEX_LP_URL . 'assets/css/main.css' ); ?>">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@400;500;600&family=Poppins:wght@300;400;500;600;700&family=Titillium+Web:wght@300;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  .thanks {
+  .apex-thankyou-page .thanks{
     position: relative;
     overflow: hidden;
     min-height: 100vh;
@@ -31,9 +31,9 @@ $apex_img = APEX_LP_URL . 'assets/images/';
     color: #fff;
     background: linear-gradient(139deg, #2255FA 0%, #0C37B7 100%);
   }
-  .thanks__gradient { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; }
-  .thanks__inner { position: relative; z-index: 2; max-width: 640px; }
-  .thanks__icon {
+  .apex-thankyou-page .thanks__gradient{ position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; }
+  .apex-thankyou-page .thanks__inner{ position: relative; z-index: 2; max-width: 640px; }
+  .apex-thankyou-page .thanks__icon{
     width: 72px; height: 72px; margin: 0 auto 28px;
     display: flex; align-items: center; justify-content: center;
     border-radius: 50%;
@@ -41,19 +41,20 @@ $apex_img = APEX_LP_URL . 'assets/images/';
     border: 1px solid rgba(255, 255, 255, 0.28);
     box-shadow: inset 0 0 22px rgba(255, 255, 255, 0.08);
   }
-  .thanks__icon svg { width: 32px; height: 32px; }
-  .thanks h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.25; margin-bottom: 16px; }
-  .thanks p { font-size: 1.1rem; color: rgba(255, 255, 255, 0.82); margin-bottom: 36px; }
-  .thanks__next { text-align: left; display: inline-flex; flex-direction: column; gap: 12px; margin: 0 auto 40px; }
-  .thanks__next li { display: flex; gap: 10px; align-items: baseline; color: #d8ffdd; font-size: 0.95rem; font-weight: 600; }
-  .thanks__next li::before { content: "✓"; color: var(--lime); font-weight: 700; }
-  .thanks__logo { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 48px; }
-  .thanks__logo img { width: 140px; height: auto; }
+  .apex-thankyou-page .thanks__icon svg{ width: 32px; height: 32px; }
+  .apex-thankyou-page .thanks h1{ font-family: var(--serif); font-weight: 700; font-size: clamp(2rem, 4.4vw, 3rem); line-height: 1.25; margin-bottom: 16px; }
+  .apex-thankyou-page .thanks p{ font-size: 1.1rem; color: rgba(255, 255, 255, 0.82); margin-bottom: 36px; }
+  .apex-thankyou-page .thanks__next{ text-align: left; display: inline-flex; flex-direction: column; gap: 12px; margin: 0 auto 40px; }
+  .apex-thankyou-page .thanks__next li{ display: flex; gap: 10px; align-items: baseline; color: #d8ffdd; font-size: 0.95rem; font-weight: 600; }
+  .apex-thankyou-page .thanks__next li::before{ content: "✓"; color: var(--lime); font-weight: 700; }
+  .apex-thankyou-page .thanks__logo{ display: inline-flex; align-items: center; gap: 8px; margin-bottom: 48px; }
+  .apex-thankyou-page .thanks__logo img{ width: 140px; height: auto; }
 </style>
 <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class( 'apex-thankyou-page' ); ?>>
 <?php wp_body_open(); ?>
+<?php if ( function_exists( 'elementor_theme_do_location' ) ) elementor_theme_do_location( 'header' ); ?>
 
 <section class="thanks">
   <canvas id="thanksGradient" class="thanks__gradient" aria-hidden="true"></canvas>
@@ -121,6 +122,7 @@ $apex_img = APEX_LP_URL . 'assets/images/';
   }
 </script>
 
+<?php if ( function_exists( 'elementor_theme_do_location' ) ) elementor_theme_do_location( 'footer' ); ?>
 <?php wp_footer(); ?>
 </body>
 </html>

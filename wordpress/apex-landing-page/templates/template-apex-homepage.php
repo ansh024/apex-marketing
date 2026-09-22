@@ -40,11 +40,12 @@ $apex_home_url   = get_permalink();
 <script>document.documentElement.classList.remove('no-js');</script>
 <?php wp_head(); ?>
 </head>
-<body <?php body_class(); ?>>
+<body <?php body_class( 'apex-home-page' ); ?>>
 <?php wp_body_open(); ?>
 
 <a class="skip" href="#main">Skip to content</a>
 
+<?php if ( ! ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'header' ) ) ) : ?>
 <nav class="nav" id="nav">
   <div class="nav__pill">
     <a class="nav__brand mark" href="#top">ΛPEX</a>
@@ -55,6 +56,7 @@ $apex_home_url   = get_permalink();
     <a class="btn" href="#book">Book a call</a>
   </div>
 </nav>
+<?php endif; ?>
 
 <main id="main">
 
@@ -382,6 +384,7 @@ $apex_home_url   = get_permalink();
 
 </main>
 
+<?php if ( ! ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'footer' ) ) ) : ?>
 <footer class="foot">
   <div class="container foot__grid">
     <div class="foot__brand">
@@ -402,6 +405,7 @@ $apex_home_url   = get_permalink();
   </div>
   <div class="foot__band" aria-hidden="true"><span class="mark foot__morph" id="footerMorph"><span>ΛPEX</span><span>MARKETING</span></span></div>
 </footer>
+<?php endif; ?>
 
 <svg class="foot__morph-filter" aria-hidden="true" focusable="false">
   <defs>

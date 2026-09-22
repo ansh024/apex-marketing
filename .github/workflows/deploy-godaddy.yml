@@ -44,6 +44,37 @@ jobs:
       - if: always()
         run: npm run wp:stop || true
 
+  # The GoDaddy SSH endpoint has been refusing connections since run #8
+  # (port 22 closed on aze.636.myftpupload.com), so the deploy job cannot
+  # reach the server. This job always publishes a verified, version-stamped
+  # zip so the plugin can still be uploaded by hand from a green run, and
+  # so the artifact matches exactly what the deploy job would have shipped.
+  package:
+    needs: verify
+    if: always() && needs.verify.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stamp version
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="1.${{ github.run_number }}.0"
+          cd wordpress/apex-landing-page
+          sed -i "s/^ \* Version: .*/ * Version: $VERSION/" apex-landing-page.php
+          sed -i "s/define( 'APEX_LP_VERSION', '[^']*' )/define( 'APEX_LP_VERSION', '$VERSION' )/" apex-landing-page.php
+
+      - name: Build plugin zip
+        run: bash scripts/build-plugin-zip.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apex-landing-page-1.${{ github.run_number }}.0
+          path: dist/*.zip
+          if-no-files-found: error
+          retention-days: 30
+
   deploy:
     needs: verify
     runs-on: ubuntu-latest

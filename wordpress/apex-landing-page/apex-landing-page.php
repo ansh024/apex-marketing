@@ -1,15 +1,15 @@
 <?php
 /**
  * Plugin Name: Apex Marketing — Landing Page
- * Description: Adds the Apex Marketing landing page + thank-you page as selectable Page Templates for any active theme, with an embedded GoHighLevel lead form.
- * Version: 1.0.9
+ * Description: Apex Marketing page templates (landing, industry, homepage, thank-you, case studies) as selectable Page Templates for any active theme, with an embedded GoHighLevel lead form.
+ * Version: 1.8.0
  * Author: Apex Marketing
  * Text Domain: apex-lp
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'APEX_LP_VERSION', '1.0.9' );
+define( 'APEX_LP_VERSION', '1.8.0' );
 define( 'APEX_LP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'APEX_LP_URL', plugin_dir_url( __FILE__ ) );
 
@@ -22,8 +22,59 @@ function apex_lp_templates() {
 		'templates/template-apex-landing.php'    => 'Apex – Landing Page',
 		'templates/template-apex-thank-you.php'  => 'Apex – Thank You',
 		'templates/template-apex-homepage.php'   => 'Apex – Homepage',
+		'templates/template-apex-case-studies.php' => 'Apex – Case Studies',
+		'templates/template-apex-case-study.php'   => 'Apex – Case Study',
+		'templates/template-apex-industry.php'     => 'Apex – Industry',
 	);
 }
+
+/**
+ * Whether an Elementor theme-builder header/footer actually matches this page.
+ *
+ * The templates are otherwise standalone, so this is the single switch that
+ * decides both what the template renders and which stylesheets survive the
+ * dequeue guard below. It has to answer before render (at wp_enqueue_scripts),
+ * which is why it asks the locations manager rather than the do_location()
+ * return value.
+ */
+function apex_lp_elementor_location_active( $location ) {
+	static $cache = array();
+	if ( isset( $cache[ $location ] ) ) return $cache[ $location ];
+	$cache[ $location ] = function_exists( 'elementor_location_exits' )
+		&& function_exists( 'elementor_theme_do_location' )
+		&& elementor_location_exits( $location, true );
+	return $cache[ $location ];
+}
+
+/**
+ * Templates that hand their header/footer over to Elementor, so site chrome is
+ * edited in one place. Every stylesheet listed here is scoped under its own
+ * body class (see scripts/scope-css.py) so Elementor's kit cannot outrank it.
+ *
+ * template-apex-landing.php is deliberately absent: that page keeps its own
+ * header and footer. template-apex-industry.php is the copy of it that takes
+ * site chrome instead, so industry pages stay replicable without touching the
+ * landing page.
+ */
+function apex_lp_elementor_chrome_templates() {
+	return array(
+		'templates/template-apex-case-studies.php',
+		'templates/template-apex-case-study.php',
+		'templates/template-apex-homepage.php',
+		'templates/template-apex-thank-you.php',
+		'templates/template-apex-industry.php',
+	);
+}
+
+function apex_lp_uses_elementor_chrome() {
+	if ( ! is_page() ) return false;
+	if ( ! in_array( get_page_template_slug( get_the_ID() ), apex_lp_elementor_chrome_templates(), true ) ) return false;
+	return apex_lp_elementor_location_active( 'header' ) || apex_lp_elementor_location_active( 'footer' );
+}
+
+require_once APEX_LP_DIR . 'includes/acf-case-studies.php';
+require_once APEX_LP_DIR . 'includes/footer.php';
+require_once APEX_LP_DIR . 'includes/acf-industry.php';
 
 /**
  * Make the templates selectable in Page Attributes, regardless of active theme.
@@ -74,12 +125,18 @@ function apex_lp_homepage_url() {
 	return apex_lp_url_for_template( 'templates/template-apex-homepage.php', '/' );
 }
 
+function apex_lp_case_studies_url() {
+	return apex_lp_url_for_template( 'templates/template-apex-case-studies.php', '/case-studies/' );
+}
+
 /**
  * Enqueue assets only on the landing template. The thank-you template is light
  * enough that it registers its own inline gradient script directly.
  */
 add_action( 'wp_enqueue_scripts', function () {
-	if ( ! is_page() || get_page_template_slug( get_the_ID() ) !== 'templates/template-apex-landing.php' ) return;
+	// The industry template is a copy of the landing one and shares its assets.
+	if ( ! is_page() ) return;
+	if ( ! in_array( get_page_template_slug( get_the_ID() ), array( 'templates/template-apex-landing.php', 'templates/template-apex-industry.php' ), true ) ) return;
 
 	wp_enqueue_style(
 		'apex-lp-fonts',
@@ -118,6 +175,50 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'apex-home-script', APEX_LP_URL . 'assets/js/homepage.js', array( 'apex-home-gsap', 'apex-home-scrolltrigger' ), APEX_LP_VERSION, true );
 } );
 
+/** Shared assets for the case-study collection and detail templates. */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_page() ) return;
+	$template = get_page_template_slug( get_the_ID() );
+	if ( ! in_array( $template, array( 'templates/template-apex-case-studies.php', 'templates/template-apex-case-study.php' ), true ) ) return;
+
+	wp_enqueue_style(
+		'apex-cases-fonts',
+		'https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap',
+		array(),
+		null
+	);
+	wp_enqueue_style( 'apex-cases-main', APEX_LP_URL . 'assets/css/case-studies.css', array(), APEX_LP_VERSION );
+	wp_enqueue_style( 'apex-cases-footer', APEX_LP_URL . 'assets/css/footer.css', array( 'apex-cases-main' ), APEX_LP_VERSION );
+	// Self-hosted rather than pulled from jsDelivr at runtime, so the hero
+	// gradient does not depend on a third-party CDN being reachable.
+	wp_enqueue_script( 'apex-cases-neat', APEX_LP_URL . 'assets/vendor/neat-1.0.2.umd.js', array(), '1.0.2', true );
+	wp_enqueue_script( 'apex-cases-script', APEX_LP_URL . 'assets/js/case-studies.js', array( 'apex-cases-neat' ), APEX_LP_VERSION, true );
+} );
+
+/**
+ * Elementor enqueues its frontend runtime site-wide, but only prints
+ * elementorFrontendConfig on pages it actually rendered. On these standalone
+ * templates that leaves frontend.js running against an undefined config and
+ * throwing "elementorFrontendConfig is not defined", which aborts the rest of
+ * the inline script queue. Nothing here needs that runtime unless an Elementor
+ * header/footer is on the page, so drop it when it is not.
+ */
+add_action( 'wp_enqueue_scripts', function () {
+	if ( ! is_page() ) return;
+	if ( ! in_array( get_page_template_slug( get_the_ID() ), array_keys( apex_lp_templates() ), true ) ) return;
+	if ( apex_lp_uses_elementor_chrome() ) return;
+
+	global $wp_scripts;
+	if ( empty( $wp_scripts->queue ) ) return;
+
+	foreach ( (array) $wp_scripts->queue as $handle ) {
+		if ( 0 === strpos( $handle, 'elementor' ) || 0 === strpos( $handle, 'pro-elements' ) ) {
+			wp_dequeue_script( $handle );
+			wp_deregister_script( $handle );
+		}
+	}
+}, 9999 );
+
 /**
  * Animation scripts are order-sensitive. Keep performance plugins from
  * delaying, combining, or moving them independently of their dependencies.
@@ -128,11 +229,12 @@ function apex_lp_animation_script_needles() {
 		'assets/vendor/gsap.min.js', 'assets/vendor/ScrollTrigger.min.js', 'assets/vendor/lenis.min.js', 'assets/js/motion.js',
 		'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script',
 		'assets/vendor/gsap-3.13.0.min.js', 'assets/vendor/ScrollTrigger-3.13.0.min.js', 'assets/js/homepage.js',
+		'apex-cases-script', 'assets/js/case-studies.js', 'apex-cases-neat', 'assets/vendor/neat-1.0.2.umd.js',
 	);
 }
 
 add_filter( 'script_loader_tag', function ( $tag, $handle ) {
-	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion', 'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script' ), true ) ) {
+	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion', 'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script', 'apex-cases-script', 'apex-cases-neat' ), true ) ) {
 		$tag = str_replace( '<script ', '<script data-no-optimize="1" data-cfasync="false" ', $tag );
 	}
 	return $tag;
@@ -206,9 +308,25 @@ add_action( 'wp_enqueue_scripts', function () {
 	global $wp_styles;
 	if ( empty( $wp_styles->queue ) ) return;
 
-	$keep = array( 'apex-lp-fonts', 'apex-lp-main', 'apex-home-fonts', 'apex-home-main', 'admin-bar' );
+	$keep = array( 'apex-lp-fonts', 'apex-lp-main', 'apex-home-fonts', 'apex-home-main', 'apex-cases-fonts', 'apex-cases-main', 'apex-cases-footer', 'admin-bar' );
+
+	// When an Elementor header/footer is rendering on this page its styles have
+	// to survive, kit included - the kit carries the Global Colors/Fonts the
+	// chrome is built on. That is the same CSS that corrupted these templates
+	// before, so the case-study stylesheet scopes its bare-element rules under
+	// .apex-cases-page / .apex-case-detail to stay ahead of it on specificity.
+	$elementor_chrome = apex_lp_uses_elementor_chrome();
+	$allow_prefixes   = array( 'elementor-', 'e-', 'widget-', 'swiper', 'font-awesome' );
+
 	foreach ( (array) $wp_styles->queue as $handle ) {
 		if ( in_array( $handle, $keep, true ) ) continue;
+		if ( $elementor_chrome ) {
+			$allowed = false;
+			foreach ( $allow_prefixes as $prefix ) {
+				if ( 0 === strpos( $handle, $prefix ) ) { $allowed = true; break; }
+			}
+			if ( $allowed ) continue;
+		}
 		wp_dequeue_style( $handle );
 		wp_deregister_style( $handle );
 	}

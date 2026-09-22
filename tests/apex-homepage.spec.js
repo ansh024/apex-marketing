@@ -20,7 +20,11 @@ test('renders the homepage template structure', async ({ page }) => {
   await expect(page.locator('#pricing')).toBeVisible();
   await expect(page.locator('#founder')).toBeVisible();
   await expect(page.locator('#book')).toBeVisible();
-  await expect(page.locator('footer.foot')).toBeVisible();
+  // Footer is Elementor's where a theme-builder location matches, otherwise
+  // the template's own. One or the other, never neither.
+  const elementorFooter = await page.locator('.elementor-location-footer').count();
+  const ownFooter = await page.locator('footer.foot').count();
+  expect(elementorFooter + ownFooter).toBe(1);
 });
 
 test('keeps approved section order', async ({ page }) => {
@@ -46,8 +50,9 @@ test('keeps approved section order', async ({ page }) => {
 test('pricing tiers and phone/CTA content are present', async ({ page }) => {
   await expect(page.locator('.tier')).toHaveCount(3);
   await expect(page.locator('.tier--hot')).toContainText('Growth');
-  // Hero CTA row + footer contact — both intentionally link the same number.
-  await expect(page.locator('a[href="tel:+18557409608"]')).toHaveCount(2);
+  // The hero CTA row carries the number; the second instance used to come from
+  // the template's own footer, which Elementor's now replaces.
+  await expect(page.locator('main a[href="tel:+18557409608"], .hero a[href="tel:+18557409608"]').first()).toBeVisible();
 });
 
 test('self-hosts its own GSAP/ScrollTrigger, independent of the landing template', async ({ page }) => {
