@@ -15,28 +15,59 @@ version drives the `?ver=` on every enqueued asset, so it is what actually
 busts LiteSpeed and browser caches. **It is authoritative — do not hand-edit
 the version to something lower than what is live.**
 
-### The deploy step is currently broken (not by this work)
+### The deploy step is currently broken — SSH, not config
 
-Runs #8 and #9 (2026-09-08) both failed, and they fail before any file is
-touched: the action's setup step runs `ssh-keyscan` against
-`aze.636.myftpupload.com`, which returns nothing and exits 1.
+Diagnosed 2026-09-22. The workflow's host, user and secret are all correct:
+they match GoDaddy's own generated snippet exactly, and the `PRIVATE_KEY`
+secret exists (added 2026-08-11, when deploys last worked).
 
-Verified from outside CI: the host resolves (160.153.0.16) but **port 22 is
-closed**. So this is a server-side change — SSH/Git Deployment is no longer
-reachable — not a credentials or workflow bug. Re-enabling it is a GoDaddy-side
-action; regenerating Git Deployment gives a new host, user and key, which then
-need updating in the workflow and in the `PRIVATE_KEY` secret.
+The problem is connectivity:
+
+| Check | Result |
+| --- | --- |
+| DNS for `aze.636.myftpupload.com` | resolves (160.153.0.16) |
+| Port 443 | **open** — the site is alive |
+| Port 22 / 2222 | **closed or filtered** |
+| `ssh-keyscan -T 10` | exit 1, zero bytes |
+
+Same result from a local machine and from GitHub runners — two independent
+networks — so SSH is genuinely unavailable rather than blocked at one end.
+Deploys succeeded on 2026-08-11 (run #7) and have failed since run #8 on
+2026-09-08, so SSH went away between those dates.
+
+The deploy job now runs a **preflight** that reports this in plain language
+instead of the deployer action's bare `exit code 1`, which comes from its own
+first step piping `ssh-keyscan` into `known_hosts` under `set -e`.
+
+**To fix it:** in GoDaddy's *GitHub CI/CD Integration* panel, delete the deploy
+user and create it again. That re-provisions SSH access and issues a fresh key.
+Then update the `PRIVATE_KEY` repository secret with the new private key and
+re-run the workflow. If port 22 is still closed afterwards, it is a support
+ticket: *"SSH / Git Deployment is not reachable on port 22 for my Managed
+WordPress site."*
 
 **Until then:** run the workflow anyway. `verify` and `package` still succeed,
-so you get a tested, correctly-stamped zip from the run's Artifacts. Upload
-that through **Plugins → Add New → Upload Plugin**.
+so you get a tested, correctly-stamped zip from the run's Artifacts. Upload it
+through **Plugins → Add New → Upload Plugin**.
 
 `scripts/build-plugin-zip.sh` builds the same zip locally. It stages a clean
-copy and refuses to build if a dev-only file sneaks in.
+copy, excludes the testimonial video, and refuses to build if a dev-only file
+sneaks in.
 
 **Live version is 1.7.0** (deploy run #7). Anything you upload must be higher
 or WordPress treats it as a downgrade — the exact failure mode commit
-`b26199a` fixed. The working tree is at 1.8.0.
+`b26199a` fixed.
+
+### The video is not in the zip
+
+`arthur-testimonial.mp4` is 13.9 MB and pushed the zip to 20 MB, past the
+host's upload limit — the upload truncated and WordPress reported
+*"Incompatible archive"*. The zip is now 5.7 MB without it.
+
+Upload `arthur-testimonial.mp4` and `arthur-testimonial.en.vtt` to the Media
+Library and set them on the GC Events page under **Client story → Testimonial
+video / Caption track**. Until then the page shows the poster still, with no
+play button and no caption track — never a broken player.
 
 ## Before you upload
 

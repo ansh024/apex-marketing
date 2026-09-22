@@ -108,6 +108,28 @@ jobs:
           find wordpress/apex-landing-page -type f -name '*.php' -print0 \
             | xargs -0 -n1 php -l
 
+      # The deployer action fails with a bare "exit code 1" when it cannot
+      # reach the host, because its very first step pipes ssh-keyscan into
+      # known_hosts under `set -e`. That reads as a broken workflow when it is
+      # actually a closed port, so diagnose it here and say so plainly.
+      - name: Preflight - can we reach the deploy host over SSH?
+        shell: bash
+        run: |
+          set -uo pipefail
+          HOST="aze.636.myftpupload.com"
+          echo "Resolving $HOST ..."
+          getent hosts "$HOST" || { echo "::error::$HOST does not resolve."; exit 1; }
+
+          if ssh-keyscan -T 10 "$HOST" > /tmp/hostkeys 2>/dev/null && [[ -s /tmp/hostkeys ]]; then
+            echo "SSH reachable; $(wc -l < /tmp/hostkeys) host key(s) offered."
+            exit 0
+          fi
+
+          WEB="closed"
+          (echo > /dev/tcp/"$HOST"/443) >/dev/null 2>&1 && WEB="open"
+          echo "::error title=SSH unreachable::Port 22 on $HOST is closed or filtered (port 443 is $WEB), so the GoDaddy deployer cannot connect. The web host is alive - this is SSH/Git Deployment being unavailable, not a workflow or key problem. Re-create the Git CI/CD deploy user in the GoDaddy panel (which re-provisions SSH and issues a new key), update the PRIVATE_KEY secret, then re-run. The verify and package jobs above still produced a tested zip you can upload by hand."
+          exit 1
+
       - name: Synchronize Files with GoDaddy WordPress Hosting Server
         uses: godaddy-wordpress/gd-wordpress-deployer@v1
         with:
