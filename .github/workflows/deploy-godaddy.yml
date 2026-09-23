@@ -19,7 +19,10 @@ on:
       deployment_dest:
         description: 'Target server directory (relative to site root)'
         required: false
-        default: 'wp-content/plugins/apex-marketing'
+        # The plugin folder is named after the zip that installed it. The
+        # active plugin is apex-landing-page; apex-marketing is the older
+        # deactivated copy, and deploying there updates nothing.
+        default: 'wp-content/plugins/apex-landing-page'
 
 permissions:
   contents: read
