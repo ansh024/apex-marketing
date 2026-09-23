@@ -146,19 +146,13 @@
   // UI bindings first - must never depend on animation code succeeding
   wireUi();
 
-  /* ---------- Lenis smooth scroll ---------- */
-  var lenis = null;
-  if (typeof Lenis !== "undefined" && window.innerWidth > 760) {
-    try {
-      lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-      lenis.on("scroll", ScrollTrigger.update);
-      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
-      gsap.ticker.lagSmoothing(0);
-    } catch (lenisError) {
-      if (window.console && console.warn) console.warn("Apex smooth scrolling disabled:", lenisError);
-      lenis = null;
-    }
-  }
+  /* ---------- Scrolling ----------
+     Lenis (JS smooth scroll) was removed. It hijacks the scroll position and
+     re-drives it from a rAF loop, which fought two things on this page: the
+     `html{scroll-behavior:smooth}` rule, and Elementor's header. The result
+     was stuttering and drift that threw no errors. Native scrolling is used
+     instead; `scroll-behavior: smooth` still eases in-page anchor jumps.
+     ScrollTrigger updates itself on native scroll, so nothing else changes. */
 
   function enterViewport(el, callback, threshold) {
     if (!el) return;

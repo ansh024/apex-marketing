@@ -150,8 +150,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	wp_enqueue_script( 'apex-lp-gsap', APEX_LP_URL . 'assets/vendor/gsap.min.js', array(), '3.12.5', true );
 	wp_enqueue_script( 'apex-lp-scrolltrigger', APEX_LP_URL . 'assets/vendor/ScrollTrigger.min.js', array( 'apex-lp-gsap' ), '3.12.5', true );
-	wp_enqueue_script( 'apex-lp-lenis', APEX_LP_URL . 'assets/vendor/lenis.min.js', array(), '1.0.42', true );
-	wp_enqueue_script( 'apex-lp-motion', APEX_LP_URL . 'assets/js/motion.js', array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis' ), APEX_LP_VERSION, true );
+	wp_enqueue_script( 'apex-lp-motion', APEX_LP_URL . 'assets/js/motion.js', array( 'apex-lp-gsap', 'apex-lp-scrolltrigger' ), APEX_LP_VERSION, true );
 } );
 
 /**
@@ -227,8 +226,8 @@ add_action( 'wp_enqueue_scripts', function () {
  */
 function apex_lp_animation_script_needles() {
 	return array(
-		'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion',
-		'assets/vendor/gsap.min.js', 'assets/vendor/ScrollTrigger.min.js', 'assets/vendor/lenis.min.js', 'assets/js/motion.js',
+		'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-motion',
+		'assets/vendor/gsap.min.js', 'assets/vendor/ScrollTrigger.min.js', 'assets/js/motion.js',
 		'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script',
 		'assets/vendor/gsap-3.13.0.min.js', 'assets/vendor/ScrollTrigger-3.13.0.min.js', 'assets/js/homepage.js',
 		'apex-cases-script', 'assets/js/case-studies.js', 'apex-cases-neat', 'assets/vendor/neat-1.0.2.umd.js',
@@ -236,7 +235,7 @@ function apex_lp_animation_script_needles() {
 }
 
 add_filter( 'script_loader_tag', function ( $tag, $handle ) {
-	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-lenis', 'apex-lp-motion', 'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script', 'apex-cases-script', 'apex-cases-neat' ), true ) ) {
+	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-motion', 'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script', 'apex-cases-script', 'apex-cases-neat' ), true ) ) {
 		$tag = str_replace( '<script ', '<script data-no-optimize="1" data-cfasync="false" ', $tag );
 	}
 	return $tag;

@@ -47,6 +47,21 @@ def split_top_level(css):
         i = j + 1
     return out
 
+# Classes this project puts on <html>, not <body>. A selector leading with one
+# of these targets the root element, so scoping it as a descendant of the body
+# class stops it matching entirely. That silently disabled Lenis's own
+# `.lenis.lenis-smooth{scroll-behavior:auto}` reset, leaving it to fight the
+# `html{scroll-behavior:smooth}` rule - the page scrolled badly and nothing
+# errored.
+HTML_CLASSES = ('lenis', 'no-js', 'motion-ready', 'reduced', 'motion-failed',
+                'gradient-fallback')
+
+
+def targets_html(sel):
+    m = re.match(r'\.([A-Za-z0-9_-]+)', sel)
+    return bool(m) and m.group(1) in HTML_CLASSES
+
+
 def scope_selector_list(sellist, scope):
     scopes = [s for s in scope.split(',') if s]
     parts = []
@@ -56,6 +71,8 @@ def scope_selector_list(sellist, scope):
             continue
         if raw.startswith((':root', 'html', '@')) or raw.startswith(tuple(scopes)):
             parts.append(raw)
+        elif targets_html(raw):
+            parts.append('html' + raw)
         elif raw.startswith('body'):
             parts.extend('body' + sc + raw[4:] for sc in scopes)
         elif raw.startswith('*'):

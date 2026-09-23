@@ -59,3 +59,29 @@ test('mobile layout does not overflow', async ({ page }, testInfo) => {
   const w = await page.evaluate(() => ({ s: document.body.scrollWidth, c: document.documentElement.clientWidth }));
   expect(w.s).toBeLessThanOrEqual(w.c + 1);
 });
+
+test('scrolling is native and stable', async ({ page }) => {
+  await page.goto('/industry/', { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(800);
+
+  // No JS scroll hijacking, and the Lenis reset that used to be silently
+  // descoped (making it fight html{scroll-behavior:smooth}) cannot come back.
+  expect(await page.evaluate(() => typeof window.Lenis)).toBe('undefined');
+  await expect(page.locator('html')).not.toHaveClass(/lenis/);
+
+  // Stability, not exact landing: let lazy images settle, then confirm the
+  // page neither drifts under the reader nor keeps resizing itself. Drift is
+  // what a JS scroll library re-driving scrollY looks like.
+  await page.evaluate(() => window.scrollTo(0, 3000));
+  await page.waitForLoadState('networkidle').catch(() => {});
+  await page.waitForTimeout(1000);
+
+  const first = await page.evaluate(() => ({
+    y: Math.round(window.scrollY), h: document.documentElement.scrollHeight }));
+  await page.waitForTimeout(1200);
+  const second = await page.evaluate(() => ({
+    y: Math.round(window.scrollY), h: document.documentElement.scrollHeight }));
+
+  expect(second.y).toBe(first.y);
+  expect(second.h).toBe(first.h);
+});

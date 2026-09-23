@@ -53,14 +53,16 @@ test('keeps approved section order', async ({ page }) => {
 });
 
 test('loads local animation dependencies and initializes motion', async ({ page }) => {
-  const scripts = await page.locator('script#apex-lp-gsap-js, script#apex-lp-scrolltrigger-js, script#apex-lp-lenis-js, script#apex-lp-motion-js').evaluateAll((elements) => elements
+  // Lenis was removed: its JS smooth scrolling fought both the CSS
+  // scroll-behavior rule and Elementor's header, and scrolling stuttered.
+  const scripts = await page.locator('script#apex-lp-gsap-js, script#apex-lp-scrolltrigger-js, script#apex-lp-motion-js').evaluateAll((elements) => elements
     .map((element) => ({
       src: element.src,
       noOptimize: element.getAttribute('data-no-optimize'),
       cfAsync: element.getAttribute('data-cfasync')
     })));
 
-  expect(scripts).toHaveLength(4);
+  expect(scripts).toHaveLength(3);
   for (const script of scripts) {
     expect(new URL(script.src).origin).toBe('http://localhost:8892');
     expect(script.noOptimize).toBe('1');
@@ -69,6 +71,11 @@ test('loads local animation dependencies and initializes motion', async ({ page 
 
   await expect(page.locator('html')).toHaveClass(/motion-ready/);
   expect(await page.evaluate(() => window.__motionErrors)).toEqual([]);
+
+  // No JS smooth-scroll library, and nothing left driving scroll position.
+  await expect(page.locator('script[src*="lenis"]')).toHaveCount(0);
+  expect(await page.evaluate(() => typeof window.Lenis)).toBe('undefined');
+  await expect(page.locator('html')).not.toHaveClass(/lenis/);
 });
 
 test('mobile CTA, footer links, logo, and popular guarantee use production styles', async ({ page }) => {

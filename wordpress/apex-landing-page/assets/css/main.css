@@ -33,7 +33,7 @@ html,.apex-landing-page,.apex-landing-page *,.apex-industry-page,.apex-industry-
 .apex-landing-page .sr-only,.apex-industry-page .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 html{ scroll-behavior: smooth; }
 html.lenis{ height: auto; }
-.apex-landing-page .lenis.lenis-smooth,.apex-industry-page .lenis.lenis-smooth{ scroll-behavior: auto; }
+html.lenis.lenis-smooth{ scroll-behavior: auto; }
 
 body.apex-landing-page,body.apex-industry-page{
   font-family: var(--sans);
