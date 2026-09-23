@@ -61,7 +61,7 @@ for path in "${PAGES[@]}"; do
 
   # Our own stylesheet must be present, and scoped to a body class or every
   # rule in it is inert.
-  if grep -qE 'apex-landing-page/assets/css/[a-z-]+\.css' "$body"; then
+  if grep -qE 'apex-(marketing|landing-page)/assets/css/[a-z-]+\.css' "$body"; then
     note "plugin stylesheet" "present"
   else
     note "plugin stylesheet" "FAIL - missing"; fail=1
