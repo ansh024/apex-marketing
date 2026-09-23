@@ -24,6 +24,15 @@ on:
 permissions:
   contents: read
 
+env:
+  # The site moved SSH endpoints. aze.636.myftpupload.com stopped accepting
+  # connections on port 22 (verified: closed, no host keys) and every deploy
+  # from run #8 onward failed there. GoDaddy's CI/CD panel still prints the old
+  # name in its sample snippet; the live endpoint is the one on the SFTP
+  # credentials dialog. The deploy user is unchanged.
+  DEPLOY_HOST: 1195086.us16.ssh.myftpupload.com
+  DEPLOY_USER: git_deployer_be953ffc02_1195086
+
 concurrency:
   group: apex-godaddy-deploy
   cancel-in-progress: false
@@ -44,11 +53,9 @@ jobs:
       - if: always()
         run: npm run wp:stop || true
 
-  # The GoDaddy SSH endpoint has been refusing connections since run #8
-  # (port 22 closed on aze.636.myftpupload.com), so the deploy job cannot
-  # reach the server. This job always publishes a verified, version-stamped
-  # zip so the plugin can still be uploaded by hand from a green run, and
-  # so the artifact matches exactly what the deploy job would have shipped.
+  # Publishes a verified, version-stamped zip on every run. Useful as a
+  # fallback whenever the deploy job cannot reach the host, and as a record of
+  # exactly what a given run would have shipped.
   package:
     needs: verify
     if: always() && needs.verify.result == 'success'
@@ -116,7 +123,7 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
-          HOST="aze.636.myftpupload.com"
+          HOST="$DEPLOY_HOST"
           echo "Resolving $HOST ..."
           getent hosts "$HOST" || { echo "::error::$HOST does not resolve."; exit 1; }
 
@@ -133,8 +140,8 @@ jobs:
       - name: Synchronize Files with GoDaddy WordPress Hosting Server
         uses: godaddy-wordpress/gd-wordpress-deployer@v1
         with:
-          remote_host: 'aze.636.myftpupload.com'
-          ssh_user: 'git_deployer_be953ffc02_1195086'
+          remote_host: ${{ env.DEPLOY_HOST }}
+          ssh_user: ${{ env.DEPLOY_USER }}
           ssh_private_key: ${{ secrets.PRIVATE_KEY }}
           # Only sync the plugin folder itself, not the whole repo (tests,
           # node_modules, docs, wp-env config, etc. must never land on the
