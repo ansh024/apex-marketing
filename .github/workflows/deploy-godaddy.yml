@@ -109,6 +109,11 @@ jobs:
           cd wordpress/apex-landing-page
           sed -i "s/^ \* Version: .*/ * Version: $VERSION/" apex-landing-page.php
           sed -i "s/define( 'APEX_LP_VERSION', '[^']*' )/define( 'APEX_LP_VERSION', '$VERSION' )/" apex-landing-page.php
+          # A statically-served build marker. The plugin version is otherwise
+          # invisible from outside: LiteSpeed combines the assets, so the
+          # ?ver= query string that carries APEX_LP_VERSION never reaches the
+          # page, leaving no way to confirm a deploy actually landed.
+          printf '%s\n' "$VERSION" > assets/build.txt
           grep -E "Version: |APEX_LP_VERSION" apex-landing-page.php | head -2
 
       - name: Lint every PHP file

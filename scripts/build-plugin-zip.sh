@@ -31,6 +31,8 @@ if find "$STAGE" -name '.*' -not -name '.' -not -name '..' | grep -q .; then
   exit 1
 fi
 
+printf '%s\n' "$VERSION" > "$STAGE/apex-landing-page/assets/build.txt"
+
 ZIP="$OUT/apex-landing-page-$VERSION.zip"
 rm -f "$ZIP"
 ( cd "$STAGE" && zip -qr "$OLDPWD/$ZIP" apex-landing-page )

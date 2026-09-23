@@ -22,6 +22,17 @@ PAGES=(
 fail=0
 note() { printf '   %-42s %s\n' "$1" "$2"; }
 
+# What version is actually serving? LiteSpeed combines the assets, so the
+# ?ver= carrying APEX_LP_VERSION never reaches the page; the build marker is
+# written at stamp time and served statically.
+DEPLOYED="$(curl -s --max-time 20 "$BASE/wp-content/plugins/apex-landing-page/assets/build.txt" | tr -d '\r\n')"
+if [[ "$DEPLOYED" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  echo "deployed build: $DEPLOYED"
+else
+  echo "deployed build: unknown (no build.txt - predates the marker)"
+fi
+echo
+
 for path in "${PAGES[@]}"; do
   url="$BASE$path"
   body="$(mktemp)"
