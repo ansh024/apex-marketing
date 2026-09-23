@@ -113,30 +113,45 @@ jobs:
             plugin-deploy
           echo "plugin-deploy now holds $VERSION"
 
+      # A stale webhook is not itself a deploy failure - the branch is
+      # published and the site can still pull. What matters is whether the
+      # live site ends up running the new build, which the next step checks.
       - name: Tell Git Updater to pull
+        continue-on-error: true
         shell: bash
         env:
           GITUPDATER_WEBHOOK_URL: ${{ secrets.GITUPDATER_WEBHOOK_URL }}
         run: |
           set -uo pipefail
           if [[ -z "${GITUPDATER_WEBHOOK_URL:-}" ]]; then
-            echo "::warning::GITUPDATER_WEBHOOK_URL is not set. plugin-deploy holds $VERSION, but the site will not pull it until someone clicks update in wp-admin."
+            echo "::warning::GITUPDATER_WEBHOOK_URL is not set."
             exit 0
           fi
-          curl --fail --silent --show-error --max-time 120 "$GITUPDATER_WEBHOOK_URL" && echo "Git Updater pinged."
+          if curl --fail --silent --show-error --max-time 120 "$GITUPDATER_WEBHOOK_URL"; then
+            echo "Git Updater pinged."
+            exit 0
+          fi
+          # Distinguish "bad URL" from "plugin not running at all".
+          if curl --silent --max-time 30 https://apex-marketing.ai/wp-json/ \
+             | grep -q 'git-updater'; then
+            echo "::warning title=Webhook rejected::Git Updater is active but the stored webhook URL was refused. Regenerate it under Settings -> Git Updater -> Webhooks and update the GITUPDATER_WEBHOOK_URL secret."
+          else
+            echo "::warning title=Git Updater inactive::Git Updater is not running on the live site - its REST namespace is absent, so the webhook 404s. Activate it in wp-admin. plugin-deploy already holds $VERSION, so once active the update will be offered there."
+          fi
 
       - name: Verify the live site actually took it
         shell: bash
         run: |
           set -uo pipefail
-          echo "Waiting for the site to pull $VERSION ..."
+          echo "Waiting for the live site to serve $VERSION ..."
           for i in $(seq 1 10); do
             sleep 30
             if bash scripts/live-smoke.sh >/tmp/smoke.log 2>&1; then
-              echo "Live smoke passed."
-              tail -5 /tmp/smoke.log
+              echo "Live checks passed."
+              tail -8 /tmp/smoke.log
               exit 0
             fi
           done
-          echo "::warning title=Not confirmed live::plugin-deploy holds $VERSION and Git Updater was pinged, but the live checks did not pass within 5 minutes. The pull may still be pending, or wp-admin may need the update accepted manually."
+          echo "::error title=Published but not live::plugin-deploy holds $VERSION, but the site is not serving it after 5 minutes. Most likely Git Updater is inactive or the update needs accepting in wp-admin (Dashboard -> Updates)."
           cat /tmp/smoke.log
+          exit 1
