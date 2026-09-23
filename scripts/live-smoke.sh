@@ -25,7 +25,17 @@ note() { printf '   %-42s %s\n' "$1" "$2"; }
 # What version is actually serving? LiteSpeed combines the assets, so the
 # ?ver= carrying APEX_LP_VERSION never reaches the page; the build marker is
 # written at stamp time and served statically.
-DEPLOYED="$(curl -s --max-time 20 "$BASE/wp-content/plugins/apex-landing-page/assets/build.txt" | tr -d '\r\n')"
+# Two plugin folders exist: apex-marketing (the deploy target) and
+# apex-landing-page (installed by a manual zip upload). Exactly one should be
+# active. Report whichever is serving a build marker.
+DEPLOYED=""
+for folder in apex-marketing apex-landing-page; do
+  v="$(curl -s --max-time 20 "$BASE/wp-content/plugins/$folder/assets/build.txt" | tr -d '\r\n')"
+  if [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    echo "build marker in $folder: $v"
+    DEPLOYED="$v"
+  fi
+done
 if [[ "$DEPLOYED" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   echo "deployed build: $DEPLOYED"
 else

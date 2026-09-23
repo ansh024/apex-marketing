@@ -19,10 +19,13 @@ on:
       deployment_dest:
         description: 'Target server directory (relative to site root)'
         required: false
-        # The plugin folder is named after the zip that installed it. The
-        # active plugin is apex-landing-page; apex-marketing is the older
-        # deactivated copy, and deploying there updates nothing.
-        default: 'wp-content/plugins/apex-landing-page'
+        # apex-marketing is the folder GoDaddy's Git Deployment is provisioned
+        # for and the only one the deploy user can write to: run #14 wrote
+        # there cleanly, run #15 targeting apex-landing-page failed. Both
+        # folders exist and serve, so keep apex-marketing as the deploy target
+        # and keep it the ACTIVE plugin - never both, they declare the same
+        # functions and activating the pair is a fatal error.
+        default: 'wp-content/plugins/apex-marketing'
 
 permissions:
   contents: read
