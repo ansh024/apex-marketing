@@ -1,7 +1,12 @@
-# Verifies the Apex plugin in an isolated WordPress site, then publishes only
-# wordpress/apex-landing-page/ to the force-replaced `plugin-deploy` branch.
-# Production publishing is deliberately manual and never deploys the database,
-# uploads, local backups, environment files, or credentials.
+# Deploys the plugin over HTTPS, via Git Updater on the live site.
+#
+# This is the working path. deploy-godaddy.yml rsyncs over SSH, which the
+# host stopped accepting (port 22 closed); this pulls instead of pushing, so
+# it only needs 443.
+#
+# It force-replaces the `plugin-deploy` branch with a clean copy of the plugin
+# and pings Git Updater to pull it. Production publishing is deliberately
+# manual, and never deploys the database, uploads, backups or credentials.
 name: Publish WordPress plugin
 
 on:
@@ -35,48 +40,103 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Stamp version
         shell: bash
         run: |
           set -euo pipefail
-          VERSION="1.${{ github.run_number }}.0"
+          # 2.x deliberately: the abandoned plugin-deploy branch sat at 1.12.0,
+          # and Git Updater offers whatever that branch says. Anything in the
+          # 1.x line risks being read as older than the stale build and walking
+          # the site backwards, which is what happened before (b26199a).
+          VERSION="2.${{ github.run_number }}.0"
           echo "VERSION=$VERSION" >> "$GITHUB_ENV"
           cd wordpress/apex-landing-page
           sed -i "s/^ \* Version: .*/ * Version: $VERSION/" apex-landing-page.php
           sed -i "s/define( 'APEX_LP_VERSION', '[^']*' )/define( 'APEX_LP_VERSION', '$VERSION' )/" apex-landing-page.php
           grep -E "Version: |APEX_LP_VERSION" apex-landing-page.php | head -2
 
+      - name: Refuse to publish a version the site would treat as a downgrade
+        shell: bash
+        run: |
+          set -uo pipefail
+          git fetch origin plugin-deploy --depth=1 2>/dev/null || true
+          PREV="$(git show origin/plugin-deploy:apex-landing-page.php 2>/dev/null \
+                  | sed -n "s/^ \* Version: \(.*\)$/\1/p" | head -1)"
+          if [[ -z "${PREV:-}" ]]; then
+            echo "No previous plugin-deploy version found; nothing to compare."
+            exit 0
+          fi
+          echo "previously published: $PREV   about to publish: $VERSION"
+          php -r 'exit(version_compare($argv[1], $argv[2], ">") ? 0 : 1);' "$VERSION" "$PREV" || {
+            echo "::error title=Refusing to publish::$VERSION is not newer than the $PREV already on plugin-deploy. Git Updater would offer the site an older build and silently revert it - exactly the incident in b26199a. Bump the version scheme before re-running."
+            exit 1
+          }
+
       - name: Lint every PHP file
         shell: bash
         run: |
           set -euo pipefail
-          find wordpress/apex-landing-page -type f -name '*.php' -print0 \
-            | xargs -0 -n1 php -l
+          find wordpress/apex-landing-page -type f -name '*.php' -print0 | xargs -0 -n1 php -l
 
-      - name: Push plugin folder to plugin-deploy branch
+      - name: Stage a clean copy
         shell: bash
         run: |
           set -euo pipefail
-          cd wordpress/apex-landing-page
-          git init -b plugin-deploy
+          # Same exclusions as the zip: dev files never reach the site, and the
+          # 13.9MB testimonial stays out so Git Updater's download stays small.
+          # The template falls back to the Media Library copy when it is absent.
+          rsync -a --quiet \
+            --exclude '.*' \
+            --exclude '*.map' \
+            --exclude '_proto/' \
+            --exclude '*.mp4' \
+            --exclude 'node_modules/' \
+            --exclude '__MACOSX/' \
+            wordpress/apex-landing-page/ "$RUNNER_TEMP/plugin/"
+          echo "staged $(find "$RUNNER_TEMP/plugin" -type f | wc -l) files, $(du -sh "$RUNNER_TEMP/plugin" | cut -f1)"
+
+      - name: Push to plugin-deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RUNNER_TEMP/plugin"
+          git init -q -b plugin-deploy
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Deploy $VERSION from ${GITHUB_SHA::7}"
-          git push --force \
+          git commit -q -m "Deploy $VERSION from ${GITHUB_SHA::7}"
+          git push --force -q \
             "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" \
             plugin-deploy
+          echo "plugin-deploy now holds $VERSION"
 
-      - name: Trigger WordPress site update
+      - name: Tell Git Updater to pull
         shell: bash
         env:
           GITUPDATER_WEBHOOK_URL: ${{ secrets.GITUPDATER_WEBHOOK_URL }}
         run: |
-          set -euo pipefail
-          if [[ -n "$GITUPDATER_WEBHOOK_URL" ]]; then
-            curl --fail --silent --show-error --max-time 120 "$GITUPDATER_WEBHOOK_URL"
-            echo "WordPress update triggered through Git Updater."
-          else
-            echo "GITUPDATER_WEBHOOK_URL is not set; plugin-deploy was published, but the site must be updated manually."
+          set -uo pipefail
+          if [[ -z "${GITUPDATER_WEBHOOK_URL:-}" ]]; then
+            echo "::warning::GITUPDATER_WEBHOOK_URL is not set. plugin-deploy holds $VERSION, but the site will not pull it until someone clicks update in wp-admin."
+            exit 0
           fi
+          curl --fail --silent --show-error --max-time 120 "$GITUPDATER_WEBHOOK_URL" && echo "Git Updater pinged."
+
+      - name: Verify the live site actually took it
+        shell: bash
+        run: |
+          set -uo pipefail
+          echo "Waiting for the site to pull $VERSION ..."
+          for i in $(seq 1 10); do
+            sleep 30
+            if bash scripts/live-smoke.sh >/tmp/smoke.log 2>&1; then
+              echo "Live smoke passed."
+              tail -5 /tmp/smoke.log
+              exit 0
+            fi
+          done
+          echo "::warning title=Not confirmed live::plugin-deploy holds $VERSION and Git Updater was pinged, but the live checks did not pass within 5 minutes. The pull may still be pending, or wp-admin may need the update accepted manually."
+          cat /tmp/smoke.log

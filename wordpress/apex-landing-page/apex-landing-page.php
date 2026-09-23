@@ -4,6 +4,8 @@
  * Description: Apex Marketing page templates (landing, industry, homepage, thank-you, case studies) as selectable Page Templates for any active theme, with an embedded GoHighLevel lead form.
  * Version: 1.9.0
  * Author: Apex Marketing
+ * GitHub Plugin URI: ansh024/apex-marketing
+ * Primary Branch: plugin-deploy
  * Text Domain: apex-lp
  */
 
