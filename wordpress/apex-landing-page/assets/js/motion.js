@@ -445,11 +445,19 @@
       if (lastFocused && lastFocused.focus) lastFocused.focus();
     }
 
-    document.querySelectorAll(".cta-book").forEach(function (cta) {
+    // .cta-book is anything that should open the form. The site header's
+    // "Book a call" is an Elementor button with no link of its own, so it is
+    // wired here too; non-link CTAs (the ticket) also answer Enter/Space.
+    document.querySelectorAll(".cta-book, .elementor-location-header .apex-btn").forEach(function (cta) {
       cta.addEventListener("click", function (e) {
         e.preventDefault();
         openModal();
       });
+      if (cta.tagName !== "A" && cta.tagName !== "BUTTON") {
+        cta.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(); }
+        });
+      }
     });
 
     if (closeBtn) closeBtn.addEventListener("click", closeModal);

@@ -30,7 +30,8 @@ note() { printf '   %-42s %s\n' "$1" "$2"; }
 # active. Report whichever is serving a build marker.
 DEPLOYED=""
 for folder in apex-marketing apex-landing-page; do
-  v="$(curl -s --max-time 20 "$BASE/wp-content/plugins/$folder/assets/build.txt" | tr -d '\r\n')"
+  # Cache-bust: the CDN serves a stale marker for a while after a deploy.
+  v="$(curl -s --max-time 20 "$BASE/wp-content/plugins/$folder/assets/build.txt?cb=$(date +%s)" | tr -d '\r\n')"
   if [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     echo "build marker in $folder: $v"
     DEPLOYED="$v"

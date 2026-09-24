@@ -1225,6 +1225,11 @@ body.apex-landing-page,body.apex-industry-page{
   transition: opacity 0.3s ease;
 }
 .apex-landing-page .modal-overlay:not(.is-open),.apex-industry-page .modal-overlay:not(.is-open){ pointer-events: none; }
+/* GHL's form_embed.js wraps the iframe in its own containers with inline
+   pointer-events/visibility, which beat the inherited values above - so a
+   closed modal's invisible form kept swallowing clicks on whatever sat
+   behind it. Nothing inside a closed overlay may take the pointer. */
+.apex-landing-page .modal-overlay:not(.is-open) *,.apex-industry-page .modal-overlay:not(.is-open) *{ pointer-events: none !important; }
 .apex-landing-page .modal-overlay.is-open,.apex-industry-page .modal-overlay.is-open{ opacity: 1; visibility: visible; pointer-events: auto; }
 .apex-landing-page .modal,.apex-industry-page .modal{
   position: relative;

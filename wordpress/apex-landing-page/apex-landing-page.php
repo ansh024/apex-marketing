@@ -148,6 +148,22 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 	wp_enqueue_style( 'apex-lp-main', APEX_LP_URL . 'assets/css/main.css', array(), APEX_LP_VERSION );
 
+	// Industry pages keep the landing hero's layout (main.css), but its controls
+	// and every section after it use the homepage's own components: the rules
+	// are generated from homepage.css (scripts/build-industry-css.py) and the
+	// behaviour is the same apex-components.js the homepage runs.
+	if ( 'templates/template-apex-industry.php' === get_page_template_slug( get_the_ID() ) ) {
+		wp_enqueue_style(
+			'apex-ind-fonts',
+			'https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap',
+			array(),
+			null
+		);
+		wp_enqueue_style( 'apex-ind-home', APEX_LP_URL . 'assets/css/industry-home.css', array( 'apex-lp-main' ), APEX_LP_VERSION );
+		wp_enqueue_style( 'apex-ind-main', APEX_LP_URL . 'assets/css/industry.css', array( 'apex-ind-home' ), APEX_LP_VERSION );
+		wp_enqueue_script( 'apex-components', APEX_LP_URL . 'assets/js/apex-components.js', array(), APEX_LP_VERSION, true );
+	}
+
 	wp_enqueue_script( 'apex-lp-gsap', APEX_LP_URL . 'assets/vendor/gsap.min.js', array(), '3.12.5', true );
 	wp_enqueue_script( 'apex-lp-scrolltrigger', APEX_LP_URL . 'assets/vendor/ScrollTrigger.min.js', array( 'apex-lp-gsap' ), '3.12.5', true );
 	wp_enqueue_script( 'apex-lp-motion', APEX_LP_URL . 'assets/js/motion.js', array( 'apex-lp-gsap', 'apex-lp-scrolltrigger' ), APEX_LP_VERSION, true );
@@ -174,6 +190,9 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_script( 'apex-home-gsap', APEX_LP_URL . 'assets/vendor/gsap-3.13.0.min.js', array(), '3.13.0', true );
 	wp_enqueue_script( 'apex-home-scrolltrigger', APEX_LP_URL . 'assets/vendor/ScrollTrigger-3.13.0.min.js', array( 'apex-home-gsap' ), '3.13.0', true );
 	wp_enqueue_script( 'apex-home-script', APEX_LP_URL . 'assets/js/homepage.js', array( 'apex-home-gsap', 'apex-home-scrolltrigger' ), APEX_LP_VERSION, true );
+	// Terms accordion, ticket, pricing dither and button spotlight - shared with
+	// the industry template, which uses the same homepage components.
+	wp_enqueue_script( 'apex-components', APEX_LP_URL . 'assets/js/apex-components.js', array(), APEX_LP_VERSION, true );
 } );
 
 /** Shared assets for the case-study collection and detail templates. */
@@ -231,11 +250,12 @@ function apex_lp_animation_script_needles() {
 		'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script',
 		'assets/vendor/gsap-3.13.0.min.js', 'assets/vendor/ScrollTrigger-3.13.0.min.js', 'assets/js/homepage.js',
 		'apex-cases-script', 'assets/js/case-studies.js', 'apex-cases-neat', 'assets/vendor/neat-1.0.2.umd.js',
+		'apex-components', 'assets/js/apex-components.js',
 	);
 }
 
 add_filter( 'script_loader_tag', function ( $tag, $handle ) {
-	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-motion', 'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script', 'apex-cases-script', 'apex-cases-neat' ), true ) ) {
+	if ( in_array( $handle, array( 'apex-lp-gsap', 'apex-lp-scrolltrigger', 'apex-lp-motion', 'apex-home-gsap', 'apex-home-scrolltrigger', 'apex-home-script', 'apex-cases-script', 'apex-cases-neat', 'apex-components' ), true ) ) {
 		$tag = str_replace( '<script ', '<script data-no-optimize="1" data-cfasync="false" ', $tag );
 	}
 	return $tag;
@@ -322,7 +342,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	// and footer unstyled.
 	if ( apex_lp_uses_elementor_chrome() ) return;
 
-	$keep = array( 'apex-lp-fonts', 'apex-lp-main', 'apex-home-fonts', 'apex-home-main', 'apex-cases-fonts', 'apex-cases-main', 'apex-cases-footer', 'admin-bar' );
+	$keep = array( 'apex-lp-fonts', 'apex-lp-main', 'apex-ind-fonts', 'apex-ind-home', 'apex-ind-main', 'apex-home-fonts', 'apex-home-main', 'apex-cases-fonts', 'apex-cases-main', 'apex-cases-footer', 'admin-bar' );
 
 	foreach ( (array) $wp_styles->queue as $handle ) {
 		if ( in_array( $handle, $keep, true ) ) continue;
