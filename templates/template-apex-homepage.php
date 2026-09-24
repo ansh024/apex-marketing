@@ -217,9 +217,9 @@ $apex_home_url   = get_permalink();
 
         <div class="clause is-on" data-tone="blue">
           <div class="clause__wash"></div>
-          <h3><button class="clause__hd" type="button" aria-expanded="true" aria-controls="cl-1"><span class="clause__term">Month to month. Leave anytime.</span></button></h3>
+          <h3><button class="clause__hd" type="button" aria-expanded="true" aria-controls="cl-1"><span class="clause__term">Month to month. 30 days&rsquo; notice.</span></button></h3>
           <div class="clause__panel" id="cl-1"><div class="clause__inner"><div class="clause__copy">
-            <p class="clause__note">No notice period. No termination fee. No conversation about it. You stay because the work is worth staying for.</p>
+            <p class="clause__note">Cancel with 30 days&rsquo; written notice. No termination fee. No conversation about it. You stay because the work is worth staying for.</p>
             <a class="clause__go" href="#pricing">See what that costs <span>&rarr;</span></a>
           </div></div></div>
           <div class="clause__bar" aria-hidden="true"><i></i></div>
@@ -229,7 +229,7 @@ $apex_home_url   = get_permalink();
           <div class="clause__wash"></div>
           <h3><button class="clause__hd" type="button" aria-expanded="false" aria-controls="cl-2"><span class="clause__term">Every engagement starts with a free audit.</span></button></h3>
           <div class="clause__panel" id="cl-2"><div class="clause__inner"><div class="clause__copy">
-            <p class="clause__note">We map your offer, buying cycle and current spend before you commit to anything — no cost, no obligation.</p>
+            <p class="clause__note">We map your offer, buying cycle and current spend, and give you cost-per-lead and ROAS projections before you commit to anything — no cost, no obligation.</p>
             <a class="clause__go" href="#book">Book your free audit <span>&rarr;</span></a>
           </div></div></div>
           <div class="clause__bar" aria-hidden="true"><i></i></div>
@@ -249,8 +249,8 @@ $apex_home_url   = get_permalink();
           <div class="clause__wash"></div>
           <h3><button class="clause__hd" type="button" aria-expanded="false" aria-controls="cl-4"><span class="clause__term">60 days, or every dollar back.</span></button></h3>
           <div class="clause__panel" id="cl-4"><div class="clause__inner"><div class="clause__copy">
-            <p class="clause__note">In writing. No fine print, no qualifying conditions, no minimum spend threshold. The clause is on this page.</p>
-            <a class="clause__go" href="#book">Read clause 4.1 <span>&rarr;</span></a>
+            <p class="clause__note">In writing. No fine print, no qualifying conditions, no minimum spend threshold.</p>
+            <a class="clause__go" href="#book">See how it works <span>&rarr;</span></a>
           </div></div></div>
           <div class="clause__bar" aria-hidden="true"><i></i></div>
         </div>

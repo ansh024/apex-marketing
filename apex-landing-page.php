@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Apex Marketing — Landing Page
  * Description: Apex Marketing page templates (landing, industry, homepage, thank-you, case studies) as selectable Page Templates for any active theme, with an embedded GoHighLevel lead form.
- * Version: 1.19.0
+ * Version: 1.20.0
  * Author: Apex Marketing
  * GitHub Plugin URI: ansh024/apex-marketing
  * Primary Branch: plugin-deploy
@@ -11,7 +11,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'APEX_LP_VERSION', '1.19.0' );
+define( 'APEX_LP_VERSION', '1.20.0' );
 define( 'APEX_LP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'APEX_LP_URL', plugin_dir_url( __FILE__ ) );
 
