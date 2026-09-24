@@ -1,0 +1,178 @@
+/* Apex Marketing - Industry page additions.
+   The homepage components on this page (plates, terms, tiers, founder,
+   ticket, buttons) are styled by industry-home.css, generated from
+   homepage.css. This file only holds what the homepage has no equivalent
+   for - the objection rows, how-it-works and FAQ, built from the same
+   tokens - plus the hero's controls and two guarantee tweaks. */
+
+.apex-industry-page .apx{
+  --paper:#EEEEEE; --paper-raised:#F4F4F3; --paper-sunk:#E4E4E2;
+  --ink:#000000; --ink-muted:#55555A; --ink-faint:#8A8A8F;
+  --blue:#015EFF; --blue-deep:#0142B4; --pink:#E086CB; --pink-hot:#D45CB8; --mint:#B8ECE2;
+  --night:#151A2C; --night-raised:#1E2438;
+  --rule:rgba(0,0,0,.10); --rule-strong:rgba(0,0,0,.22); --rule-night:rgba(238,238,238,.12);
+  --grid-cell:clamp(120px,13.75vw,220px);
+  --font:"Arimo",Arial,sans-serif;
+  --t-micro:.75rem; --t-nano:.6875rem;
+  --s-2:8px; --s-3:12px; --s-4:16px; --s-5:24px; --s-6:32px; --s-7:48px; --s-8:64px; --s-9:96px; --s-10:128px; --s-11:192px;
+  --gutter:clamp(20px,4vw,64px);
+  --r-sm:2px; --r-pill:999px;
+  --e-out:cubic-bezier(.22,1,.36,1); --e-io:cubic-bezier(.65,0,.35,1);
+  --d-fast:160ms; --d-mid:320ms; --d-slow:640ms;
+  background:var(--paper); color:var(--ink);
+  font-family:var(--font); font-size:clamp(1rem,.96rem + .2vw,1.125rem); line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.apex-industry-page .apx *,.apex-industry-page .apx *::before,.apex-industry-page .apx *::after{ box-sizing:border-box; }
+.apex-industry-page .apx :where(h2,h3,p,dl,dd,dt,figure,ol,ul){ margin:0; }
+.apex-industry-page .apx :where(h2,h3){ font-family:var(--font); color:inherit; }
+.apex-industry-page .apx img{ display:block; max-width:100%; height:auto; }
+.apex-industry-page .apx picture{ display:contents; }
+.apex-industry-page .apx a{ color:inherit; }
+.apex-industry-page .apx :where(a,button,summary):focus-visible{ outline:2px solid var(--pink-hot); outline-offset:3px; border-radius:var(--r-sm); }
+
+/* ---- construction grid + containers --------------------------------- */
+.apex-industry-page .apx .ix-grid{ position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image:linear-gradient(to right,var(--ink) 1px,transparent 1px),linear-gradient(to bottom,var(--ink) 1px,transparent 1px);
+  background-size:var(--grid-cell) var(--grid-cell); opacity:.05; }
+.apex-industry-page .apx .ix-grid--plate{ opacity:.085; }
+.apex-industry-page .apx .ix-container{ width:100%; max-width:1560px; margin-inline:auto; padding-inline:var(--gutter); }
+.apex-industry-page .apx .sec{ position:relative; overflow:hidden; background:var(--paper); padding-block:clamp(var(--s-9),11vh,var(--s-11)); }
+.apex-industry-page .apx .sec__body{ position:relative; z-index:1; }
+
+/* ---- type ----------------------------------------------------------- */
+.apex-industry-page .apx .ix-h2{ font-size:clamp(2.1rem,1rem + 3.4vw,4.25rem); line-height:1.02; letter-spacing:-.04em; font-weight:600; text-wrap:balance; }
+.apex-industry-page .apx .ix-h2__soft{ color:var(--ink-muted); }
+.apex-industry-page .apx .ix-emph{ font-style:italic; font-weight:400; letter-spacing:0; }
+.apex-industry-page .apx .ix-lede{ font-size:clamp(1.0625rem,1rem + .55vw,1.4375rem); line-height:1.5; color:var(--ink-muted); max-width:34ch; }
+.apex-industry-page .apx .ix-data{ font-family:var(--font); font-size:var(--t-micro); letter-spacing:.14em; text-transform:uppercase; font-variant-numeric:tabular-nums; }
+.apex-industry-page .apx .ix-data--nano{ font-size:var(--t-nano); }
+
+/* ---- section head: headline cols 1-8, intro cols 9-12 --------------- */
+.apex-industry-page .apx .ix-head{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:var(--s-7); align-items:start; margin-bottom:var(--s-8); }
+.apex-industry-page .apx .ix-head__l{ grid-column:1 / span 8; }
+.apex-industry-page .apx .ix-head__r{ grid-column:9 / span 4; display:flex; flex-direction:column; align-items:flex-start; gap:var(--s-4); padding-top:var(--s-2); }
+.apex-industry-page .apx .ix-head--center{ display:block; max-width:900px; margin-inline:auto; text-align:center; }
+
+/* ---- buttons: pills are functional, never decorative ---------------- */
+.apex-industry-page .apx .ix-btn{ display:inline-flex; align-items:center; justify-content:center; gap:var(--s-2); min-height:46px;
+  font-family:var(--font); font-size:var(--t-micro); font-weight:400; letter-spacing:.14em; text-transform:uppercase; line-height:1.2;
+  padding:14px 24px; border-radius:var(--r-pill); border:1px solid var(--ink); background:var(--ink); color:var(--paper);
+  text-decoration:none; cursor:pointer; box-shadow:none;
+  transition:background var(--d-fast) var(--e-out),color var(--d-fast) var(--e-out),border-color var(--d-fast) var(--e-out); }
+.apex-industry-page .apx .ix-btn:hover{ background:var(--blue); border-color:var(--blue); color:#fff; transform:none; }
+.apex-industry-page .apx .ix-btn--ghost{ background:#fff; color:var(--ink); border-color:var(--rule-strong); }
+.apex-industry-page .apx .ix-btn--ghost:hover{ background:var(--ink); border-color:var(--ink); color:var(--paper); }
+.apex-industry-page .apx .ix-btn--paper{ background:var(--paper); border-color:var(--paper); color:var(--ink); min-width:250px; }
+.apex-industry-page .apx .ix-btn--paper:hover{ background:var(--pink); border-color:var(--pink); color:var(--ink); }
+
+/* ══ OBJECTIONS — the one night inversion ══════════════════════════ */
+.apex-industry-page .apx .ix-night{ position:relative; background:var(--night); color:var(--paper); padding-block:clamp(var(--s-9),11vh,var(--s-11)); }
+.apex-industry-page .apx .ix-head--night .ix-h2__soft{ color:rgba(238,238,238,.5); }
+.apex-industry-page .apx .ix-head--night .lede{ color:rgba(238,238,238,.72); }
+.apex-industry-page .apx .ix-rows{ list-style:none; padding:0; border-bottom:1px solid var(--rule-night); }
+.apex-industry-page .apx .ix-row{ position:relative; display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:var(--s-5) var(--s-7); align-items:start;
+  padding:var(--s-6) var(--s-4); border-top:1px solid var(--rule-night); transition:background var(--d-mid) var(--e-out); }
+.apex-industry-page .apx .ix-row:hover{ background:var(--blue); }
+.apex-industry-page .apx .ix-row__n{ grid-column:1 / span 1; font-size:clamp(2rem,1.2rem + 2.2vw,3.5rem); font-weight:600; letter-spacing:-.05em; line-height:.9; color:rgba(238,238,238,.28); font-variant-numeric:tabular-nums; transition:color var(--d-mid) var(--e-out); }
+.apex-industry-page .apx .ix-row__q{ grid-column:2 / span 6; font-size:clamp(1.25rem,1rem + 1.1vw,1.9rem); line-height:1.15; letter-spacing:-.03em; font-weight:600; color:var(--paper); }
+.apex-industry-page .apx .ix-row__fix{ grid-column:8 / span 5; display:flex; flex-direction:column; gap:var(--s-2); }
+.apex-industry-page .apx .ix-row__fix span{ color:#015EFF; font-weight:700; }
+.apex-industry-page .apx .ix-row__fix p{ font-size:1rem; line-height:1.5; color:rgba(238,238,238,.72); transition:color var(--d-mid) var(--e-out); }
+.apex-industry-page .apx .ix-row:hover .ix-row__n{ color:var(--paper); }
+.apex-industry-page .apx .ix-row:hover .ix-row__fix p{ color:var(--paper); }
+.apex-industry-page .apx .ix-row:hover .ix-row__fix span{ color:var(--paper); }
+
+/* ══ HOW IT WORKS — ruled narrative rows ═══════════════════════════ */
+.apex-industry-page .apx .ix-steps__list{ list-style:none; padding:0; border-bottom:1px solid var(--rule-strong); }
+.apex-industry-page .apx .ix-step{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:var(--s-5) var(--s-7); align-items:start; padding:var(--s-6) 0; border-top:1px solid var(--rule-strong); }
+.apex-industry-page .apx .ix-step__n{ grid-column:1 / span 1; font-size:clamp(2rem,1.2rem + 2.2vw,3.5rem); font-weight:600; letter-spacing:-.05em; line-height:.9; color:var(--blue); font-variant-numeric:tabular-nums; }
+.apex-industry-page .apx .ix-step__t{ grid-column:2 / span 5; padding-top:.3em; font-size:clamp(1.25rem,1rem + 1.1vw,1.9rem); line-height:1.15; letter-spacing:-.03em; font-weight:600; }
+.apex-industry-page .apx .ix-step__b{ grid-column:8 / span 5; padding-top:.35em; font-size:1rem; line-height:1.55; color:var(--ink-muted); }
+
+/* ══ FAQ — ruled accordion ═════════════════════════════════════════ */
+.apex-industry-page .apx .ix-faq__cols{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:var(--s-7); align-items:start; }
+.apex-industry-page .apx .ix-faq__head{ grid-column:1 / span 5; display:flex; flex-direction:column; align-items:flex-start; gap:var(--s-6); position:sticky; top:120px; }
+.apex-industry-page .apx .ix-faq__list{ grid-column:7 / span 6; border-bottom:1px solid var(--rule-strong); }
+.apex-industry-page .apx .ix-faq__item{ border-top:1px solid var(--rule-strong); }
+.apex-industry-page .apx .ix-faq__item summary{ position:relative; display:flex; justify-content:space-between; align-items:center; gap:var(--s-5); min-height:44px; padding:var(--s-5) 0;
+  list-style:none; cursor:pointer; font-size:clamp(1.0625rem,1rem + .4vw,1.3125rem); line-height:1.3; font-weight:600; letter-spacing:-.015em; transition:color var(--d-fast) var(--e-out); }
+.apex-industry-page .apx .ix-faq__item summary::-webkit-details-marker{ display:none; }
+.apex-industry-page .apx .ix-faq__item summary:hover{ color:var(--blue); }
+.apex-industry-page .apx .ix-faq__item summary i{ position:relative; flex:none; width:14px; height:14px; }
+.apex-industry-page .apx .ix-faq__item summary i::before,.apex-industry-page .apx .ix-faq__item summary i::after{ content:""; position:absolute; background:currentColor; transition:transform var(--d-mid) var(--e-out); }
+.apex-industry-page .apx .ix-faq__item summary i::before{ left:0; right:0; top:50%; height:1px; transform:translateY(-50%); }
+.apex-industry-page .apx .ix-faq__item summary i::after{ top:0; bottom:0; left:50%; width:1px; transform:translateX(-50%); }
+.apex-industry-page .apx .ix-faq__item[open] summary i::after{ transform:translateX(-50%) scaleY(0); }
+.apex-industry-page .apx .ix-faq__item p{ max-width:60ch; padding:0 0 var(--s-5); color:var(--ink-muted); font-size:1rem; line-height:1.6; }
+
+/* Floating mobile CTA sits outside .ix but belongs to the page below the hero */
+.apex-industry-page .mobile-cta.ix-mobile-cta{ background:#000; border:1px solid #000; color:#EEEEEE; border-radius:999px; font-family:"Arimo",Arial,sans-serif; font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; box-shadow:0 12px 30px -12px rgba(0,0,0,.5); }
+.apex-industry-page .mobile-cta.ix-mobile-cta:hover{ background:#015EFF; border-color:#015EFF; color:#fff; }
+
+/* ══ RESPONSIVE ═══════════════════════════════════════════════════ */
+@media (max-width:1199px){
+  .apex-industry-page .apx .ix-row__q{ grid-column:2 / span 5; }
+  .apex-industry-page .apx .ix-row__fix{ grid-column:7 / span 6; }
+}
+@media (max-width:1023px){
+  .apex-industry-page .apx .ix-head__l,.apex-industry-page .apx .ix-head__r{ grid-column:1 / span 12; }
+  .apex-industry-page .apx .ix-head__r{ padding-top:0; }
+  .apex-industry-page .apx .ix-faq__head,.apex-industry-page .apx .ix-faq__list{ grid-column:1 / span 12; }
+  .apex-industry-page .apx .ix-faq__head{ position:static; }
+  .apex-industry-page .apx .ix-row__n{ grid-column:1 / span 2; }
+  .apex-industry-page .apx .ix-row__q{ grid-column:3 / span 10; }
+  .apex-industry-page .apx .ix-row__fix{ grid-column:3 / span 10; }
+  .apex-industry-page .apx .ix-step__n{ grid-column:1 / span 2; }
+  .apex-industry-page .apx .ix-step__t{ grid-column:3 / span 10; }
+  .apex-industry-page .apx .ix-step__b{ grid-column:3 / span 10; }
+}
+@media (max-width:767px){
+  /* twelve tracks carry eleven gaps - a floor the container cannot go
+     under on a phone - so every 12-col grid becomes a single flow */
+  .apex-industry-page .apx .ix-faq__cols,.apex-industry-page .apx .ix-row,.apex-industry-page .apx .ix-step{ display:flex; flex-direction:column; gap:var(--s-4); }
+  .apex-industry-page .apx .ix-head{ margin-bottom:var(--s-7); }
+  .apex-industry-page .apx .ix-row{ padding-inline:0; gap:var(--s-3); }
+  .apex-industry-page .apx .ix-row:hover{ background:none; }
+  .apex-industry-page .apx{ --t-nano:.75rem; }
+}
+@media (prefers-reduced-motion:reduce){
+  .apex-industry-page .apx *{ transition:none !important; animation:none !important; }
+}
+
+
+/* ══ HERO CONTROLS — homepage vocabulary, hero layout untouched ═════ */
+/* Same face as the rest of the site; sizes and positions stay main.css's. */
+.apex-industry-page .hero,.apex-industry-page .hero *,body.apex-industry-page .hero .hero__grid *{ font-family:"Arimo",Arial,sans-serif; }
+.apex-industry-page .hero__h1{ font-weight:600; letter-spacing:-.035em; line-height:1.08; }
+.apex-industry-page .hero__em{ color:#fff; }
+/* eyebrow: a data label, not a decorative pill */
+.apex-industry-page .hero__eyebrow{ min-height:0; padding:0; border:0; border-radius:0; background:none; box-shadow:none;
+  font-size:12px; font-weight:400; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.86); }
+/* trust points: ruled data labels with a mint tick, as on the homepage */
+.apex-industry-page .hero__trust li{ font-family:"Arimo",Arial,sans-serif; min-height:0; padding:0; border:0; border-radius:0; background:none; box-shadow:none;
+  font-size:12px; font-weight:400; letter-spacing:.14em; text-transform:uppercase; color:#fff; }
+.apex-industry-page .hero__trust li::before{ background:none; border:0; border-radius:0; box-shadow:none; clip-path:none; transform:none; color:#B8ECE2; content:"✓"; width:auto; height:auto; font-size:14px; line-height:1; -webkit-mask:none; mask:none; }
+/* the homepage hero's glass ghost button, for a CTA that sits on imagery */
+.apex-industry-page .hero .apx .btn--ghost{ background:rgba(238,238,238,.86); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border-color:rgba(238,238,238,.86); }
+.apex-industry-page .hero .apx .btn--ghost:hover{ background:#000; border-color:#000; color:#EEEEEE; }
+.apex-industry-page .hero__actions.apx{ display:flex; flex-wrap:wrap; gap:12px; background:none; font-size:inherit; }
+
+/* ══ GUARANTEE — kept as is; orange becomes brand magenta ══════════ */
+.apex-industry-page .cert__lead{ color:#D45CB8; }
+.apex-industry-page .cert__signrow .apx{ display:contents; }
+
+/* Pricing: the guarantee chip jumps to the certificate below */
+.apex-industry-page .apx .price__foot li.price__foot-link{ position:relative; cursor:pointer; transition:border-color 160ms cubic-bezier(.22,1,.36,1),background 160ms cubic-bezier(.22,1,.36,1); }
+.apex-industry-page .apx .price__foot-link a{ color:inherit; text-decoration:none; }
+.apex-industry-page .apx .price__foot-link a::after{ content:""; position:absolute; inset:0; }
+.apex-industry-page .apx .price__foot li.price__foot-link:hover{ border-color:#015EFF; background:#fff; }
+.apex-industry-page .apx .price__foot-link a::before{ content:"\2193"; order:2; margin-left:auto; color:#015EFF; }
+.apex-industry-page .apx .price__foot-link a{ display:flex; flex:1; gap:.65rem; align-items:center; }
+/* in-page jumps land below the floating header */
+.apex-industry-page #guarantee,.apex-industry-page #pricing,.apex-industry-page #book{ scroll-margin-top:96px; }
+
+/* Fallback nav + mobile menu (only render when no Elementor header matches):
+   homepage black pill, not the landing page's orange */
+.apex-industry-page .btn.ix-pill{ background:#000; border:1px solid #000; color:#EEEEEE; border-radius:999px; font-family:"Arimo",Arial,sans-serif; font-weight:400; font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; padding:14px 24px; box-shadow:none; }
+.apex-industry-page .btn.ix-pill:hover{ background:#015EFF; border-color:#015EFF; color:#fff; transform:none; }

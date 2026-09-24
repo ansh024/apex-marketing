@@ -1,0 +1,449 @@
+/* Apex location page — design system restored.
+ * Compiled from location-page-native.json (global_variables + global_classes).
+ * Elementor renamed the imported global classes to DUP_<label>1 on collision and
+ * dropped the global variables entirely, so every color resolved to a fallback.
+ * Selectors target both the clean and the DUP_ names so this works either way.
+ */
+
+:root {
+  --e-gv-45b3345: #EEEEEE;   /* paper */
+  --e-gv-6d9f28a: #F4F4F3;   /* paper-raised */
+  --e-gv-bb06699: #E4E4E2;   /* paper-sunk */
+  --e-gv-0aa56b5: #000000;   /* ink */
+  --e-gv-88bc2eb: #55555A;   /* ink-muted */
+  --e-gv-26627cc: #8A8A8F;   /* ink-faint */
+  --e-gv-9579882: #015EFF;   /* blue */
+  --e-gv-0fdbad2: #0142B4;   /* blue-deep */
+  --e-gv-45fa994: #E086CB;   /* pink */
+  --e-gv-4ce3b50: #D45CB8;   /* pink-hot */
+  --e-gv-0da47b0: #B8ECE2;   /* mint */
+  --e-gv-69120d2: #151A2C;   /* night */
+  --e-gv-0249db2: rgba(0,0,0,0.10);   /* rule */
+  --e-gv-2b583d9: rgba(0,0,0,0.22);   /* rule-strong */
+  --e-gv-1f1de11: #198F7B;   /* tone-mint */
+  --e-gv-db43b71: #6354C7;   /* tone-lavender */
+  --e-gv-ed418e9: #F6F8DC;   /* pc-a-bg */
+  --e-gv-12164aa: #EAF1A8;   /* pc-a-band */
+  --e-gv-2f293eb: #A7B833;   /* pc-a-rule */
+  --e-gv-0f18f91: #FBEDF8;   /* pc-b-bg */
+  --e-gv-44b4f92: #F5D6EE;   /* pc-b-band */
+  --e-gv-00ee152: #D86ABF;   /* pc-b-rule */
+  --e-gv-0015b1c: #EDF9EE;   /* pc-c-bg */
+  --e-gv-5c07cdf: #D8F1D9;   /* pc-c-band */
+  --e-gv-93f3b4f: #63AD6A;   /* pc-c-rule */
+  --e-gv-f8da2d7: #EEF0FF;   /* pc-d-bg */
+  --e-gv-4459cf6: #DDE1FF;   /* pc-d-band */
+  --e-gv-5f03dec: #7587E8;   /* pc-d-rule */
+  --e-gv-0edcfff: 4px;   /* s-1 */
+  --e-gv-f238789: 8px;   /* s-2 */
+  --e-gv-cb478b9: 12px;   /* s-3 */
+  --e-gv-7a9cf62: 16px;   /* s-4 */
+  --e-gv-e271943: 24px;   /* s-5 */
+  --e-gv-4f158bf: 32px;   /* s-6 */
+  --e-gv-816f2f6: 48px;   /* s-7 */
+  --e-gv-993e6c7: 64px;   /* s-8 */
+  --e-gv-9174f02: 96px;   /* s-9 */
+  --e-gv-59747f6: 1px;   /* hair */
+  --e-gv-b961269: 2px;   /* r-sm */
+  --e-gv-f5e280b: 999px;   /* r-pill */
+  --e-gv-4f15ac1: 1560px;   /* container-max */
+  --e-gv-1962533: Arimo, Arial, Helvetica, sans-serif;   /* font-voice */
+}
+
+/* ---- base / desktop ---- */
+.elementor .apex-container, .elementor .DUP_apex-container1 {
+  width: 100% !important;
+  max-width: var(--e-gv-4f15ac1) !important;
+  padding-inline-end: 20px !important;
+  padding-inline-start: 20px !important;
+  margin-inline-start: 0 !important;
+  margin-inline-end: 0 !important;
+}
+.elementor .apex-hero-h1, .elementor .DUP_apex-hero-h11 {
+  font-size: 2.9rem !important;
+  line-height: 0.9em !important;
+  letter-spacing: -0.048em !important;
+  font-weight: 600 !important;
+}
+.elementor .apex-h2, .elementor .DUP_apex-h21 {
+  font-size: 2.1rem !important;
+  line-height: 1.02em !important;
+  letter-spacing: -0.04em !important;
+  font-weight: 600 !important;
+}
+.elementor .apex-h3, .elementor .DUP_apex-h31 {
+  font-size: 1.25rem !important;
+  line-height: 1.15em !important;
+  letter-spacing: -0.03em !important;
+  font-weight: 600 !important;
+}
+.elementor .apex-lede, .elementor .DUP_apex-lede1 {
+  font-size: 1.0625rem !important;
+  line-height: 1.5em !important;
+  color: var(--e-gv-88bc2eb) !important;
+  max-width: 48ch !important;
+}
+.elementor .apex-emph, .elementor .DUP_apex-emph1 {
+  font-style: italic !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+.elementor .apex-data, .elementor .DUP_apex-data1 {
+  font-size: 0.75rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+}
+.elementor .apex-data-nano, .elementor .DUP_apex-data-nano1 {
+  font-size: 0.75rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+}
+.elementor .apex-btn, .elementor .DUP_apex-btn1 {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 44px !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  border-style: solid !important;
+  border-color: var(--e-gv-0aa56b5) !important;
+  background-color: var(--e-gv-0aa56b5) !important;
+  color: var(--e-gv-45b3345) !important;
+  text-decoration: none !important;
+  padding-block-start: 14px !important;
+  padding-inline-end: 24px !important;
+  padding-block-end: 14px !important;
+  padding-inline-start: 24px !important;
+  border-block-start-width: 1px !important;
+  border-inline-end-width: 1px !important;
+  border-block-end-width: 1px !important;
+  border-inline-start-width: 1px !important;
+  border-start-start-radius: var(--e-gv-f5e280b) !important;
+  border-start-end-radius: var(--e-gv-f5e280b) !important;
+  border-end-end-radius: var(--e-gv-f5e280b) !important;
+  border-end-start-radius: var(--e-gv-f5e280b) !important;
+  column-gap: 8px !important;
+}
+.elementor .apex-btn:hover, .elementor .DUP_apex-btn1:hover {
+  background-color: var(--e-gv-9579882) !important;
+  border-color: var(--e-gv-9579882) !important;
+  color: #ffffff !important;
+}
+.elementor .apex-btn-ghost, .elementor .DUP_apex-btn-ghost1 {
+  background-color: transparent !important;
+  color: var(--e-gv-0aa56b5) !important;
+  border-style: solid !important;
+  border-color: var(--e-gv-2b583d9) !important;
+  border-block-start-width: 1px !important;
+  border-inline-end-width: 1px !important;
+  border-block-end-width: 1px !important;
+  border-inline-start-width: 1px !important;
+}
+.elementor .apex-btn-ghost:hover, .elementor .DUP_apex-btn-ghost1:hover {
+  background-color: var(--e-gv-0aa56b5) !important;
+  color: var(--e-gv-45b3345) !important;
+  border-color: var(--e-gv-0aa56b5) !important;
+}
+.elementor .apex-section, .elementor .DUP_apex-section1 {
+  position: relative !important;
+  background-color: var(--e-gv-45b3345) !important;
+  padding-block-start: 96px !important;
+  padding-block-end: 96px !important;
+}
+.elementor .apex-section-raised, .elementor .DUP_apex-section-raised1 {
+  background-color: var(--e-gv-6d9f28a) !important;
+}
+.elementor .apex-section-tight, .elementor .DUP_apex-section-tight1 {
+  padding-block-start: 64px !important;
+  padding-block-end: 64px !important;
+}
+.elementor .apex-grid-field, .elementor .DUP_apex-grid-field1 {
+  position: absolute !important;
+  inset-block-start: 0 !important;
+  inset-inline-end: 0 !important;
+  inset-block-end: 0 !important;
+  inset-inline-start: 0 !important;
+  opacity: 5% !important;
+}
+.elementor .apex-plate, .elementor .DUP_apex-plate1 {
+  position: relative !important;
+  background-color: var(--e-gv-6d9f28a) !important;
+  border-style: solid !important;
+  border-color: var(--e-gv-2b583d9) !important;
+  overflow: hidden !important;
+  border-block-start-width: 1px !important;
+  border-inline-end-width: 1px !important;
+  border-block-end-width: 1px !important;
+  border-inline-start-width: 1px !important;
+  border-start-start-radius: var(--e-gv-b961269) !important;
+  border-start-end-radius: var(--e-gv-b961269) !important;
+  border-end-end-radius: var(--e-gv-b961269) !important;
+  border-end-start-radius: var(--e-gv-b961269) !important;
+}
+.elementor .apex-plate-row, .elementor .DUP_apex-plate-row1 {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-end !important;
+  border-style: solid !important;
+  border-color: var(--e-gv-0249db2) !important;
+  padding-block-start: 12px !important;
+  padding-block-end: 12px !important;
+  border-block-end-width: 1px !important;
+  border-block-start-width: 0 !important;
+  border-inline-end-width: 0 !important;
+  border-inline-start-width: 0 !important;
+  column-gap: 16px !important;
+}
+.elementor .apex-stat-n, .elementor .DUP_apex-stat-n1 {
+  font-size: 1.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1em !important;
+}
+.elementor .apex-stat-k, .elementor .DUP_apex-stat-k1 {
+  color: var(--e-gv-88bc2eb) !important;
+}
+.elementor .apex-pc, .elementor .DUP_apex-pc1 {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  min-width: 320px !important;
+  border-style: solid !important;
+  overflow: hidden !important;
+  text-decoration: none !important;
+  color: inherit !important;
+  border-block-start-width: 1px !important;
+  border-inline-end-width: 1px !important;
+  border-block-end-width: 1px !important;
+  border-inline-start-width: 1px !important;
+  border-start-start-radius: var(--e-gv-b961269) !important;
+  border-start-end-radius: var(--e-gv-b961269) !important;
+  border-end-end-radius: var(--e-gv-b961269) !important;
+  border-end-start-radius: var(--e-gv-b961269) !important;
+  flex: 1 1 45% !important;
+}
+.elementor .apex-pc-band, .elementor .DUP_apex-pc-band1 {
+  border-style: solid !important;
+  padding-block-start: 24px !important;
+  padding-inline-end: 24px !important;
+  padding-block-end: 16px !important;
+  padding-inline-start: 24px !important;
+  border-block-end-width: 1px !important;
+  border-block-start-width: 0 !important;
+  border-inline-end-width: 0 !important;
+  border-inline-start-width: 0 !important;
+}
+.elementor .apex-pc-title, .elementor .DUP_apex-pc-title1 {
+  font-size: 1.4rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.03em !important;
+}
+.elementor .apex-pc-fig, .elementor .DUP_apex-pc-fig1 {
+  position: relative !important;
+  min-height: 240px !important;
+  overflow: hidden !important;
+}
+.elementor .apex-pc-image, .elementor .DUP_apex-pc-image1 {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 240px !important;
+  object-fit: cover !important;
+}
+.elementor .apex-pc-foot, .elementor .DUP_apex-pc-foot1 {
+  position: relative !important;
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  border-style: solid !important;
+  padding-block-start: 16px !important;
+  padding-inline-end: 24px !important;
+  padding-block-end: 24px !important;
+  padding-inline-start: 24px !important;
+  border-block-start-width: 1px !important;
+  border-inline-end-width: 0 !important;
+  border-block-end-width: 0 !important;
+  border-inline-start-width: 0 !important;
+  column-gap: 16px !important;
+}
+.elementor .apex-pc-desc, .elementor .DUP_apex-pc-desc1 {
+  font-size: 1rem !important;
+  line-height: 1.45em !important;
+  color: var(--e-gv-88bc2eb) !important;
+  max-width: 38ch !important;
+}
+.elementor .apex-pc-flag, .elementor .DUP_apex-pc-flag1 {
+  position: absolute !important;
+  inset-block-start: 0 !important;
+  inset-inline-end: 0 !important;
+  z-index: 2 !important;
+  background-color: var(--e-gv-9579882) !important;
+  color: #FFFFFF !important;
+  padding-block-start: 6px !important;
+  padding-inline-end: 12px !important;
+  padding-block-end: 6px !important;
+  padding-inline-start: 12px !important;
+}
+.elementor .apex-clause-term, .elementor .DUP_apex-clause-term1 {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.032em !important;
+  line-height: 1.14em !important;
+  color: var(--e-gv-0aa56b5) !important;
+}
+.elementor .apex-clause-note, .elementor .DUP_apex-clause-note1 {
+  font-size: 1rem !important;
+  line-height: 1.55em !important;
+  color: var(--e-gv-88bc2eb) !important;
+  max-width: 46ch !important;
+}
+.elementor .apex-feature-tile, .elementor .DUP_apex-feature-tile1 {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 3.5rem !important;
+  border-style: solid !important;
+  border-color: rgba(1,94,255,0.24) !important;
+  background-color: var(--e-gv-6d9f28a) !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.055em !important;
+  text-transform: uppercase !important;
+  color: var(--e-gv-0aa56b5) !important;
+  padding-block-start: 0.7rem !important;
+  padding-inline-end: 0.8rem !important;
+  padding-block-end: 0.7rem !important;
+  padding-inline-start: 0.8rem !important;
+  border-block-start-width: 1px !important;
+  border-inline-end-width: 1px !important;
+  border-block-end-width: 1px !important;
+  border-inline-start-width: 1px !important;
+  column-gap: 0.65rem !important;
+}
+.elementor .apex-pill, .elementor .DUP_apex-pill1 {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 44px !important;
+  border-style: solid !important;
+  border-color: var(--e-gv-2b583d9) !important;
+  background-color: var(--e-gv-6d9f28a) !important;
+  color: var(--e-gv-0aa56b5) !important;
+  padding-block-start: 10px !important;
+  padding-inline-end: 18px !important;
+  padding-block-end: 10px !important;
+  padding-inline-start: 18px !important;
+  border-block-start-width: 1px !important;
+  border-inline-end-width: 1px !important;
+  border-block-end-width: 1px !important;
+  border-inline-start-width: 1px !important;
+  border-start-start-radius: var(--e-gv-f5e280b) !important;
+  border-start-end-radius: var(--e-gv-f5e280b) !important;
+  border-end-end-radius: var(--e-gv-f5e280b) !important;
+  border-end-start-radius: var(--e-gv-f5e280b) !important;
+}
+.elementor .apex-step-when, .elementor .DUP_apex-step-when1 {
+  color: var(--e-gv-0fdbad2) !important;
+}
+.elementor .apex-step-what, .elementor .DUP_apex-step-what1 {
+  font-size: 1.0625rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.15em !important;
+}
+.elementor .apex-step-note, .elementor .DUP_apex-step-note1 {
+  color: var(--e-gv-88bc2eb) !important;
+  font-size: 1rem !important;
+  line-height: 1.55em !important;
+  max-width: 52ch !important;
+}
+.elementor .apex-ask-q, .elementor .DUP_apex-ask-q1 {
+  font-size: 1.125rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.2em !important;
+}
+.elementor .apex-ask-a, .elementor .DUP_apex-ask-a1 {
+  color: var(--e-gv-88bc2eb) !important;
+  font-size: 1rem !important;
+  line-height: 1.55em !important;
+}
+.elementor .apex-faq-row, .elementor .DUP_apex-faq-row1 {
+  border-style: solid !important;
+  border-color: var(--e-gv-2b583d9) !important;
+  padding-block-start: 24px !important;
+  padding-block-end: 24px !important;
+  border-block-start-width: 1px !important;
+  border-inline-end-width: 0 !important;
+  border-block-end-width: 0 !important;
+  border-inline-start-width: 0 !important;
+}
+.elementor .apex-faq-q, .elementor .DUP_apex-faq-q1 {
+  font-size: 1.0625rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.3em !important;
+}
+.elementor .apex-faq-a, .elementor .DUP_apex-faq-a1 {
+  color: var(--e-gv-88bc2eb) !important;
+  font-size: 1rem !important;
+  line-height: 1.55em !important;
+  max-width: 62ch !important;
+}
+
+/* ---- laptop (max-width: 1366px) ---- */
+@media (max-width: 1366px) {
+  .elementor .apex-container, .elementor .DUP_apex-container1 {
+    padding-inline-end: 64px !important;
+    padding-inline-start: 64px !important;
+  }
+  .elementor .apex-hero-h1, .elementor .DUP_apex-hero-h11 {
+    font-size: 5.95rem !important;
+  }
+  .elementor .apex-h2, .elementor .DUP_apex-h21 {
+    font-size: 4.25rem !important;
+  }
+  .elementor .apex-h3, .elementor .DUP_apex-h31 {
+    font-size: 1.75rem !important;
+  }
+  .elementor .apex-lede, .elementor .DUP_apex-lede1 {
+    font-size: 1.4375rem !important;
+  }
+  .elementor .apex-data-nano, .elementor .DUP_apex-data-nano1 {
+    font-size: 0.6875rem !important;
+  }
+  .elementor .apex-section, .elementor .DUP_apex-section1 {
+    padding-block-start: 160px !important;
+    padding-block-end: 160px !important;
+  }
+  .elementor .apex-stat-n, .elementor .DUP_apex-stat-n1 {
+    font-size: 2.5rem !important;
+  }
+  .elementor .apex-pc-title, .elementor .DUP_apex-pc-title1 {
+    font-size: 2rem !important;
+  }
+  .elementor .apex-clause-term, .elementor .DUP_apex-clause-term1 {
+    font-size: 1.9rem !important;
+  }
+  .elementor .apex-step-what, .elementor .DUP_apex-step-what1 {
+    font-size: 1.5rem !important;
+  }
+  .elementor .apex-ask-q, .elementor .DUP_apex-ask-q1 {
+    font-size: 1.5rem !important;
+  }
+  .elementor .apex-faq-q, .elementor .DUP_apex-faq-q1 {
+    font-size: 1.375rem !important;
+  }
+}
+
+/* ---- tablet (max-width: 1024px) ---- */
+@media (max-width: 1024px) {
+  .elementor .apex-container, .elementor .DUP_apex-container1 {
+    padding-inline-end: 40px !important;
+    padding-inline-start: 40px !important;
+  }
+  .elementor .apex-hero-h1, .elementor .DUP_apex-hero-h11 {
+    font-size: 4.2rem !important;
+  }
+  .elementor .apex-h2, .elementor .DUP_apex-h21 {
+    font-size: 3.1rem !important;
+  }
+}
