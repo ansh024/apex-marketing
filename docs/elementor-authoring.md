@@ -1,0 +1,585 @@
+# Building Apex pages in Elementor — how the machinery actually works
+
+Research notes for the location-pages project. Everything below was verified by reading the
+Elementor plugin source (`github.com/elementor/elementor`, `main` @ 2026-08-13) and its release
+tags — not from blog posts, which are mostly wrong about the V4 data model.
+
+The goal of this document is narrow: **make the handoff produce something you can open in
+Elementor and edit, instead of something you have to rebuild.** The blog template needed heavy
+rework because it was handed over as markup Elementor could not natively represent. The sections
+below are the constraints that determine whether that happens again.
+
+---
+
+## 1. What is actually released
+
+| | Version | Ships atomic elements | Ships Elementor's MCP server |
+|---|---|---|---|
+| `readme.txt` "Stable tag" | 3.34.2 | — | no |
+| Latest release tags | `v4.0.0` … `v4.0.8` | **yes** | **no** |
+| `main` (unreleased) | 4.0.x-dev | yes | yes (`modules/mcp`) |
+
+Two things follow, and they set the whole plan:
+
+**Atomic elements are real and shipping.** `modules/atomic-widgets` is present in every `v4.0.x`
+tag. This is not a beta-channel-only feature.
+
+**They are ON by default in 4.0.x.** This corrects what this document said until 2026-08-17, which
+was read from an older branch. Measured on a real Elementor 4.0.8 build (see §11):
+
+```
+e_atomic_elements    default=active  state=default  active=YES
+e_opt_in_v4          default=active  state=default  active=YES
+e_opt_in_v4_page     default=active  state=default  active=YES
+```
+
+The caveat that matters: that reading is from a **fresh** install. A site upgraded from 3.x can
+carry a stored `elementor_experiment-e_opt_in_v4` option that overrides the default, so the state
+still has to be confirmed on the live site — but the expected answer is now "already on", not
+"someone must switch it on". Check it, don't assume it in either direction.
+
+**Elementor's own MCP server is coming but is not in a release yet.** `modules/mcp` exists only on
+`main`. When it ships it is the best authoring path by a wide margin (see §5) — worth knowing it's
+close, not worth waiting for.
+
+---
+
+## 1a. Decisions taken
+
+- **Elementor Pro is active.** So location pages are one dynamic template over a `location` CPT
+  (§7), not per-city imports.
+- **Design target is the calm, pure-Elementor version.** Brand colors, type, spacing and layout
+  language carry over; the canvas/riso/GSAP effects do not. No plugin CSS dependency on the
+  location pages — see §6 and §9.
+- **Atomic first, V3 as a deliberate fallback.** V4 renders atomic and V3/Pro widgets on the same
+  page, so anything V4 can't yet do (see the `e-grid` gap in §2, and Pro-only widgets like forms
+  or loop grids) uses a mature V3/Pro widget instead of being faked in atomic markup. Falling back
+  to a real widget is always better than an HTML widget.
+
+## 1b. Site architecture: kit, not a custom theme
+
+Decided 2026-08-14, after the question came up of whether the site needs a whole new theme
+given the design is changing sitewide.
+
+**The design system lives in the Elementor kit, not in a custom theme and not in per-page CSS.**
+
+| Layer | Where it lives |
+|---|---|
+| Design system (colour, type, spacing, components) | Elementor **kit**: global variables + global classes |
+| Header / footer | Theme Builder parts, built once |
+| Location pages | One `single-location` template over the `location` CPT |
+| Other pages | Elementor pages using the same global classes |
+| **Homepage** | **Stays a plugin PHP template. Documented exception.** |
+
+A custom theme was considered and rejected. Its one real advantage is putting the design
+system in a single place, and the kit already does that: the tokens map onto global variables
+and classes cleanly (with the `clamp()` caveat in §10). Its cost is real, though, which is that
+it puts the design system somewhere that needs a developer to change. That cuts directly
+against the goal of the client adding cities and editing copy without one.
+
+**The homepage is a deliberate exception, and it has a price.** Its canvas relief, hero sweep,
+GSAP scroll work and halftone footer cannot be expressed in the atomic style schema (§6), so it
+stays a hand-coded plugin template with its own CSS. The costs, stated so nobody rediscovers
+them:
+
+- The homepage and the kit are two systems that must be kept visually in sync **by hand**. If a
+  brand colour changes, it changes in two places.
+- The homepage stays developer-only. It is not client-editable.
+- `apex-landing-page.php:205-217` dequeues every stylesheet except its own allowlist on those
+  templates, including the kit's. **That hack is load-bearing for the exception.** It is scoped
+  to `is_page()` plus those three templates, so location pages and the CPT are unaffected, but
+  it must never be widened.
+
+If the homepage is ever ported into Elementor, that dequeue is the first thing to delete, and
+the canvas work either goes away or becomes a scoped enhancement layer the template opts into.
+
+## 2. The atomic data model
+
+This is the part every third-party tutorial gets wrong. Atomic elements do **not** use the flat
+`settings` dictionary that V3 widgets use. Three things changed.
+
+### Every value is type-tagged
+
+A prop value is `{"$$type": "<type>", "value": <payload>}`, not a bare scalar. From
+`modules/atomic-widgets/prop-types/`:
+
+```json
+{ "$$type": "string", "value": "h2" }
+{ "$$type": "size",   "value": { "size": 64, "unit": "px" } }
+{ "$$type": "color",  "value": "#015EFF" }
+```
+
+Settings that fail schema validation **throw** (`parse_atomic_settings` in
+`elements/base/has-atomic-base.php`). There is no partial success — a malformed prop takes the
+element down.
+
+### Styling lives in `styles`, not `settings`
+
+Each element carries a `styles` map. One entry per style, each with variants keyed by breakpoint
+and pseudo-state (`styles/style-definition.php`, `styles/style-variant.php`):
+
+```json
+"styles": {
+  "s-hero-title": {
+    "id": "s-hero-title",
+    "type": "class",
+    "label": "",
+    "variants": [
+      {
+        "meta":  { "breakpoint": null, "state": null },
+        "props": { "font-size": { "$$type": "size", "value": { "size": 64, "unit": "px" } } }
+      },
+      {
+        "meta":  { "breakpoint": "mobile", "state": null },
+        "props": { "font-size": { "$$type": "size", "value": { "size": 36, "unit": "px" } } }
+      }
+    ]
+  }
+}
+```
+
+Styles fail **soft**: an invalid style is dropped with a logged warning and the element still
+renders (`parse_atomic_styles`). So a bad style doesn't crash the page — it silently produces an
+unstyled element, which is exactly the failure mode that reads as "the template is broken."
+
+Allowed style properties are a fixed schema (`styles/style-schema.php`), grouped as size,
+position, typography, spacing, border, background, effects, layout, alignment. **Arbitrary CSS is
+not accepted.** Anything outside the schema is rejected. This is the hard ceiling on how much of
+the current homepage design can move into Elementor natively — see §6.
+
+### Elements are typed by `elType`, not `widgetType`
+
+Containers are `elType: "e-div-block"` / `"e-flexbox"`. Widgets are `elType: "widget"` with
+`widgetType: "e-heading"` etc.
+
+### Element inventory in released 4.0.x
+
+Enumerated from a running Elementor 4.0.8, not read from source. This is the whole list:
+
+```
+elements (elType)   e-div-block   e-flexbox
+                    e-tabs   e-tabs-menu   e-tab   e-tabs-content-area   e-tab-content
+widgets             e-heading   e-paragraph   e-button   e-image   e-svg   e-divider
+                    e-youtube   e-self-hosted-video   e-component
+```
+
+**There is no `e-form`.** This document claimed one until 2026-08-17; it does not exist in 4.0.x.
+Any form is a Pro widget or an HTML embed. The booking form on the location page was already
+handled as an HTML-widget manual step, so nothing built depends on the wrong claim.
+
+Note the split: the `e-tabs` family are **elements** (`elType`), while everything on the second
+group is a **widget** (`elType: "widget"` plus `widgetType`). Getting that backwards is a silent
+drop, not an error.
+
+Props per element (from each `define_props_schema()`):
+
+| Element | Props |
+|---|---|
+| `e-div-block`, `e-flexbox` | `classes`, `tag`, `link`, `attributes` |
+| `e-heading` | `classes`, `tag` (h1–h6), `title`, `link`, `attributes` |
+| `e-paragraph` | `classes`, `paragraph`, `children`, `tag`, `link`, `attributes` |
+| `e-button` | `classes`, `text`, `children`, `link`, `tag`, `attributes` |
+| `e-image` | `classes`, `image`, `link`, `attributes` |
+| `e-svg` | `classes`, `svg`, `link`, `attributes` |
+| `e-divider` | `classes`, `attributes` |
+
+**`e-grid` is on `main` only** — not in 4.0.8. Design to flexbox until it ships.
+
+Two gotchas worth pinning up:
+
+- `e-flexbox` defaults to `flex-direction: row`. Stacked content needs `flex-direction: column`
+  set explicitly or children silently render side by side. (Elementor's own docs call this out as
+  the #1 mistake.)
+- `e-svg` needs an **uploaded** attachment ID. An external URL renders an empty div.
+
+---
+
+## 3. The template JSON envelope
+
+What Elementor writes on export and accepts on import (`includes/template-library/sources/local.php`):
+
+```json
+{
+  "version": "<DB version>",
+  "title": "Apex — Location Page",
+  "type": "page",
+  "content": [ /* element tree */ ],
+  "page_settings": {},
+  "global_classes":   { "items": {}, "order": [] },
+  "global_variables": { "items": {}, "order": [] }
+}
+```
+
+The last two keys are the important discovery. Global classes and variables **ride along inside
+the template file** (`Template_Library_Global_Classes::add_global_classes_snapshot`, and the
+equivalent in `modules/variables/`). On import they are merged into the site's kit **by label** —
+matching labels reuse the existing class rather than creating a duplicate.
+
+This means a template can be self-contained: import the JSON, and the brand tokens and reusable
+classes it depends on arrive with it. Elements reference classes by ID via
+`settings.classes.value` (an array of class IDs), and the importer rewrites those IDs to whatever
+the site ends up using.
+
+Atomic elements are explicitly handled on both directions of this path —
+`modules/atomic-widgets/import-export/` hooks
+`elementor/template_library/sources/local/{import,export}/elements`. So **hand-authored atomic
+JSON is a supported import**, not a hack.
+
+Import: **Templates → Saved Templates → Import Templates**, single `.json` or a `.zip` of several.
+
+### Three export paths, and which one to use
+
+The saved-template JSON above is one of three mechanisms. They are not interchangeable:
+
+| Path | Carries | Granularity | Use it for |
+|---|---|---|---|
+| **Saved template JSON** | one template + its used classes/variables | one template | the location template itself |
+| **Design-system ZIP** | global variables + global classes | **all or nothing** | seeding the brand tokens once |
+| **Website-template ZIP** | pages, templates, site settings, media | plan-dependent | full-site moves, not this |
+
+The design-system ZIP imports the *entire* design system rather than a selected subset, which
+makes it a one-time seeding tool, not part of the iteration loop. Once the tokens are on the site,
+the saved-template JSON is the thing we hand over repeatedly — it carries only the classes it
+actually uses and merges them by label, so re-importing a revised template doesn't churn the kit.
+
+---
+
+## 4. Why the blog template needed rework, and what changes
+
+The failure wasn't the design — it was the handoff format. Anything handed to Elementor as raw
+markup lands in an HTML widget: one opaque block, not editable in the panel, not restyleable, not
+responsive-editable. Every subsequent change costs a developer.
+
+The three rules that prevent a repeat:
+
+1. **Every element must be a native atomic element.** If it can't be expressed in the style schema
+   (§2), it doesn't go in the Elementor template — it goes in the plugin's CSS or gets simplified.
+   No HTML-widget escape hatch.
+2. **Styling goes through global classes, not per-element local styles.** A local style is edited
+   one element at a time. A global class is edited once and every instance follows. For 20 location
+   pages this is the difference between a 10-minute change and an afternoon.
+3. **Brand tokens become global variables** so colors and type are changed in one place and the
+   template references them by label.
+
+The existing design system already has the tokens to seed this — `assets/css/homepage.css`
+`:root` defines the palette (`--paper #EEEEEE`, `--ink #000000`, `--blue #015EFF`,
+`--pink #E086CB`, `--mint #B8ECE2`, `--night #151A2C`), a fluid type scale, and an `--s-1`…`--s-11`
+spacing ramp. Those map onto Elementor global variables essentially one-to-one.
+
+---
+
+## 5. Elementor's MCP server (the path that's coming)
+
+`modules/mcp` on `main` registers an MCP server plus a plain REST proxy at
+`POST /wp-json/elementor/v1/mcp-proxy` (`{tool, input}`, permission `edit_posts`) — meaning it's
+drivable with nothing but an application password. Its abilities include `create-page`,
+`build-composition`, `manage-elements`, `manage-classes`, `manage-global-variable`,
+`create-preview-link`, `publish-document`.
+
+`build-composition` is the interesting one. You send a structure as XML plus **plain CSS strings**,
+and Elementor converts the CSS to native atomic props on its side:
+
+```json
+{
+  "xml_structure": "<e-flexbox configuration-id=\"Hero\"><e-heading configuration-id=\"Hero Title\"/></e-flexbox>",
+  "element_config": { "Hero Title": { "tag": "h1", "title": { "content": "Marketing in Dallas", "children": [] } } },
+  "style": { "Hero": "padding-top: 6rem; @media(--mobile) { padding-top: 3rem; }" }
+}
+```
+
+That removes hand-writing `$$type` envelopes entirely, and the conversion is done by the same code
+that validates it — so it cannot produce a template Elementor won't accept. Its bundled guidance
+(`modules/mcp/static-resources/`) also documents constraints worth honouring now, since they apply
+either way:
+
+- Prefer **longhand** CSS properties; shorthands can fall back to `custom_css`, which Pro 3.35+
+  strips.
+- Use **Elementor breakpoint names** (`@media(--mobile)`), never raw pixel queries — raw queries
+  are not converted to variants and are also stripped.
+- Don't set `height`/`width` without a specific reason; let flex size things.
+
+Until it's released, we hand-author *this* payload shape — the XML + plain config + plain CSS
+`build-composition` accepts — rather than the raw `$$type`-wrapped document JSON from §2. See §10:
+that raw shape turned out to have real, unresolved ambiguity that the composition payload sidesteps
+entirely.
+
+---
+
+## 6. What will not survive the move to Elementor
+
+Worth being blunt, because it affects the design brief. The homepage's character comes largely
+from things the atomic style schema cannot express: the canvas dither/riso texture, the hero sweep,
+the GSAP scroll pinning, the SVG threshold filter on the footer wordmark, the ticket stamp.
+
+For location pages, the options are (a) rebuild a calmer version in pure atomic elements,
+(b) keep the effects in the plugin CSS/JS and scope them to a class the Elementor template applies,
+or (c) accept plainer location pages that look related to the homepage without reproducing it.
+
+(b) is the honest middle path and is how the brand stays recognisable. It does mean location pages
+carry a small amount of code from this repo, but the *layout and content* stay fully editable in
+Elementor, which is the actual goal.
+
+---
+
+## 7. Location pages: one template, not twenty pages
+
+Elementor's own guidance for repeating layouts is explicit: a design that repeats across items is
+**one template driven by dynamic data**, never N duplicated pages.
+
+For local SEO you still need N indexable URLs with unique content — those aren't in conflict. The
+structure that satisfies both:
+
+- A `location` custom post type, one entry per city.
+- **One** Elementor `single-location` theme template that renders any of them via dynamic tags.
+- Adding a city = adding a CPT entry and filling fields. No page building, no template import.
+
+Pro is active, so this is the path. Atomic V4 elements support WordPress and post dynamic tags,
+and Pro can additionally bind ACF fields — so the field source (registered post meta vs ACF) is an
+implementation choice, not a constraint on the design.
+
+Working field list, to be confirmed against the design references:
+
+| Group | Fields |
+|---|---|
+| Identity | city, state |
+| Hero | hero copy (headline / subhead) |
+| Proof | localized proof — reviews, results, client names for that market |
+| Offer | services offered in that market |
+| Local | nearby areas served |
+| Support | FAQs |
+| Contact | map data, phone, address / service-area |
+| SEO | title, meta description, canonical, schema fields |
+
+### The content model, as built
+
+`wordpress/apex-landing-page/includes/location-cpt.php` registers this. The repeater question
+resolved smaller than expected once the finished Austin design was audited: **almost nothing on
+the page is per-city.**
+
+Sitewide, lives in the template, **not** a field: the four service cards, the terms clauses, the
+track-record stats, the first-30-days timeline, the three questions, FAQ items 2 to 6, pricing,
+the founder byline. So "services" and "FAQs" are not repeaters at all — they do not vary. Making
+them per-city fields would invite exactly the per-city rewording that reads as machine-written.
+
+Genuinely per-city:
+
+| Field | Type | Notes |
+|---|---|---|
+| `apex_city` | post meta | "Austin" |
+| `apex_state` | post meta | "Texas", used in schema |
+| `apex_state_abbr` | post meta | "TX" |
+| `apex_timezone` | post meta | "Central" |
+| `apex_hero_h1` | post meta | optional override |
+| `apex_hero_lede` | post meta | optional override |
+| coverage | **taxonomy** | `apex_service_area`, hierarchical |
+
+**Coverage is a hierarchical taxonomy, not an ACF repeater.** Counties are parent terms, towns are
+children. That is native WordPress, needs no ACF licence, is readable by Elementor Pro's loop and
+dynamic tags, and gives term archives and cross-city interlinking for free.
+
+Everything else is *derived*, so it cannot drift out of sync with the taxonomy:
+`apex_location_areas_count()`, `apex_location_counties()`, and
+`apex_location_coverage_sentence()` (which generates the first FAQ answer). The hero headline and
+lede fall back to the brand's two-sentence negation pattern when no override is set, so a location
+created with only a city name still reads correctly.
+
+SEO title and meta description are deliberately **not** fields. Yoast is already a dependency and
+owns them.
+
+Covered by `scripts/test-location-cpt.php` (22 assertions, runs without WordPress). Two real bugs
+it caught: "Travis County and Williamson County **counties**" doubling the word, and the city's own
+county sorting last alphabetically on its own page.
+
+---
+
+## 8. Hard constraint: location pages must not use the Apex PHP template path
+
+This is the trap most likely to produce a blank-looking location page, and it lives in this repo.
+
+`apex-landing-page.php:205-217` dequeues **every enqueued stylesheet except a five-handle
+allowlist** (`apex-lp-fonts`, `apex-lp-main`, `apex-home-fonts`, `apex-home-main`, `admin-bar`) on
+any page assigned one of the three Apex templates. That was a deliberate fix — Elementor
+unconditionally enqueues its kit CSS on every frontend page, and it was fighting the homepage's
+bare-selector CSS. On a page built *with* Elementor it would strip the page's own styling.
+
+`apex-lp-templates()` also drives a `litespeed_optm_uri_exc` entry (`:177-183`) that opts those
+URLs out of LiteSpeed optimization entirely.
+
+**So: location pages go through the normal Elementor page/template path and are never registered
+as an Apex PHP page template.** Concretely:
+
+- Do not add a location template to `apex_lp_templates()`.
+- Do not assign an Apex template to a location page in Page Attributes.
+
+The CPT route is naturally safe here — both guards test `is_page()`, which is false for a
+`location` CPT single, so neither the dequeue nor the LiteSpeed exclusion can fire. No plugin
+change is needed to keep location pages clear of it; it only has to stay that way.
+
+One consequence to watch: because the LiteSpeed exclusion won't cover location pages, they run
+through the normal optimization pipeline. Elementor pages usually survive it, but Remove Unused
+CSS is the same feature that corrupted the homepage's colors, so it's the first thing to suspect
+if a location page renders unstyled.
+
+## 9. Before the build starts — needs checking on the live site
+
+I can't inspect apex-marketing.ai from this environment (outbound requests to it and to
+wordpress.org are blocked by the sandbox's egress policy), so these have to be read off the site:
+
+1. **Elementor version** — Elementor → About / plugin list. Needs to be 4.0.x for atomic elements.
+2. **`e_opt_in_v4` on?** — Elementor → Settings → Features. Atomic elements do not exist until this
+   is enabled. Enable it on staging first: it changes the editor for the whole site.
+3. **Is there a staging site?** — first import should never land on production.
+4. **Existing global classes/variables** — if a kit already has them, our labels must not collide,
+   since import merges by label.
+5. **Does the kit already have a header/footer?** — location pages should use the site's Elementor
+   header/footer rather than reproducing the homepage's hand-coded nav, which is not an Elementor
+   template and can't be reused.
+
+(Elementor Pro is confirmed active, so the §7 question is settled.)
+
+---
+
+## 10. What building the first real template actually found
+
+`design/location-pages/austin-tx.html` (the design) and `elementor-templates/location-page.json`
+(the Elementor payload) are the applied result of everything above, for a concrete page. Two things
+only showed up by actually attempting it:
+
+**The raw `$$type` document shape from §2 has a real ambiguity this project could not resolve.**
+`Object_Prop_Type`'s validate/sanitize logic (`prop-types/base/object-prop-type.php`) reads as if
+every field inside an object-shaped prop — `size`'s `{unit, size}`, `link`'s `{destination, ...}` —
+is itself individually `$$type`-wrapped. But the one real example in source
+(`Size_Prop_Type::generate(['unit' => 'px', 'size' => 0])` in `atomic-heading.php`'s base styles)
+passes those fields in **raw**, unwrapped. Both readings are defensible from the code; nothing
+in the sparse-checked source settles which one the parser actually expects for a *style variant*
+specifically (as opposed to a widget *setting*, which may not even use the same code path). With no
+live Elementor instance reachable to test against, and styles failing **soft** on a mismatch
+(§2 — silently unstyled, not an error), hand-authoring the raw shape risked shipping exactly the
+failure this project exists to avoid: it would *look* fine and only prove wrong later.
+
+So `location-page.json` is not that raw shape. It's the `build-composition` **input** payload from
+§5 — plain XML, plain `element_config` (verified directly against the widget prop names in
+`elements/*/atomic-*.php` — e.g. confirming `e-button` uses a `text` prop, not `content`), and plain
+CSS text for `style`. Elementor's own server does the type-wrapping and CSS conversion, so this
+project never has to get that ambiguity right by hand. Trade-off stated in §1: `build-composition`
+isn't released yet, so this is ready for the moment it (or a self-hosted MCP client) is reachable,
+not something importable today. `elementor-templates/README.md` has the current manual workaround.
+
+**Global *variables* can't hold a `clamp()`.** A V4 Size variable is a structured `{size, unit}`
+pair — there's no slot for `clamp(2.1rem, 1rem + 3.4vw, 4.25rem)`. Only flat, non-fluid tokens (the
+`s-1`…`s-11` spacing ramp, `hair`, the radii, the container max-width) became global variables in
+the generated payload. The fluid type scale, `--gutter`, `--section-pad` and `--grid-cell` stay as
+literal CSS with explicit `@media(--breakpoint)` steps inside each element's own style, never as a
+`var()` reference. Budget for that when scoping how much of `docs/design.md`'s token list is
+"portable" — it's the flat half, not all of it.
+
+`scripts/build_elementor_location_composition.py` generates the payload from a small Python tree
+DSL rather than hand-typed JSON, specifically so 141 elements' worth of configuration-ids, style
+strings and class references can be validated (uniqueness, XML well-formedness, every referenced
+class actually defined) before anything is written — the generator catches the kind of mistake
+hand-typing would only surface as a silently-dropped style.
+
+---
+
+## 11. Measured against a real Elementor, 2026-08-17
+
+Everything above this section was read from source. This section was **run**. A throwaway
+WordPress was built in-sandbox (`scripts/setup-wp-sandbox.sh`) and Elementor 4.0.8 was compiled
+from the GitHub tag and activated in it, which finally allowed the §10 ambiguity to be settled by
+asking Elementor instead of reasoning about it.
+
+### The §10 ambiguity is resolved, and the answer is not what was assumed
+
+Elementor's own regression fixture (`tests/elements-regression/tests/templates/atomic/e_heading.json`)
+plus its live validators give the exact shape. Running `Props_Parser` from
+`Elementor\Modules\AtomicWidgets\Parsers` against an `e-heading`:
+
+| Settings shape tried | Verdict |
+|---|---|
+| `title` as `{"$$type":"string","value":"…"}` | **INVALID** — `title: invalid_value` |
+| `title` as `{"$$type":"html-v3","value":{"content":{"$$type":"string","value":"…"},"children":[]}}` | **VALID** |
+
+So heading text is a nested `html-v3` structure, not a string. And critically, **settings fail
+hard** exactly as §2 warned: the invalid version does not render as an unstyled heading, the
+element vanishes from the document entirely with nothing in the log.
+
+The **style** shape this project guessed was right. `Style_Parser` accepts variants with raw,
+unwrapped `{size, unit}` inside a `size` prop:
+
+```
+{"id":"e-bbbb2222-2222222","label":"local","type":"class","variants":[
+  {"meta":{"breakpoint":"desktop","state":null},
+   "props":{"color":{"$$type":"color","value":"#FF3D77"},
+            "font-size":{"$$type":"size","value":{"size":64,"unit":"px"}}}}]}
+```
+→ `VALID`. Local style ids follow `e-<elementId>-<hash>` and the id must also appear in that
+element's `classes` value.
+
+### The payload as it stands cannot be imported into 4.0.x
+
+This is the finding that matters most, and it is a real gap in the deliverable, not a doc nit.
+`location-page.json` holds plain `element_config` (`{"tag":"header"}`). Elementor's validator
+requires `{"$$type":"string","value":"header"}`. Nothing bridges that on a released Elementor:
+`modules/mcp` is confirmed **absent** from the 4.0.8 tag, so `build-composition` — the thing that
+was going to do the type-wrapping — cannot be called on the live site.
+
+The §10 reasoning for choosing that format was sound at the time (no live Elementor, styles fail
+soft, don't ship a guess). It is now obsolete, because the guess can be checked. **The payload
+needs a converter to native document JSON, validated element-by-element through
+`Props_Parser` and `Style_Parser`.** That converter is the next build step, and the validators
+make it verifiable rather than hopeful.
+
+### Verified against the live registry
+
+All 7 element types the template uses (`e-div-block` ×31, `e-flexbox` ×75, `e-paragraph` ×77,
+`e-heading` ×29, `e-button` ×5, `e-image` ×5, `e-divider` ×4) exist in Elementor 4.0.0. The XML
+structure parses. So the *vocabulary* is right; only the value encoding is wrong.
+
+### The style schema is shorthand-keyed, and this inverts a rule above
+
+§2 and §9 say "longhand CSS only (`padding-top`, not `padding`)". **That is correct for the
+`build-composition` CSS path and exactly backwards for the native document format.** The native
+style schema has no `padding-top`, no `row-gap`, no `flex-grow`, no `border-top-width`, no
+`background-color`, and no `top`/`right`/`bottom`/`left`. It has `padding` and `margin` taking
+`{block-start, inline-end, block-end, inline-start}`, `gap` taking `{row, column}`, `flex` taking
+`{flexGrow, flexShrink, flexBasis}`, `border-width` and `border-radius` taking logical objects,
+`background`, and logical insets. Values are also logical: `text-align` rejects `left`/`right` and
+wants `start`/`end`, and `align-items` has no `baseline`.
+
+Both rules are right in their own context. Know which format you are writing.
+
+### Prop-type keys are version-dependent
+
+`border-width` → `border-width-v2` and `border-radius` → `border-radius-v2` between 4.0 and 4.2.
+The location template validated clean on 4.0.0 and then failed 23 elements on 4.2 from identical
+input. **Validate against the version you are importing into**; validating against the wrong one
+is worse than not validating, because it produces false confidence. `scripts/elementor_native.py`
+keeps these as named constants.
+
+### Integral numbers must be ints, not floats
+
+`{"size": 1.0}` is rejected where `{"size": 1}` is accepted, and a size with an empty unit is
+always invalid — so `0` needs `px`, `line-height: 1.45` needs `em`, and `opacity: 0.05` becomes
+`5%`. Full list of the nine surprises in `docs/converter-plan.md`.
+
+### What the sandbox could not do
+
+Atomic elements render through Twig, which Elementor ships prefixed as `ElementorDeps\Twig` via
+php-scoper, generated from a package on `composer.elementor.com`. That host is denied by this
+environment's egress policy, so `vendor_prefixed/` is empty in a from-source build and rendered
+markup comes back empty. Validation, registration and CSS-schema checks all work without it;
+**final visual rendering has to happen on a real site.**
+
+---
+
+## Sources
+
+All file paths above are in `github.com/elementor/elementor`. Primary references:
+
+- `modules/atomic-widgets/` — element definitions, prop types, style schema, import/export
+- `modules/atomic-widgets/prop-types/base/` — the `Plain_Prop_Type` / `Object_Prop_Type` /
+  `Array_Prop_Type` wrapping logic behind the §10 ambiguity
+- `modules/atomic-opt-in/` — the `e_opt_in_v4` gate
+- `modules/global-classes/utils/`, `modules/variables/utils/` — template snapshot embedding
+- `includes/template-library/sources/local.php` — the JSON envelope
+- `modules/mcp/static-resources/` — Elementor's own authoring guidance (unreleased)
