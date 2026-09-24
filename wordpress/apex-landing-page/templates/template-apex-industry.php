@@ -108,7 +108,7 @@ $apex_url    = get_permalink();
       <p class="hero__sub reveal"><?php echo esc_html( apex_ind_field( 'ind_hero_sub', 'Leads don\'t pay for surgery. Patients do. We fill your consult calendar, and it\'s the only number we report.' ) ); ?></p>
       <ul class="hero__trust reveal"><?php
       foreach ( apex_ind_rows( 'ind_trust', array( 'text' ), array(
-        array( 'text' => 'Month-to-month. Leave anytime.' ),
+        array( 'text' => 'Month-to-month. 30 days’ notice.' ),
         array( 'text' => '60 days or every dollar back' ),
       ) ) as $trust ) : ?><li><?php echo esc_html( apex_ind_sub( $trust, 'text' ) ); ?></li><?php endforeach; ?></ul>
       <div class="hero__actions apx reveal">
@@ -218,7 +218,7 @@ $apex_url    = get_permalink();
         array( 'quote' => '"The leads were garbage."', 'fix' => 'We qualify before your staff ever dials. Campaigns built around surgical candidates, tracked all the way to appointments - not inquiries.' ),
         array( 'quote' => '"My front desk became the agency\'s follow-up team."', 'fix' => 'CRM and follow-up automation included. Leads are nurtured and booked before they ever touch your front desk.' ),
         array( 'quote' => '"I paid for clicks while one angry review sat on top of my profile."', 'fix' => 'We fix the profile before we scale the spend. GBP management and review strategy are part of the system - not an upsell.' ),
-        array( 'quote' => '"Twelve-month contract. Results stalled at month three."', 'fix' => 'Month-to-month only. If results stall, you walk - no penalty. Our retention has to be earned monthly.' ),
+        array( 'quote' => '"Twelve-month contract. Results stalled at month three."', 'fix' => 'Month-to-month only. If results stall, give 30 days’ notice and walk - no penalty. Our retention has to be earned monthly.' ),
         array( 'quote' => '"The agency owned my ad account, my site - even my reviews."', 'fix' => 'You own everything from day one. Ad accounts, website, profile, data. Fire us anytime and keep it all.' ),
       ) );
       foreach ( $pains as $pain_i => $pain ) : ?>
@@ -252,9 +252,9 @@ $apex_url    = get_permalink();
 
         <div class="clause is-on" data-tone="blue">
           <div class="clause__wash"></div>
-          <h3><button class="clause__hd" type="button" aria-expanded="true" aria-controls="cl-1"><span class="clause__term">Month to month. Leave anytime.</span></button></h3>
+          <h3><button class="clause__hd" type="button" aria-expanded="true" aria-controls="cl-1"><span class="clause__term">Month to month. 30 days&rsquo; notice.</span></button></h3>
           <div class="clause__panel" id="cl-1"><div class="clause__inner"><div class="clause__copy">
-            <p class="clause__note">No notice period. No termination fee. No conversation about it. You stay because the work is worth staying for.</p>
+            <p class="clause__note">Cancel with 30 days&rsquo; written notice. No termination fee. No conversation about it. You stay because the work is worth staying for.</p>
             <a class="clause__go" href="#pricing">See what that costs <span>&rarr;</span></a>
           </div></div></div>
           <div class="clause__bar" aria-hidden="true"><i></i></div>
