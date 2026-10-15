@@ -16,6 +16,33 @@ define( 'APEX_LP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'APEX_LP_URL', plugin_dir_url( __FILE__ ) );
 
 /**
+ * Site-wide Google Tag Manager container.
+ *
+ * Keep this at the plugin level rather than in a page template so it is
+ * emitted for every WordPress page, including pages rendered by the active
+ * theme or Elementor rather than one of this plugin's templates.
+ */
+function apex_lp_gtm_head() {
+	if ( is_admin() ) return;
+	?>
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-K4W7RC2M');</script>
+	<!-- End Google Tag Manager -->
+	<?php
+}
+add_action( 'wp_head', 'apex_lp_gtm_head', 1 );
+
+function apex_lp_gtm_body() {
+	if ( is_admin() ) return;
+	?>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K4W7RC2M" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<!-- End Google Tag Manager (noscript) -->
+	<?php
+}
+add_action( 'wp_body_open', 'apex_lp_gtm_body', 1 );
+
+/**
  * The templates this plugin makes available, keyed by the relative
  * path (inside this plugin) WordPress stores in each Page's _wp_page_template meta.
  */
