@@ -185,7 +185,12 @@ add_action( 'wp_enqueue_scripts', function () {
 		array(),
 		null
 	);
-	wp_enqueue_style( 'apex-home-main', APEX_LP_URL . 'assets/css/homepage.css', array(), APEX_LP_VERSION );
+	wp_enqueue_style(
+		'apex-home-main',
+		APEX_LP_URL . 'assets/css/homepage.css',
+		array(),
+		filemtime( APEX_LP_DIR . 'assets/css/homepage.css' )
+	);
 
 	wp_enqueue_script( 'apex-home-gsap', APEX_LP_URL . 'assets/vendor/gsap-3.13.0.min.js', array(), '3.13.0', true );
 	wp_enqueue_script( 'apex-home-scrolltrigger', APEX_LP_URL . 'assets/vendor/ScrollTrigger-3.13.0.min.js', array( 'apex-home-gsap' ), '3.13.0', true );

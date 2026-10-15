@@ -53,7 +53,7 @@ $apex_home_url   = get_permalink();
     <a class="nav__link data" href="#industries">Industries</a>
     <a class="nav__link data" href="#terms">Terms</a>
     <a class="nav__link data" href="#pricing">Pricing</a>
-    <a class="btn" href="#book">Book a call</a>
+    <a class="btn" href="#booking-form">Book a call</a>
   </div>
 </nav>
 <?php endif; ?>
@@ -80,7 +80,7 @@ $apex_home_url   = get_permalink();
         <h1 class="hero__h1">More customers.<br>Not more <span class="emph">spend</span>.</h1>
         <p class="lede">Paid ads built for your business.<br>No lock-in. No vague promises.</p>
         <div class="row gap-3 wrap center-y" style="margin-top:var(--s-2)">
-          <a class="btn" href="#book">Book a strategy call</a>
+          <a class="btn" href="#booking-form">Book a strategy call</a>
           <a class="btn btn--ghost" href="tel:+18557409608">Call (855) 740-9608</a>
         </div>
         <a class="google-partner-badge" href="https://www.google.com/partners/agency?id=6492081901" target="_blank" rel="noopener" aria-label="Apex Marketing is a Google Partner" style="margin-top:var(--s-3)">
@@ -134,12 +134,12 @@ $apex_home_url   = get_permalink();
       </div>
       <div class="sec__intro">
         <p class="lede">Paid acquisition and the infrastructure that makes it convert. Not a full-service shop doing eleven things adequately.</p>
-        <a class="btn btn--ghost" href="#book">Free audit &amp; consultation</a>
+        <a class="btn btn--ghost" href="#booking-form">Free audit &amp; consultation</a>
       </div>
     </header>
 
     <div class="plates">
-      <a class="pc pc--a" href="#book">
+      <a class="pc pc--a" href="#booking-form">
         <span class="pc__partner-flag data data--nano">Google Certified Partner</span>
         <div class="pc__band"><h3 class="pc__title">Google Ads</h3></div>
         <div class="pc__fig">
@@ -148,7 +148,7 @@ $apex_home_url   = get_permalink();
         <div class="pc__foot"><p class="pc__desc">Local search and map-pack campaigns built around your highest-value services.</p><span class="pc__arrow">&rarr;</span></div>
       </a>
 
-      <a class="pc pc--b" href="#book">
+      <a class="pc pc--b" href="#booking-form">
         <div class="pc__band"><h3 class="pc__title">Meta Ads</h3></div>
         <div class="pc__fig">
           <picture><source type="image/webp" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/meta-ads-700.webp 700w, <?php echo esc_url( $apex_home_img ); ?>opt/meta-ads-1400.webp 1400w" sizes="(max-width:767px) 92vw, (max-width:1199px) 48vw, 46vw"><img class="pc__image" src="<?php echo esc_url( $apex_home_img ); ?>opt/meta-ads-1400.jpg" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/meta-ads-700.jpg 700w, <?php echo esc_url( $apex_home_img ); ?>opt/meta-ads-1400.jpg 1400w" sizes="(max-width:767px) 92vw, (max-width:1199px) 48vw, 46vw" width="1400" height="892" loading="lazy" decoding="async" alt="Social advertising campaign and audience dashboard illustration"></picture>
@@ -156,7 +156,7 @@ $apex_home_url   = get_permalink();
         <div class="pc__foot"><p class="pc__desc">Facebook and Instagram campaigns, from new-customer offers to awareness.</p><span class="pc__arrow">&rarr;</span></div>
       </a>
 
-      <a class="pc pc--c" href="#book">
+      <a class="pc pc--c" href="#booking-form">
         <div class="pc__band"><h3 class="pc__title">SEO</h3></div>
         <div class="pc__fig">
           <picture><source type="image/webp" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/seo-700.webp 700w, <?php echo esc_url( $apex_home_img ); ?>opt/seo-1400.webp 1400w" sizes="(max-width:767px) 92vw, (max-width:1199px) 48vw, 46vw"><img class="pc__image" src="<?php echo esc_url( $apex_home_img ); ?>opt/seo-1400.jpg" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/seo-700.jpg 700w, <?php echo esc_url( $apex_home_img ); ?>opt/seo-1400.jpg 1400w" sizes="(max-width:767px) 92vw, (max-width:1199px) 48vw, 46vw" width="1404" height="897" loading="lazy" decoding="async" alt="SEO rankings and organic performance dashboard illustration"></picture>
@@ -164,7 +164,7 @@ $apex_home_url   = get_permalink();
         <div class="pc__foot"><p class="pc__desc">Rankings, organic traffic, and a Google Business Profile that looks credible.</p><span class="pc__arrow">&rarr;</span></div>
       </a>
 
-      <a class="pc pc--d" href="#book">
+      <a class="pc pc--d" href="#booking-form">
         <div class="pc__band"><h3 class="pc__title">Website <span class="emph">development</span></h3></div>
         <div class="pc__fig">
           <picture><source type="image/webp" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/web-development-700.webp 700w, <?php echo esc_url( $apex_home_img ); ?>opt/web-development-1400.webp 1400w" sizes="(max-width:767px) 92vw, (max-width:1199px) 48vw, 46vw"><img class="pc__image" src="<?php echo esc_url( $apex_home_img ); ?>opt/web-development-1400.jpg" srcset="<?php echo esc_url( $apex_home_img ); ?>opt/web-development-700.jpg 700w, <?php echo esc_url( $apex_home_img ); ?>opt/web-development-1400.jpg 1400w" sizes="(max-width:767px) 92vw, (max-width:1199px) 48vw, 46vw" width="1400" height="894" loading="lazy" decoding="async" alt="Responsive website design and development illustration"></picture>
@@ -230,7 +230,7 @@ $apex_home_url   = get_permalink();
           <h3><button class="clause__hd" type="button" aria-expanded="false" aria-controls="cl-2"><span class="clause__term">Every engagement starts with a free audit.</span></button></h3>
           <div class="clause__panel" id="cl-2"><div class="clause__inner"><div class="clause__copy">
             <p class="clause__note">We map your offer, buying cycle and current spend, and give you cost-per-lead and ROAS projections before you commit to anything — no cost, no obligation.</p>
-            <a class="clause__go" href="#book">Book your free audit <span>&rarr;</span></a>
+            <a class="clause__go" href="#booking-form">Book your free audit <span>&rarr;</span></a>
           </div></div></div>
           <div class="clause__bar" aria-hidden="true"><i></i></div>
         </div>
@@ -240,7 +240,7 @@ $apex_home_url   = get_permalink();
           <h3><button class="clause__hd" type="button" aria-expanded="false" aria-controls="cl-3"><span class="clause__term">Reporting in booked appointments.</span></button></h3>
           <div class="clause__panel" id="cl-3"><div class="clause__inner"><div class="clause__copy">
             <p class="clause__note">One number, walked through by a real person every month. Impressions and reach are not reported, because they are not the point.</p>
-            <a class="clause__go" href="#book">See a sample report <span>&rarr;</span></a>
+            <a class="clause__go" href="#booking-form">See a sample report <span>&rarr;</span></a>
           </div></div></div>
           <div class="clause__bar" aria-hidden="true"><i></i></div>
         </div>
@@ -250,7 +250,7 @@ $apex_home_url   = get_permalink();
           <h3><button class="clause__hd" type="button" aria-expanded="false" aria-controls="cl-4"><span class="clause__term">60 days, or every dollar back.</span></button></h3>
           <div class="clause__panel" id="cl-4"><div class="clause__inner"><div class="clause__copy">
             <p class="clause__note">In writing. No fine print, no qualifying conditions, no minimum spend threshold.</p>
-            <a class="clause__go" href="#book">See how it works <span>&rarr;</span></a>
+            <a class="clause__go" href="#booking-form">See how it works <span>&rarr;</span></a>
           </div></div></div>
           <div class="clause__bar" aria-hidden="true"><i></i></div>
         </div>
@@ -290,7 +290,7 @@ $apex_home_url   = get_permalink();
             <li><span>CRM</span><span class="data data--nano">$500</span></li>
             <li><span>Landing page build</span><span class="data data--nano">one-time $1,000</span></li>
           </ul>
-          <a class="btn btn--ghost tier__cta" href="#book">Get started</a>
+          <a class="btn btn--ghost tier__cta" href="#booking-form">Get started</a>
         </div>
       </article>
 
@@ -309,7 +309,7 @@ $apex_home_url   = get_permalink();
             <li><span>CRM</span><span class="data data--nano">$500</span></li>
             <li><span>Landing page build</span><span class="data data--nano">one-time $1,000</span></li>
           </ul>
-          <a class="btn tier__cta" href="#book">Get started</a>
+          <a class="btn tier__cta" href="#booking-form">Get started</a>
         </div>
       </article>
 
@@ -328,7 +328,7 @@ $apex_home_url   = get_permalink();
             <li><span>CRM</span><span class="data data--nano">$500</span></li>
             <li><span>Landing page build</span><span class="data data--nano">one-time $1,000</span></li>
           </ul>
-          <a class="btn btn--ghost tier__cta" href="#book">Get started</a>
+          <a class="btn btn--ghost tier__cta" href="#booking-form">Get started</a>
         </div>
       </article>
     </div>
@@ -355,7 +355,7 @@ $apex_home_url   = get_permalink();
         <div><span class="founder__n">$10M+</span><span class="data data--nano">budget managed</span></div>
       </div>
       <p class="founder__sig data data--nano">Nathan &mdash; founder, Apex Marketing. Most clients just call me Nate.</p>
-      <a class="btn" href="#book">Book a call directly with Nathan</a>
+      <a class="btn" href="#booking-form">Book a call directly with Nathan</a>
     </div>
   </div>
 </section>
@@ -378,7 +378,30 @@ $apex_home_url   = get_permalink();
       <i class="admit-ticket__corner admit-ticket__corner--bl" aria-hidden="true"></i>
       <i class="admit-ticket__corner admit-ticket__corner--br" aria-hidden="true"></i>
     </div>
-    <a class="btn ticket-booking-cta" href="#">Book a strategy call</a>
+    <a class="btn ticket-booking-cta" href="#booking-form">Book a strategy call</a>
+  </div>
+</section>
+
+<!-- ══ IX · FREE AUDIT ══════════════════════════════════════════ -->
+<section class="audit-booking" id="booking-form" aria-labelledby="audit-booking-title">
+  <div class="grid-field" aria-hidden="true"></div>
+  <div class="container audit-booking__grid">
+    <div class="audit-booking__intro">
+      <h2 class="h2" id="audit-booking-title">Book your free brand &amp; Ads audit.</h2>
+      <ul class="audit-booking__points">
+        <li>15 minutes, no pressure, no pitch deck.</li>
+        <li>Get your free cost-per-lead and ROAS projections.</li>
+        <li>You leave with a specific timeline and a number, whether or not you hire us.</li>
+      </ul>
+      <div class="audit-booking__nathan">
+        <img src="https://apexmarketingpartner.com/wp-content/uploads/2026/06/AM77lrI-768x1024.jpg" width="768" height="1024" loading="lazy" decoding="async" alt="Nathan, founder of Apex Marketing">
+        <p>You will be talking to Nathan, who founded Apex and has run over 1,000 ad accounts. Not a sales rep.</p>
+      </div>
+      <a class="btn" href="tel:+18557409608">Call (855) 740-9608</a>
+    </div>
+    <div class="audit-booking__form">
+      <iframe src="https://api.leadconnectorhq.com/widget/form/qm10beYVhkFRdzkoaYk8" title="Home Page Organic" loading="lazy" scrolling="yes"></iframe>
+    </div>
   </div>
 </section>
 
@@ -396,7 +419,7 @@ $apex_home_url   = get_permalink();
       </a>
     </div>
     <div><span class="data data--nano foot__k">Services</span><a href="#services">Google Ads</a><a href="#services">Meta Ads</a><a href="#services">SEO</a><a href="#services">Website development</a></div>
-    <div><span class="data data--nano foot__k">Company</span><a href="#terms">Terms</a><a href="#pricing">Pricing</a><a href="#founder">About Nathan</a><a href="#book">Book a call</a></div>
+    <div><span class="data data--nano foot__k">Company</span><a href="#terms">Terms</a><a href="#pricing">Pricing</a><a href="#founder">About Nathan</a><a href="#booking-form">Book a call</a></div>
     <div><span class="data data--nano foot__k">Contact</span><a href="tel:+18557409608">(855) 740-9608</a><a href="mailto:apex.marketing.ai@gmail.com">apex.marketing.ai@gmail.com</a></div>
   </div>
   <div class="container foot__legal data data--nano">
