@@ -176,9 +176,16 @@ test('renders the approved revenue-driven content edits', async ({ page }) => {
 
 test('phone CTAs use the approved number', async ({ page }) => {
   const phoneLinks = page.locator('a[href="tel:+18557409608"]');
-  await expect(phoneLinks).toHaveCount(2);
+  await expect(phoneLinks).toHaveCount(3);
   await expect(phoneLinks.first()).toContainText('(855) 740-9608');
-  await expect(phoneLinks.last()).toContainText('(855) 740-9608');
+  await expect(phoneLinks.nth(1)).toContainText('(855) 740-9608');
+  const mobileCall = page.getByRole('link', { name: 'Call Apex Marketing', exact: true, includeHidden: true });
+  await expect(mobileCall).toHaveAttribute('href', 'tel:+18557409608');
+  if (page.viewportSize().width < 768) {
+    await expect(mobileCall).toBeVisible();
+  } else {
+    await expect(mobileCall).toBeHidden();
+  }
 });
 
 test('contains no long dashes', async ({ page }) => {

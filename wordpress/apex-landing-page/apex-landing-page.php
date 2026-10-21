@@ -103,6 +103,7 @@ function apex_lp_uses_elementor_chrome() {
 
 require_once APEX_LP_DIR . 'includes/acf-case-studies.php';
 require_once APEX_LP_DIR . 'includes/footer.php';
+require_once APEX_LP_DIR . 'includes/mobile-call.php';
 require_once APEX_LP_DIR . 'includes/acf-industry.php';
 
 /**
@@ -374,7 +375,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	// and footer unstyled.
 	if ( apex_lp_uses_elementor_chrome() ) return;
 
-	$keep = array( 'apex-lp-fonts', 'apex-lp-main', 'apex-ind-fonts', 'apex-ind-home', 'apex-ind-main', 'apex-home-fonts', 'apex-home-main', 'apex-cases-fonts', 'apex-cases-main', 'apex-cases-footer', 'admin-bar' );
+	$keep = array( 'apex-mobile-call', 'apex-lp-fonts', 'apex-lp-main', 'apex-ind-fonts', 'apex-ind-home', 'apex-ind-main', 'apex-home-fonts', 'apex-home-main', 'apex-cases-fonts', 'apex-cases-main', 'apex-cases-footer', 'admin-bar' );
 
 	foreach ( (array) $wp_styles->queue as $handle ) {
 		if ( in_array( $handle, $keep, true ) ) continue;
