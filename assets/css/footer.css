@@ -1,0 +1,38 @@
+/* Footer extracted from homepage.css so the case-study templates can share
+   the homepage footer without pulling in that stylesheet's global resets.
+   The homepage design tokens are scoped to .foot rather than :root, so they
+   cannot leak into and override the case-study palette. */
+.foot{--paper:#EEEEEE;--paper-raised:#F4F4F3;--paper-sunk:#E4E4E2;--ink:#000000;--ink-muted:#55555A;--ink-faint:#8A8A8F;--blue:#015EFF;--blue-deep:#0142B4;--pink:#E086CB;--pink-hot:#D45CB8;--mint:#B8ECE2;--night:#151A2C;--night-raised:#1E2438;--rule:rgba(0, 0, 0, 0.10);--rule-strong:rgba(0, 0, 0, 0.22);--rule-night:rgba(238, 238, 238, 0.12);--grid-site:0.05;--grid-plate:0.085;--grid-active:0.135;--grid-cell:clamp(120px, 13.75vw, 220px);--font-voice:"Arimo", Arial, sans-serif;--font-data:"Arimo", Arial, sans-serif;--font-emph:"Arimo", Arial, sans-serif;--t-display:clamp(2.75rem, 1.2rem + 6.4vw, 7rem);--t-h1:clamp(2.25rem, 1.1rem + 4.6vw, 5rem);--t-h2:clamp(1.75rem, 1.1rem + 2.6vw, 3.25rem);--t-h3:clamp(1.25rem, 1rem + 1.1vw, 1.75rem);--t-body:clamp(1rem, 0.96rem + 0.2vw, 1.125rem);--t-small:0.875rem;--t-micro:0.75rem;--t-nano:0.75rem;--lh-tight:0.98;--lh-snug:1.15;--lh-body:1.55;--tr-tight:-0.03em;--tr-wide:0.14em;--tr-mark:0.30em;--s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:24px;--s-6:32px;--s-7:48px;--s-8:64px;--s-9:96px;--s-10:128px;--s-11:192px;--gutter:clamp(20px, 4vw, 64px);--measure:62ch;--r-none:0;--r-sm:2px;--r-pill:999px;--hair:1px;--e-out:cubic-bezier(0.22, 1, 0.36, 1);--e-io:cubic-bezier(0.65, 0, 0.35, 1);--d-fast:160ms;--d-mid:320ms;--d-slow:640ms;--d-drift:9s;}
+.foot .container{width: 100%; margin-inline: auto; padding-inline: var(--gutter); max-width: 1560px;}
+.foot .data{font-family: var(--font-data); font-size: var(--t-micro); letter-spacing: var(--tr-wide); text-transform: uppercase;}
+.foot .data--nano{font-size: var(--t-nano);}
+.foot .data--case{text-transform: none; letter-spacing: 0.02em;}
+.foot .mark{font-family: var(--font-data); letter-spacing: var(--tr-mark); text-transform: uppercase; font-weight: 500;}
+.google-partner-badge{display:inline-flex; align-items:center; gap:10px; align-self:flex-start;
+  padding:6px 16px 6px 6px;
+  background:var(--paper-raised); border:var(--hair) solid var(--rule-strong); border-radius:var(--r-sm);
+  text-decoration:none;
+  transition:border-color var(--d-fast) var(--e-out), background var(--d-fast) var(--e-out);}
+.google-partner-badge:hover, .google-partner-badge:focus-visible{border-color:var(--blue); background:#fff;}
+.google-partner-badge img{height:28px; width:auto; display:block; flex:none;}
+.google-partner-badge span{font-family:var(--font-data); font-size:var(--t-micro); letter-spacing:var(--tr-wide); text-transform:uppercase; color:var(--ink); line-height:1.35;}
+.foot__brand .google-partner-badge{margin-top:var(--s-4); background:var(--paper);}
+.foot__brand .google-partner-badge:hover, .foot__brand .google-partner-badge:focus-visible{border-color:var(--paper); box-shadow:0 0 0 2px rgba(238,238,238,.4);}
+.foot{background:var(--blue); color:var(--paper); padding:var(--s-8) 0 0; overflow:hidden;}
+.foot__grid{display:grid; grid-template-columns:2fr 1fr 1fr 1.4fr; gap:var(--s-6);}
+.foot__grid > div{display:flex; flex-direction:column; gap:10px;}
+.foot__grid a{text-decoration:none; color:rgba(238,238,238,.78); font-size:.9375rem;}
+.foot__grid a:hover{color:var(--paper);}
+.foot__k{color:var(--mint); margin-bottom:4px;}
+.foot__mark{font-size:1.75rem; color:var(--paper);}
+.foot__morph{position:relative; display:block; width:100%; height:clamp(84px,15.2vw,216px); color:var(--paper); font-size:clamp(4.2rem,14.4vw,13.2rem); letter-spacing:-.075em; line-height:.82; text-align:center; filter:url(#foot-text-threshold) blur(.45px);}
+.foot__morph > span{position:absolute; inset:0; display:flex; align-items:flex-end; justify-content:center; white-space:nowrap; opacity:0; transform:translateY(.08em);}
+.foot__morph-filter{position:absolute; width:0; height:0; overflow:hidden;}
+.foot__brand p{color:rgba(238,238,238,.66); max-width:30ch;}
+.foot__band{margin-top:var(--s-3);}
+.foot__legal{display:flex; justify-content:space-between; gap:var(--s-5); flex-wrap:wrap;
+  margin-top:var(--s-5); padding-top:var(--s-4);
+  border-top:var(--hair) solid rgba(238,238,238,.22); color:rgba(238,238,238,.62);}
+@media (max-width:767px){.google-partner-badge{gap:8px; padding:5px 14px 5px 5px;}.google-partner-badge img{height:24px;}.google-partner-badge span{font-size:var(--t-nano);}}
+@media (max-width:1199px){.foot__grid{grid-template-columns:1fr 1fr;}}
+@media (max-width:767px){.foot__grid{grid-template-columns:1fr;}.foot__grid a{min-height:44px; display:flex; align-items:center;}.foot__grid > div{gap:2px;}}
