@@ -42,6 +42,15 @@ function apex_lp_gtm_body() {
 }
 add_action( 'wp_body_open', 'apex_lp_gtm_body', 1 );
 
+/** Load the LeadConnector chat widget on every public page. */
+function apex_lp_chat_widget() {
+	if ( is_admin() ) return;
+	?>
+	<script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js" data-widget-id="6adfe8f794252f6b7441fcf9"></script>
+	<?php
+}
+add_action( 'wp_footer', 'apex_lp_chat_widget' );
+
 /**
  * The templates this plugin makes available, keyed by the relative
  * path (inside this plugin) WordPress stores in each Page's _wp_page_template meta.
